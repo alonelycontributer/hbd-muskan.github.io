@@ -766,63 +766,6 @@
             }
         }
 
-        #beachBall {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle at 30% 30%, #fff, #f00, #00f, #0f0, #ff0);
-            border-radius: 50%;
-            position: absolute;
-            bottom: 28%;
-            right: 15%;
-            box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3);
-            animation: bounceBall 2s infinite ease-in-out;
-            z-index: 4;
-            cursor: pointer;
-            transition: transform 0.1s ease-out;
-        }
-
-        /* Responsive beach ball size */
-        @media (max-width: 639px) {
-            #beachBall {
-                width: 60px;
-                height: 60px;
-                bottom: 20%;
-                /* Adjusted to sit naturally with smaller sand area */
-                right: 5%;
-                /* Keep it closer to the edge on mobile */
-            }
-        }
-
-        @keyframes bounceBall {
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-30px) rotate(360deg);
-            }
-        }
-
-        .ball-jump {
-            animation: jump 0.4s ease-out;
-        }
-
-        @keyframes jump {
-            0% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-50px) scale(1.1);
-            }
-
-            100% {
-                transform: translateY(0);
-            }
-        }
-
-
         .seashell {
             font-size: 3rem;
             /* Sized by font-size for emoji */
@@ -1538,13 +1481,11 @@
         }
 
         .nav-arrow-button button {
-            animation: bounce 1s infinite;
             padding: 0.85rem;
             /* Increased padding for prominence */
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.4);
             /* Increased opacity for prominence */
-            transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             /* Stronger shadow */
         }
@@ -1740,7 +1681,6 @@
             <div id="messageBottle" class="bottle">
                 <span aria-label="message bottle">🍾</span>
             </div>
-            <div id="beachBall"></div>
             <div id="seashell" class="seashell">🐚</div>
             <div class="seagull">𓅃</div>
             <div class="seagull">𓅃</div>
@@ -1836,8 +1776,6 @@
         const nextBeachBtn = document.getElementById('nextBeachBtn');
         const seeStarsBtn = document.getElementById('seeStarsBtn');
         const starsContainer = document.getElementById('starsContainer');
-        const beachBall = document.getElementById('beachBall');
-        // const beachUmbrella = document.getElementById('beachUmbrella'); // New: beach umbrella element
 
 
         const messageModal = document.getElementById('messageModal');
@@ -2209,14 +2147,7 @@
             });
         });
 
-        // Clickable Beach Ball
-        beachBall.addEventListener('click', () => {
-            playBallBoing();
-            beachBall.classList.add('ball-jump');
-            beachBall.addEventListener('animationend', () => {
-                beachBall.classList.remove('ball-jump');
-            }, { once: true });
-        });
+   
 
         nextBeachBtn.addEventListener('click', () => {
             stopBeachAudio();
@@ -2342,9 +2273,6 @@
             // 16. Bag investments
             "To the only investor who puts her money where her outfit is—and never in actual stocks.",
 
-            // 17. Soft mornings
-            "May your mornings be soft, your alarms ignored, and your coffee just strong enough to function.",
-
             // 18. Sunflowers
             "Wishing you more days that feel like sunflowers—and fewer that feel like sunflower seeds in your teeth.",
 
@@ -2367,10 +2295,10 @@
             "Hope your suitcase sees more sunlight than your air fryer this year.",
 
             // 25. Drama-free
-            "To a drama-free year—unless it’s reality TV and you're just judging from a safe distance.",
+            "To a drama-free year—unless it's reality TV and you're just judging from a safe distance.",
 
             // 26. Peace of mind
-            "Wishing you the peace of mind you talk about like it’s a location—and girl, I hope you move in."
+            "Wishing you the peace of mind you talk about like it's a location—and girl, I hope you move in."
         ];
 
 
