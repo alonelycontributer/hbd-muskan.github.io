@@ -13,10 +13,9 @@
         /* Base styles for body and sections, using Inter font */
         body {
             font-family: 'Inter', sans-serif;
-            /* Explicitly hide horizontal overflow to prevent accidental scrolling */
-            overflow-x: hidden;
-            /* Prevent vertical scrolling globally unless content is truly too large, sections handle height */
-            overflow-y: hidden;
+            width: 100vw; /* Ensure body takes full viewport width */
+            height: 100vh; /* Ensure body takes full viewport height */
+            overflow: hidden; /* Hide all overflow to prevent scrolling */
             /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10, auto;
             position: relative; /* Ensure body is a positioning context for fixed elements */
@@ -767,7 +766,7 @@
             0% {
                 left: -30%; /* Start further off-screen */
                 opacity: 0;
-                transform: scaleX(1);
+                transform: translateX(0) scaleX(1);
             }
             10% {
                 opacity: 1;
@@ -778,7 +777,7 @@
             }
             50% {
                 opacity: 0;
-                transform: scaleX(-1); /* Flip direction */
+                transform: translateX(0) scaleX(-1); /* Keep the same end point for flip and reset translation */
             }
             55% {
                 opacity: 0;
@@ -1055,7 +1054,7 @@
             animation: twinkle 1.5s infinite alternate;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            z-index: 60;
+            z-index: 60; /* Stars z-index, will be below moon and text */
         }
 
         /* Stars are randomly generated and small, should be fine */
@@ -1137,7 +1136,7 @@
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3);
             top: 10%;
             right: 15%;
-            z-index: 55;
+            z-index: 100; /* Higher z-index to be above stars */
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -1212,7 +1211,7 @@
 
         @media (max-width: 639px) { /* Small screens */
             .modal {
-                padding: 1.2rem; /* Reduced padding on mobile */
+                padding: 1rem; /* Reduced padding on mobile */
             }
             .modal-content {
                 font-size: 0.75rem; /* Even smaller font for mobile */
@@ -1278,6 +1277,7 @@
             width: 1.5rem;
             height: 1.5rem;
             color: white;
+            transform: rotate(90deg); /* Rotate arrow to face right */
         }
 
         @keyframes bounce {
@@ -1343,13 +1343,22 @@
             color: #ffffff;
         }
 
-        /* Bottom text on Night Stars Section */
-        #night-stars-section .absolute.bottom-4 {
+        /* Bottom text container on Night Stars Section - moved absolute position here */
+        #night-stars-section .bottom-message-container {
+            position: absolute;
             bottom: 4rem; /* Default for larger screens */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            z-index: 110; /* Higher z-index to be above stars */
+            padding-left: 1rem; /* Add horizontal padding */
+            padding-right: 1rem;
         }
 
         @media (max-width: 639px) {
-            #night-stars-section .absolute.bottom-4 {
+            #night-stars-section .bottom-message-container {
                 bottom: 2rem; /* Adjusted for smaller screens */
             }
         }
@@ -1476,8 +1485,8 @@
 
     <section id="night-stars-section" class="section night-gradient hidden relative">
         <div id="moon"></div>
-        <div class="shooting-star" style="top: 20%; left: 10%;"></div>
-        <div class="shooting-star" style="top: 70%; left: 80%; animation-delay: 2.5s;"></div>
+        <!-- <div class="shooting-star" style="top: 20%; left: 10%;"></div> -->
+        <!-- <div class="shooting-star" style="top: 70%; left: 80%; animation-delay: 2.5s;"></div> -->
 
         <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-20">
             26 Wishes, Just For You! ✨
@@ -1487,7 +1496,7 @@
         </p>
         <div id="starsContainer" class="w-full h-full absolute top-0 left-0">
         </div>
-        <div class="absolute bottom-4 md:bottom-10 lg:bottom-20 z-20 text-center px-4">
+        <div class="bottom-message-container">
             <h3 class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-yellow-300 drop-shadow-lg">
                 Happy 26th Birthday!
             </h3>
@@ -2077,8 +2086,15 @@
                 star.style.boxShadow = `0 0 ${size / 2}px white, 0 0 ${size}px rgba(255,255,255,0.4)`; // Enhanced glow
 
                 // Ensure stars are within a reasonable range and not too close to edges or text
-                star.style.top = `${Math.random() * 80 + 10}%`; // From 10% to 90%
-                star.style.left = `${Math.random() * 90 + 5}%`; // From 5% to 95%
+                // Adjust star generation to avoid top text, moon, and bottom text
+                let topPos, leftPos;
+                const attempts = 0;
+                // Generate stars in the middle vertical band, avoiding top and bottom sections where text/moon are
+                topPos = Math.random() * (70 - 35) + 35; // Between 35% and 70% from top
+                leftPos = Math.random() * 90 + 5; // Between 5% and 95% from left
+
+                star.style.top = `${topPos}%`;
+                star.style.left = `${leftPos}%`;
                 star.style.animationDelay = `${Math.random() * 3}s`; // Stagger twinkle animation
                 star.dataset.message = starMessages[i]; // Store message in data attribute
 
