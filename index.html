@@ -13,8 +13,8 @@
         /* Base styles for body and sections, using Inter font */
         body {
             font-family: 'Inter', sans-serif;
-            /* Removed overflow: hidden to allow natural scrolling if content overflows,
-               though the goal is to prevent overflow in the first place. */
+            /* Explicitly hide horizontal overflow to prevent accidental scrolling */
+            overflow-x: hidden;
             /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10, auto;
             position: relative; /* Ensure body is a positioning context for fixed elements */
@@ -221,7 +221,7 @@
             .small-bird { font-size: 1rem; }
             .small-bird:nth-child(1) { font-size: 0.8rem; }
             .small-bird:nth-child(2) { font-size: 1.2rem; }
-            .small-bird:nth-child(3) { font-size: 1rem; }
+            .small-bird:nth-child(3) { font-size: 1.rem; }
         }
 
         .small-bird:nth-child(1) {
@@ -1231,6 +1231,59 @@
             transform: translateY(-2px);
         }
 
+        /* Styling for the navigation arrow buttons */
+        .nav-arrow-button {
+            position: absolute;
+            bottom: 4%; /* Default for larger screens */
+            width: 100%; /* Occupy full width for flex centering */
+            display: flex;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .nav-arrow-button button {
+            animation: bounce 1s infinite;
+            padding: 0.75rem; /* Reduced padding slightly for a smaller overall button */
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
+        }
+
+        .nav-arrow-button button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1); /* Slight scale on hover */
+        }
+
+        .nav-arrow-button svg {
+            width: 1.5rem; /* Smaller icon for better fit */
+            height: 1.5rem;
+            color: white;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive adjustments for navigation arrow buttons */
+        @media (max-width: 639px) {
+            .nav-arrow-button {
+                bottom: 2%; /* Move slightly higher on very small screens */
+            }
+            .nav-arrow-button button {
+                padding: 0.5rem; /* Smaller padding for mobile touch targets */
+            }
+            .nav-arrow-button svg {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+        }
+
+
         .reload-icon-button {
             position: absolute;
             top: 1rem;
@@ -1295,10 +1348,9 @@
             <p class="text-base md:text-xl lg:text-2xl mb-8 md:mb-12 drop-shadow-md relative z-10 text-white font-medium max-w-lg mx-auto">
                 Get ready for a magical journey from sunrise to starlight!
             </p>
-            <div class="absolute bottom-4 md:bottom-8 w-full flex justify-center z-20">
-                <button id="startJourneyBtn" class="animate-bounce p-3 md:p-4 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-300" aria-label="Scroll Down">
-                    <svg class="w-6 h-6 md:w-8 md:h-8 text-white hover:translate-y-1 transition-transform duration-200"
-                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <div class="nav-arrow-button">
+                <button id="startJourneyBtn" aria-label="Scroll Down">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
                     </svg>
                 </button>
@@ -1353,10 +1405,9 @@
             <div class="seagull">𓅃</div>
 
 
-            <div class="absolute bottom-4 md:bottom-8 w-full flex justify-center z-20">
-                <button id="nextBeachBtn" class="animate-bounce p-3 md:p-4 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-300" aria-label="Scroll Down">
-                    <svg class="w-6 h-6 md:w-8 md:h-8 text-white hover:translate-y-1 transition-transform duration-200"
-                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <div class="nav-arrow-button">
+                <button id="nextBeachBtn" aria-label="Scroll Down">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
                     </svg>
                 </button>
@@ -1381,10 +1432,9 @@
                 This moment, just like you, grows more beautiful with each passing year
             </p>
 
-            <div class="absolute bottom-4 md:bottom-8 w-full flex justify-center z-20">
-                <button id="seeStarsBtn" class="animate-bounce p-3 md:p-4 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition-all duration-300" aria-label="Scroll Down">
-                    <svg class="w-6 h-6 md:w-8 md:h-8 text-white hover:translate-y-1 transition-transform duration-200"
-                        fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <div class="nav-arrow-button">
+                <button id="seeStarsBtn" aria-label="Scroll Down">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
                     </svg>
                 </button>
@@ -1911,7 +1961,7 @@
             "May your year be like your snacks—dangerously spicy and not for the weak.",
 
             // 4. Clumsiness
-            "To another year of falling over nothing and still somehow landing on brand.",
+            "To another year of falling over nothing but still somehow landing on brand.",
 
             // 5. Sunsets
             "Hope your sunsets are dramatic in the sky, not in your group chats.",
