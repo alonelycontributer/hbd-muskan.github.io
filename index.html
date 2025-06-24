@@ -13,9 +13,11 @@
         /* Base styles for body and sections, using Inter font */
         body {
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
+            /* Removed overflow: hidden to allow natural scrolling if content overflows,
+               though the goal is to prevent overflow in the first place. */
             /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10, auto;
+            position: relative; /* Ensure body is a positioning context for fixed elements */
         }
 
         .section {
@@ -47,19 +49,19 @@
             position: fixed;
             top: 1rem;
             right: 1rem;
-            background-color: rgba(0, 0, 0, 0.6); /* Slightly darker for sophistication */
+            background-color: rgba(0, 0, 0, 0.6);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 44px; /* Slightly larger for touch */
-            height: 44px; /* Slightly larger for touch */
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem; /* Larger icon */
+            font-size: 1.5rem;
             cursor: pointer;
             z-index: 1001;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Softer, deeper shadow */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
         }
 
@@ -68,9 +70,19 @@
             transform: scale(1.05);
         }
 
+        /* Responsive adjustments for audio control button */
+        @media (max-width: 639px) { /* Small screens */
+            #audioControl {
+                width: 38px;
+                height: 38px;
+                font-size: 1.2rem;
+                top: 0.75rem;
+                right: 0.75rem;
+            }
+        }
+
         /* --- Sunrise Section Animations --- */
         .sunrise-gradient {
-            /* Richer, warmer sunrise palette */
             background: linear-gradient(to bottom, #FFDDAA, #FFB76D, #FF8C5B, #6A86AA);
         }
 
@@ -83,58 +95,74 @@
             bottom: -75px;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 0 60px #FFD700, 0 0 100px rgba(255, 215, 0, 0.5); /* Enhanced glow */
+            box-shadow: 0 0 60px #FFD700, 0 0 100px rgba(255, 215, 0, 0.5);
             animation: sunRise 5s ease-out forwards;
             cursor: pointer;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
+        /* Responsive sun size */
+        @media (max-width: 639px) {
+            #sun {
+                width: 100px;
+                height: 100px;
+                bottom: -50px; /* Adjust starting position for smaller size */
+            }
+        }
+
         #sun:hover {
-            transform: translateX(-50%) scale(1.08); /* More pronounced hover */
+            transform: translateX(-50%) scale(1.08);
             box-shadow: 0 0 100px #FFD700, 0 0 150px rgba(255, 215, 0, 0.7);
         }
 
         @keyframes sunRise {
             0% {
-                bottom: -75px;
+                bottom: -75px; /* Use the default value here, media query will override */
                 background-color: #FFD700;
             }
-
             50% {
                 bottom: 30%;
                 background-color: #FFA500;
                 box-shadow: 0 0 80px #FFA500;
             }
-
             70% {
                 bottom: 50%;
                 background-color: #FFD700;
                 box-shadow: 0 0 100px #FFD700;
             }
-
             100% {
                 bottom: 70%;
                 background-color: #FFD700;
-                box-shadow: 0 0 120px #FFD700; /* Slightly larger final glow */
+                box-shadow: 0 0 120px #FFD700;
             }
         }
+
+        /* Adjust sunRise for mobile */
+        @media (max-width: 639px) {
+            @keyframes sunRise {
+                0% { bottom: -50px; } /* Mobile start position */
+                70% { bottom: 50%; }
+                100% { bottom: 70%; }
+            }
+        }
+
 
         .cloud {
             position: absolute;
             background: rgba(255, 255, 255, 0.7);
             border-radius: 50%;
-            filter: blur(10px); /* Slightly more blur */
+            filter: blur(10px);
             opacity: 0;
             animation: floatClouds 20s infinite linear;
             z-index: 5;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle cloud shadow */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .cloud:nth-child(1) {
             width: 150px;
             height: 50px;
             top: 20%;
-            left: -20%;
+            left: -20%; /* Adjusted starting left to ensure it's fully off screen */
             animation-delay: 0s;
         }
 
@@ -142,7 +170,7 @@
             width: 200px;
             height: 70px;
             top: 30%;
-            left: -50%;
+            left: -50%; /* Adjusted starting left */
             animation-delay: 5s;
         }
 
@@ -150,8 +178,15 @@
             width: 100px;
             height: 40px;
             top: 15%;
-            left: -80%;
+            left: -80%; /* Adjusted starting left */
             animation-delay: 10s;
+        }
+
+        /* Responsive cloud sizes and animation path */
+        @media (max-width: 639px) {
+            .cloud:nth-child(1) { width: 100px; height: 35px; top: 15%; left: -30%; }
+            .cloud:nth-child(2) { width: 140px; height: 50px; top: 25%; left: -60%; }
+            .cloud:nth-child(3) { width: 70px; height: 28px; top: 10%; left: -90%; }
         }
 
         @keyframes floatClouds {
@@ -159,17 +194,14 @@
                 transform: translateX(0);
                 opacity: 0;
             }
-
             20% {
                 opacity: 0.8;
             }
-
             80% {
                 opacity: 0.8;
             }
-
             100% {
-                transform: translateX(150vw);
+                transform: translateX(200vw); /* Increased to ensure it moves completely off-screen */
                 opacity: 0;
             }
         }
@@ -182,6 +214,14 @@
             animation: flySmallBird 15s infinite linear;
             z-index: 10;
             cursor: pointer;
+        }
+
+        /* Responsive bird sizes */
+        @media (max-width: 639px) {
+            .small-bird { font-size: 1rem; }
+            .small-bird:nth-child(1) { font-size: 0.8rem; }
+            .small-bird:nth-child(2) { font-size: 1.2rem; }
+            .small-bird:nth-child(3) { font-size: 1rem; }
         }
 
         .small-bird:nth-child(1) {
@@ -211,30 +251,24 @@
                 transform: translateX(0) scaleX(1);
                 opacity: 0;
             }
-
             10% {
                 opacity: 1;
             }
-
             45% {
-                transform: translateX(100vw) scaleX(1);
+                transform: translateX(120vw) scaleX(1); /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
-
             50% {
                 opacity: 0;
-                transform: translateX(100vw) scaleX(-1);
+                transform: translateX(120vw) scaleX(-1); /* Keep same end point for flip */
             }
-
             55% {
                 opacity: 0;
             }
-
             90% {
                 transform: translateX(0) scaleX(-1);
                 opacity: 1;
             }
-
             100% {
                 opacity: 0;
             }
@@ -255,6 +289,15 @@
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
+        /* Responsive beach day sun size */
+        @media (max-width: 639px) {
+            #beachDaySun {
+                width: 100px;
+                height: 100px;
+                bottom: 75%; /* Adjust positioning slightly if needed for smaller size */
+            }
+        }
+
         #beachDaySun:hover {
             transform: translateX(-50%) scale(1.08);
             box-shadow: 0 0 80px #FFD700, 0 0 120px rgba(255, 215, 0, 0.6);
@@ -263,7 +306,6 @@
 
         /* --- Beach Day Section --- */
         .beach-day-gradient {
-            /* More natural, calming beach colors */
             background: linear-gradient(to bottom, #87CEEB, #A7D9EB, #FCE7A2, #FFECB3);
         }
 
@@ -276,7 +318,7 @@
             background: linear-gradient(to right, #0077BE, #00A9E0);
             z-index: 1;
             overflow: hidden;
-            border-top: 2px solid rgba(255, 255, 255, 0.3); /* Subtle water line */
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .wave {
@@ -285,7 +327,7 @@
             border-radius: 50%;
             opacity: 0.7;
             animation: waveFlow 4s infinite linear;
-            filter: blur(2px); /* Less blur for more definition */
+            filter: blur(2px);
         }
 
         .wave:nth-child(1) {
@@ -314,15 +356,14 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
+        /* Waves are already proportional to ocean width, so generally responsive */
         @keyframes waveFlow {
             0% {
                 transform: translateX(0) translateY(0);
             }
-
             50% {
                 transform: translateX(-50%) translateY(5px);
             }
-
             100% {
                 transform: translateX(-100%) translateY(0);
             }
@@ -348,13 +389,13 @@
             left: 0;
             width: 100%;
             height: 30%;
-            background-color: #FFECB3; /* Lighter, more natural sand */
+            background-color: #FFECB3;
             z-index: 2;
             display: flex;
             justify-content: center;
             align-items: flex-end;
             overflow: hidden;
-            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1); /* Subtle inner shadow for depth */
+            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .sand-dune {
@@ -363,19 +404,19 @@
             right: -10%;
             width: 70%;
             height: 100%;
-            background-color: #FCE7A2; /* Slightly darker sand for dune contrast */
+            background-color: #FCE7A2;
             border-top-left-radius: 60% 80%;
             border-top-right-radius: 40% 60%;
             z-index: 2;
             animation: moveDune 10s ease-out forwards;
-            box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.05); /* Soft shadow for dune */
+            box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.05);
         }
 
+        /* Dune is proportional, good */
         @keyframes moveDune {
             0% {
                 right: -10%;
             }
-
             100% {
                 right: 0%;
             }
@@ -387,6 +428,16 @@
             z-index: 3;
             animation: swayPalm 5s ease-in-out infinite alternate;
             cursor: pointer;
+        }
+
+        /* Responsive palm tree sizing */
+        @media (max-width: 639px) {
+            .palm-tree {
+                bottom: 20%; /* Adjusted for smaller screens to appear lower on sand */
+                transform: scale(0.6); /* Overall scale for smaller screen */
+            }
+            .palm-tree:nth-child(1) { left: 5%; }
+            .palm-tree:nth-child(2) { right: 5%; }
         }
 
         .palm-tree .trunk {
@@ -401,12 +452,12 @@
             position: absolute;
             width: 120px;
             height: 80px;
-            background-color: #2E8B57; /* Darker, more natural green */
+            background-color: #2E8B57;
             border-radius: 50%;
             top: -60px;
             left: -50px;
             clip-path: polygon(50% 0%, 20% 40%, 0% 100%, 80% 80%, 100% 40%, 70% 0%);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Shadow for leaves */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .palm-tree:nth-child(1) {
@@ -426,7 +477,6 @@
             0% {
                 transform: rotate(0deg);
             }
-
             100% {
                 transform: rotate(3deg);
             }
@@ -440,6 +490,13 @@
             animation: walkCrab 15s infinite linear;
             cursor: pointer;
             z-index: 3;
+        }
+
+        /* Responsive crab size */
+        @media (max-width: 639px) {
+            .crab { font-size: 1.8rem; }
+            .crab:nth-child(1) { bottom: 12%; left: -10%; } /* Adjust for mobile */
+            .crab:nth-child(2) { bottom: 8%; left: -25%; } /* Adjust for mobile */
         }
 
         .crab:nth-child(1) {
@@ -461,30 +518,24 @@
                 transform: translateX(0) scaleX(1);
                 opacity: 0;
             }
-
             10% {
                 opacity: 1;
             }
-
             45% {
-                transform: translateX(100vw) scaleX(1);
+                transform: translateX(120vw) scaleX(1); /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
-
             50% {
                 opacity: 0;
-                transform: translateX(100vw) scaleX(-1);
+                transform: translateX(120vw) scaleX(-1);
             }
-
             55% {
                 opacity: 0;
             }
-
             90% {
                 transform: translateX(0) scaleX(-1);
                 opacity: 1;
             }
-
             100% {
                 opacity: 0;
             }
@@ -497,6 +548,11 @@
             animation: swimFish 12s infinite linear;
             z-index: 1;
             cursor: pointer;
+        }
+
+        /* Responsive fish size */
+        @media (max-width: 639px) {
+            .fish { font-size: 1.5rem; }
         }
 
         .fish:nth-child(1) {
@@ -523,30 +579,24 @@
                 transform: translateX(0) scaleX(1);
                 opacity: 0;
             }
-
             10% {
                 opacity: 1;
             }
-
             45% {
-                transform: translateX(100vw) scaleX(1);
+                transform: translateX(120vw) scaleX(1); /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
-
             50% {
                 opacity: 0;
-                transform: translateX(100vw) scaleX(-1);
+                transform: translateX(120vw) scaleX(-1);
             }
-
             55% {
                 opacity: 0;
             }
-
             90% {
                 transform: translateX(0) scaleX(-1);
                 opacity: 1;
             }
-
             100% {
                 opacity: 0;
             }
@@ -562,12 +612,21 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 40px;
+            font-size: 40px; /* Sized by font-size for emoji */
             color: #5A403A;
             transform: rotate(15deg);
             transition: transform 0.3s ease-in-out;
             z-index: 3;
             animation: floatBottle 3s infinite ease-in-out alternate;
+        }
+
+        /* Responsive bottle size */
+        @media (max-width: 639px) {
+            .bottle {
+                font-size: 30px; /* Smaller emoji */
+                bottom: 10%; /* Adjust position */
+                left: 5%;
+            }
         }
 
         .bottle:hover {
@@ -578,11 +637,9 @@
             0% {
                 transform: translate(0, 0) rotate(15deg);
             }
-
             50% {
                 transform: translate(5px, -5px) rotate(17deg);
             }
-
             100% {
                 transform: translate(0, 0) rotate(15deg);
             }
@@ -594,7 +651,7 @@
             background: radial-gradient(circle at 30% 30%, #fff, #f00, #00f, #0f0, #ff0);
             border-radius: 50%;
             position: absolute;
-            bottom: 28%; /* Adjusted to sit more naturally on the sand */
+            bottom: 28%;
             right: 15%;
             box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.3);
             animation: bounceBall 2s infinite ease-in-out;
@@ -603,13 +660,20 @@
             transition: transform 0.1s ease-out;
         }
 
-        @keyframes bounceBall {
+        /* Responsive beach ball size */
+        @media (max-width: 639px) {
+            #beachBall {
+                width: 60px;
+                height: 60px;
+                bottom: 20%; /* Adjusted to sit naturally with smaller sand area */
+                right: 5%; /* Keep it closer to the edge on mobile */
+            }
+        }
 
-            0%,
-            100% {
+        @keyframes bounceBall {
+            0%, 100% {
                 transform: translateY(0) rotate(0deg);
             }
-
             50% {
                 transform: translateY(-30px) rotate(360deg);
             }
@@ -623,11 +687,9 @@
             0% {
                 transform: translateY(0);
             }
-
             50% {
                 transform: translateY(-50px) scale(1.1);
             }
-
             100% {
                 transform: translateY(0);
             }
@@ -635,7 +697,7 @@
 
 
         .seashell {
-            font-size: 3rem;
+            font-size: 3rem; /* Sized by font-size for emoji */
             cursor: pointer;
             position: absolute;
             bottom: 15%;
@@ -644,6 +706,14 @@
             z-index: 5;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease-in-out;
+        }
+
+        /* Responsive seashell size */
+        @media (max-width: 639px) {
+            .seashell {
+                font-size: 2.2rem; /* Smaller emoji */
+                bottom: 10%; /* Adjust position */
+            }
         }
 
         .seashell:hover {
@@ -658,7 +728,14 @@
             animation: flySeagull 10s infinite linear;
             transform: scaleX(-1);
             cursor: pointer;
-            transition: transform 0.1s ease-out;
+        }
+
+        /* Responsive seagull size */
+        @media (max-width: 639px) {
+            .seagull { font-size: 1.5rem; }
+            .seagull:nth-child(1) { font-size: 1.8rem; top: 8%; left: -10%; }
+            .seagull:nth-child(2) { font-size: 1.3rem; top: 12%; left: -20%; }
+            .seagull:nth-child(3) { font-size: 1.6rem; top: 6%; left: -30%; }
         }
 
         .seagull:nth-child(1) {
@@ -688,33 +765,26 @@
                 opacity: 0;
                 transform: scaleX(1);
             }
-
             10% {
                 opacity: 1;
             }
-
             45% {
-                left: 50%;
+                left: 120%; /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
-
             50% {
                 opacity: 0;
-                transform: scaleX(-1);
+                transform: scaleX(-1); /* Flip direction */
             }
-
-            /* Flip direction */
             55% {
                 opacity: 0;
             }
-
             90% {
-                left: 120%;
+                left: -20%; /* Come back from the other side */
                 opacity: 1;
             }
-
             100% {
-                left: -20%;
+                left: 120%;
                 opacity: 0;
             }
         }
@@ -728,6 +798,15 @@
             pointer-events: none;
             box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
+
+        /* Responsive bubble sizes */
+        @media (max-width: 639px) {
+            .bubble:nth-child(1) { width: 8px; height: 8px; }
+            .bubble:nth-child(2) { width: 12px; height: 12px; }
+            .bubble:nth-child(3) { width: 6px; height: 6px; }
+            .bubble:nth-child(4) { width: 10px; height: 10px; }
+        }
+
 
         .bubble:nth-child(1) {
             width: 10px;
@@ -769,126 +848,41 @@
                 transform: translateY(0) scale(0.8);
                 opacity: 0.8;
             }
-
             50% {
-                transform: translateY(-200px) scale(1.1);
+                transform: translateY(-20vh) scale(1.1); /* Use vh for vertical movement */
                 opacity: 0.4;
             }
-
             100% {
-                transform: translateY(-400px) scale(0.9);
+                transform: translateY(-40vh) scale(0.9); /* Use vh for vertical movement */
                 opacity: 0;
             }
-        }
-
-
-        /* New: Beach towel/umbrella elements */
-        .beach-towel {
-            position: absolute;
-            bottom: 25%; /* On the sand, slightly above the bottom */
-            left: 25%;
-            width: 150px;
-            height: 80px;
-            background-color: #FF6347; /* Tomato red, vibrant */
-            border-radius: 10px;
-            transform: rotate(-5deg);
-            z-index: 4;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .beach-towel:hover {
-            transform: rotate(-5deg) scale(1.05);
-        }
-
-        .beach-umbrella {
-            position: absolute;
-            bottom: 28%; /* Just above the towel/sand */
-            right: 20%;
-            z-index: 4;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out;
-        }
-        .beach-umbrella:hover {
-            transform: scale(1.05);
-        }
-
-        .umbrella-pole {
-            width: 8px;
-            height: 120px;
-            background-color: #8B4513;
-            border-radius: 4px;
-            margin: 0 auto;
-        }
-
-        .umbrella-top {
-            width: 100px;
-            height: 50px;
-            background: linear-gradient(to right, #FFD700, #FF6347); /* Gold to Tomato */
-            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-            position: absolute;
-            bottom: 110px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* New: Starfish Styling */
         .starfish {
             position: absolute;
-            font-size: 2.5rem; /* Slightly larger for visibility */
-            color: gold; /* Yellow/gold for starfish emoji */
+            font-size: 2.5rem;
+            color: gold;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
             cursor: pointer;
             transition: transform 0.2s ease-in-out;
-            z-index: 3; /* Above sand */
+            z-index: 3;
+        }
+
+        /* Responsive starfish size */
+        @media (max-width: 639px) {
+            .starfish { font-size: 1.8rem; }
+            .starfish:nth-child(1) { left: 30%; bottom: 8%; }
+            .starfish:nth-child(2) { left: 65%; bottom: 12%; font-size: 1.6rem; }
+            .starfish:nth-child(3) { left: 10%; bottom: 5%; font-size: 1.2rem; }
         }
 
         .starfish:hover {
-            transform: scale(1.2) rotate(0deg); /* Slight pop on hover */
-        }
-
-        /* New: Beach Chair Styling */
-        .beach-chair {
-            position: absolute;
-            bottom: 20%; /* Position relative to sand */
-            right: 25%;
-            width: 80px;
-            height: 100px;
-            background-color: #B0C4DE; /* LightSteelBlue for a casual fabric */
-            border-radius: 8px;
-            transform: rotate(-10deg);
-            z-index: 5;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-            cursor: pointer;
-            /* Simple legs/base */
-            border-bottom: 5px solid #778899; /* SlateGray */
-            border-left: 2px solid #778899;
-            border-right: 2px solid #778899;
-        }
-
-        .beach-chair:hover {
-            transform: rotate(-10deg) scale(1.05);
-        }
-
-        .beach-chair::before { /* Backrest */
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            background-color: #6A5ACD; /* SlateBlue */
-            border-radius: 8px 8px 0 0;
-            transform-origin: bottom;
-            transform: rotateX(20deg); /* Tilt backrest */
-            box-shadow: inset 0 -3px 5px rgba(0, 0, 0, 0.2);
+            transform: scale(1.2) rotate(0deg);
         }
 
         /* --- Sunset Section Animations --- */
         .sunset-gradient {
-            /* Deeper, more dramatic sunset colors */
             background: linear-gradient(to bottom, #FFDDAA, #FFB76D, #FF8C5B, #8A2BE2, #4B0082);
         }
 
@@ -907,19 +901,32 @@
             cursor: pointer;
         }
 
+        /* Responsive setting sun size */
+        @media (max-width: 639px) {
+            .setting-sun {
+                width: 140px;
+                height: 140px;
+                top: 55%; /* Adjust start position slightly */
+            }
+            @keyframes sunSet {
+                0% { top: 55%; }
+                50% { top: 75%; }
+                100% { top: 100%; }
+            }
+        }
+
+
         @keyframes sunSet {
             0% {
                 top: 50%;
                 background-color: #FFD700;
                 box-shadow: 0 0 60px #FFD700;
             }
-
             50% {
                 top: 70%;
                 background-color: #FFA500;
                 box-shadow: 0 0 80px #FFA500;
             }
-
             100% {
                 top: 100%;
                 background-color: #FF6347;
@@ -931,7 +938,7 @@
             position: absolute;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            filter: blur(12px); /* Increased blur for softness */
+            filter: blur(12px);
             opacity: 0;
             animation: floatSunsetClouds 25s infinite linear;
             z-index: 1;
@@ -942,7 +949,7 @@
             width: 250px;
             height: 80px;
             top: 25%;
-            left: -30%;
+            left: -30%; /* Adjusted starting left */
             background: rgba(255, 165, 0, 0.3);
             animation-delay: 0s;
         }
@@ -951,7 +958,7 @@
             width: 300px;
             height: 100px;
             top: 40%;
-            left: -60%;
+            left: -60%; /* Adjusted starting left */
             background: rgba(255, 99, 71, 0.3);
             animation-delay: 8s;
         }
@@ -966,22 +973,26 @@
             animation-direction: reverse;
         }
 
+        /* Responsive sunset cloud sizes and animation path */
+        @media (max-width: 639px) {
+            .sunset-cloud:nth-child(1) { width: 180px; height: 60px; top: 20%; left: -40%; }
+            .sunset-cloud:nth-child(2) { width: 220px; height: 75px; top: 35%; left: -70%; }
+            .sunset-cloud:nth-child(3) { width: 130px; height: 45px; top: 12%; right: -30%; }
+        }
+
         @keyframes floatSunsetClouds {
             0% {
                 transform: translateX(0);
                 opacity: 0;
             }
-
             20% {
                 opacity: 0.8;
             }
-
             80% {
                 opacity: 0.8;
             }
-
             100% {
-                transform: translateX(150vw);
+                transform: translateX(200vw); /* Increased to ensure it moves completely off-screen */
                 opacity: 0;
             }
         }
@@ -1009,17 +1020,16 @@
             pointer-events: none;
         }
 
+        /* Sparkles are small, should be fine */
         @keyframes sparkleFade {
             0% {
                 opacity: 0;
                 transform: scale(0.5);
             }
-
             50% {
                 opacity: 1;
                 transform: scale(1);
             }
-
             100% {
                 opacity: 0;
                 transform: scale(0.5);
@@ -1029,7 +1039,6 @@
 
         /* --- Night Stars Section --- */
         .night-gradient {
-            /* Deeper, richer blues and purples for a more cosmic feel */
             background: linear-gradient(to bottom, #000022, #000044, #110022);
         }
 
@@ -1037,7 +1046,7 @@
             position: absolute;
             background-color: white;
             border-radius: 50%;
-            box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.4); /* Added subtle glow */
+            box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.4);
             cursor: pointer;
             animation: twinkle 1.5s infinite alternate;
             opacity: 0;
@@ -1045,6 +1054,7 @@
             z-index: 60;
         }
 
+        /* Stars are randomly generated and small, should be fine */
         .star.visible {
             opacity: 1;
         }
@@ -1058,12 +1068,10 @@
                 transform: scale(1);
                 opacity: 0.8;
             }
-
             50% {
                 transform: scale(1.2);
                 opacity: 1;
             }
-
             100% {
                 transform: scale(1);
                 opacity: 0.8;
@@ -1075,12 +1083,10 @@
                 transform: scale(1);
                 opacity: 1;
             }
-
             50% {
                 transform: scale(1.5);
                 opacity: 0.5;
             }
-
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -1093,27 +1099,25 @@
             height: 4px;
             background: white;
             border-radius: 50%;
-            box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.7); /* More prominent trail */
+            box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.7);
             animation: shoot 5s infinite;
             opacity: 0;
             z-index: 50;
         }
 
+        /* Shooting star sizes are small and animation path already diagonal, should be fine. */
         @keyframes shoot {
             0% {
                 transform: translateX(0) translateY(0);
                 opacity: 0;
             }
-
             10% {
                 opacity: 1;
             }
-
             40% {
-                transform: translateX(200px) translateY(200px);
+                transform: translateX(200vw) translateY(200vh); /* Adjusted to ensure it leaves viewport */
                 opacity: 0;
             }
-
             100% {
                 transform: translateX(0) translateY(0);
                 opacity: 0;
@@ -1126,13 +1130,28 @@
             height: 100px;
             background: #F0F4C3;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3); /* Enhanced moon glow */
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3);
             top: 10%;
             right: 15%;
             z-index: 55;
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        /* Responsive moon size */
+        @media (max-width: 639px) {
+            #moon {
+                width: 70px;
+                height: 70px;
+                top: 8%;
+                right: 5%;
+            }
+            #moon::before { /* Adjust the 'shadow' part of the crescent moon */
+                width: 65px;
+                height: 65px;
+                left: -15px;
+            }
         }
 
         #moon:hover {
@@ -1174,16 +1193,15 @@
             font-size: 1.4rem;
             line-height: 2rem;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px); /* Modern blur effect */
+            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .modal-content {
             margin-bottom: 1.5rem;
             text-align: center;
-            /* Responsive font size for modal */
-            font-size: 1rem; /* Default for mobile */
+            font-size: 1rem;
         }
         @media (min-width: 640px) { /* sm breakpoint */
             .modal-content {
@@ -1195,7 +1213,6 @@
                 font-size: 1.4rem;
             }
         }
-
 
         .close-button {
             background-color: #FF6347;
@@ -1218,14 +1235,27 @@
             position: absolute;
             top: 1rem;
             left: 1rem;
-            background: rgba(255, 255, 255, 0.2); /* More subtle background */
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 50%;
-            padding: 0.6rem; /* Slightly larger for touch */
+            padding: 0.6rem;
             cursor: pointer;
             z-index: 50;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
             transition: background 0.2s ease-in-out, transform 0.2s ease-out;
+        }
+
+        /* Responsive reload button */
+        @media (max-width: 639px) {
+            .reload-icon-button {
+                padding: 0.4rem;
+                top: 0.75rem;
+                left: 0.75rem;
+            }
+            .reload-icon-button svg {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
         }
 
         .reload-icon-button:hover {
@@ -1236,7 +1266,7 @@
         .reload-icon-button svg {
             width: 1.5rem;
             height: 1.5rem;
-            color: #ffffff; /* White icon on translucent background */
+            color: #ffffff;
         }
     </style>
 </head>
@@ -1302,7 +1332,7 @@
             <div class="sand">
                 <div class="sand-dune"></div>
                 <div class="crab">🦀</div>
-                <div class="crab" style="left: 60%; bottom: 18%; animation-delay: 3s; transform: scaleX(-1);">🦀</div> <!-- Added a second crab to vary -->
+                <div class="crab" style="left: 60%; bottom: 18%; animation-delay: 3s; transform: scaleX(-1);">🦀</div>
                 <div class="palm-tree" style="right: 15%;">
                     <div class="trunk"></div>
                     <div class="leaves"></div>
@@ -1768,7 +1798,7 @@
                 showModal("Fish never stop growing! May you continue to grow and evolve beautifully this year.");
             });
         });
-    
+
         // Add event listener for bubbles (can be added to parent or specific bubbles)
         const bubbles = document.querySelectorAll('.bubble');
         bubbles.forEach(bubble => {
@@ -1990,10 +2020,15 @@
             }
         }
 
-        // Initial setup for the intro section to be active on load
         document.addEventListener('DOMContentLoaded', () => {
             introSection.classList.add('active');
             introSection.style.display = 'flex'; // Ensure it's visible on load
+            // Call playSunriseAudio here, after DOM is loaded and Tone.start() is ready to be triggered by user action
+            // Tone.start() needs to be triggered by a user gesture. The 'startJourneyBtn' click handles this.
+            // If you want background audio to start immediately without a click, it's generally prevented by browsers.
+            // But once the user clicks any button, Tone.start() is called.
+            // Let's assume the user will click 'startJourneyBtn' quickly.
+            // playSunriseAudio(); // Keep this within a user gesture or after Tone.start() is invoked
         });
     </script>
 </body>
