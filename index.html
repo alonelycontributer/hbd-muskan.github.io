@@ -13,14 +13,21 @@
         /* Base styles for body and sections, using Inter font */
         body {
             font-family: 'Inter', sans-serif;
-            width: 100vw; /* Ensure body takes full viewport width */
-            height: 100vh; /* Ensure body takes full viewport height */
-            overflow: hidden; /* Hide all overflow to prevent scrolling */
+            width: 100vw;
+            /* Ensure body takes full viewport width */
+            height: 100vh;
+            /* Ensure body takes full viewport height */
+            overflow: hidden;
+            /* Hide all overflow to prevent scrolling */
             /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10, auto;
-            position: relative; /* Ensure body is a positioning context for fixed elements */
-            touch-action: manipulation; /* Prevent default double-tap zoom, allowing user interactions */
-            -webkit-text-size-adjust: 100%; /* Prevent text scaling on orientation change */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10,
+                auto;
+            position: relative;
+            /* Ensure body is a positioning context for fixed elements */
+            touch-action: manipulation;
+            /* Prevent default double-tap zoom, allowing user interactions */
+            -webkit-text-size-adjust: 100%;
+            /* Prevent text scaling on orientation change */
         }
 
         .section {
@@ -39,6 +46,10 @@
             opacity: 0;
             pointer-events: none;
             /* Disable interaction when hidden */
+            padding-top: 5rem;
+            /* Add padding to push content down from fixed top elements */
+            box-sizing: border-box;
+            /* Include padding in element's total width and height */
         }
 
         .section.active {
@@ -51,7 +62,8 @@
         #audioControl {
             position: fixed;
             top: 1rem;
-            right: 1rem; /* Positioned right */
+            right: 1rem;
+            /* Positioned right */
             background-color: rgba(0, 0, 0, 0.6);
             color: white;
             border: none;
@@ -74,7 +86,9 @@
         }
 
         /* Responsive adjustments for audio control button */
-        @media (max-width: 639px) { /* Small screens */
+        @media (max-width: 639px) {
+
+            /* Small screens */
             #audioControl {
                 width: 38px;
                 height: 38px;
@@ -109,7 +123,8 @@
             #sun {
                 width: 100px;
                 height: 100px;
-                bottom: -50px; /* Adjust starting position for smaller size */
+                bottom: -50px;
+                /* Adjust starting position for smaller size */
             }
         }
 
@@ -120,19 +135,23 @@
 
         @keyframes sunRise {
             0% {
-                bottom: -75px; /* Use the default value here, media query will override */
+                bottom: -75px;
+                /* Use the default value here, media query will override */
                 background-color: #FFD700;
             }
+
             50% {
                 bottom: 30%;
                 background-color: #FFA500;
                 box-shadow: 0 0 80px #FFA500;
             }
+
             70% {
                 bottom: 50%;
                 background-color: #FFD700;
                 box-shadow: 0 0 100px #FFD700;
             }
+
             100% {
                 bottom: 70%;
                 background-color: #FFD700;
@@ -143,9 +162,18 @@
         /* Adjust sunRise for mobile */
         @media (max-width: 639px) {
             @keyframes sunRise {
-                0% { bottom: -50px; } /* Mobile start position */
-                70% { bottom: 50%; }
-                100% { bottom: 70%; }
+                0% {
+                    bottom: -50px;
+                }
+
+                /* Mobile start position */
+                70% {
+                    bottom: 50%;
+                }
+
+                100% {
+                    bottom: 70%;
+                }
             }
         }
 
@@ -165,7 +193,8 @@
             width: 150px;
             height: 50px;
             top: 20%;
-            left: -20%; /* Adjusted starting left to ensure it's fully off screen */
+            left: -20%;
+            /* Adjusted starting left to ensure it's fully off screen */
             animation-delay: 0s;
         }
 
@@ -173,7 +202,8 @@
             width: 200px;
             height: 70px;
             top: 30%;
-            left: -50%; /* Adjusted starting left */
+            left: -50%;
+            /* Adjusted starting left */
             animation-delay: 5s;
         }
 
@@ -181,15 +211,33 @@
             width: 100px;
             height: 40px;
             top: 15%;
-            left: -80%; /* Adjusted starting left */
+            left: -80%;
+            /* Adjusted starting left */
             animation-delay: 10s;
         }
 
         /* Responsive cloud sizes and animation path */
         @media (max-width: 639px) {
-            .cloud:nth-child(1) { width: 100px; height: 35px; top: 15%; left: -30%; }
-            .cloud:nth-child(2) { width: 140px; height: 50px; top: 25%; left: -60%; }
-            .cloud:nth-child(3) { width: 70px; height: 28px; top: 10%; left: -90%; }
+            .cloud:nth-child(1) {
+                width: 100px;
+                height: 35px;
+                top: 15%;
+                left: -30%;
+            }
+
+            .cloud:nth-child(2) {
+                width: 140px;
+                height: 50px;
+                top: 25%;
+                left: -60%;
+            }
+
+            .cloud:nth-child(3) {
+                width: 70px;
+                height: 28px;
+                top: 10%;
+                left: -90%;
+            }
         }
 
         @keyframes floatClouds {
@@ -197,14 +245,18 @@
                 transform: translateX(0);
                 opacity: 0;
             }
+
             20% {
                 opacity: 0.8;
             }
+
             80% {
                 opacity: 0.8;
             }
+
             100% {
-                transform: translateX(200vw); /* Increased to ensure it moves completely off-screen */
+                transform: translateX(200vw);
+                /* Increased to ensure it moves completely off-screen */
                 opacity: 0;
             }
         }
@@ -221,10 +273,21 @@
 
         /* Responsive bird sizes */
         @media (max-width: 639px) {
-            .small-bird { font-size: 1rem; }
-            .small-bird:nth-child(1) { font-size: 0.8rem; }
-            .small-bird:nth-child(2) { font-size: 1.2rem; }
-            .small-bird:nth-child(3) { font-size: 1.rem; }
+            .small-bird {
+                font-size: 1rem;
+            }
+
+            .small-bird:nth-child(1) {
+                font-size: 0.8rem;
+            }
+
+            .small-bird:nth-child(2) {
+                font-size: 1.2rem;
+            }
+
+            .small-bird:nth-child(3) {
+                font-size: 1.rem;
+            }
         }
 
         .small-bird:nth-child(1) {
@@ -254,24 +317,32 @@
                 transform: translateX(0) scaleX(1);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             45% {
-                transform: translateX(120vw) scaleX(1); /* Increased to ensure it moves completely off-screen */
+                transform: translateX(120vw) scaleX(1);
+                /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
+
             50% {
                 opacity: 0;
-                transform: translateX(120vw) scaleX(-1); /* Keep same end point for flip */
+                transform: translateX(120vw) scaleX(-1);
+                /* Keep same end point for flip */
             }
+
             55% {
                 opacity: 0;
             }
+
             90% {
                 transform: translateX(0) scaleX(-1);
                 opacity: 1;
             }
+
             100% {
                 opacity: 0;
             }
@@ -297,7 +368,8 @@
             #beachDaySun {
                 width: 100px;
                 height: 100px;
-                bottom: 75%; /* Adjust positioning slightly if needed for smaller size */
+                bottom: 75%;
+                /* Adjust positioning slightly if needed for smaller size */
             }
         }
 
@@ -364,9 +436,11 @@
             0% {
                 transform: translateX(0) translateY(0);
             }
+
             50% {
                 transform: translateX(-50%) translateY(5px);
             }
+
             100% {
                 transform: translateX(-100%) translateY(0);
             }
@@ -420,6 +494,7 @@
             0% {
                 right: -10%;
             }
+
             100% {
                 right: 0%;
             }
@@ -436,11 +511,19 @@
         /* Responsive palm tree sizing */
         @media (max-width: 639px) {
             .palm-tree {
-                bottom: 20%; /* Adjusted for smaller screens to appear lower on sand */
-                transform: scale(0.6); /* Overall scale for smaller screen */
+                bottom: 20%;
+                /* Adjusted for smaller screens to appear lower on sand */
+                transform: scale(0.6);
+                /* Overall scale for smaller screen */
             }
-            .palm-tree:nth-child(1) { left: 5%; }
-            .palm-tree:nth-child(2) { right: 5%; }
+
+            .palm-tree:nth-child(1) {
+                left: 5%;
+            }
+
+            .palm-tree:nth-child(2) {
+                right: 5%;
+            }
         }
 
         .palm-tree .trunk {
@@ -480,6 +563,7 @@
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(3deg);
             }
@@ -497,9 +581,22 @@
 
         /* Responsive crab size */
         @media (max-width: 639px) {
-            .crab { font-size: 1.8rem; }
-            .crab:nth-child(1) { bottom: 12%; left: -10%; } /* Adjust for mobile */
-            .crab:nth-child(2) { bottom: 8%; left: -25%; } /* Adjust for mobile */
+            .crab {
+                font-size: 1.8rem;
+            }
+
+            .crab:nth-child(1) {
+                bottom: 12%;
+                left: -10%;
+            }
+
+            /* Adjust for mobile */
+            .crab:nth-child(2) {
+                bottom: 8%;
+                left: -25%;
+            }
+
+            /* Adjust for mobile */
         }
 
         .crab:nth-child(1) {
@@ -521,24 +618,31 @@
                 transform: translateX(0) scaleX(1);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             45% {
-                transform: translateX(120vw) scaleX(1); /* Increased to ensure it moves completely off-screen */
+                transform: translateX(120vw) scaleX(1);
+                /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
+
             50% {
                 opacity: 0;
                 transform: translateX(120vw) scaleX(-1);
             }
+
             55% {
                 opacity: 0;
             }
+
             90% {
                 transform: translateX(0) scaleX(-1);
                 opacity: 1;
             }
+
             100% {
                 opacity: 0;
             }
@@ -555,7 +659,9 @@
 
         /* Responsive fish size */
         @media (max-width: 639px) {
-            .fish { font-size: 1.5rem; }
+            .fish {
+                font-size: 1.5rem;
+            }
         }
 
         .fish:nth-child(1) {
@@ -582,24 +688,31 @@
                 transform: translateX(0) scaleX(1);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             45% {
-                transform: translateX(120vw) scaleX(1); /* Increased to ensure it moves completely off-screen */
+                transform: translateX(120vw) scaleX(1);
+                /* Increased to ensure it moves completely off-screen */
                 opacity: 1;
             }
+
             50% {
                 opacity: 0;
                 transform: translateX(120vw) scaleX(-1);
             }
+
             55% {
                 opacity: 0;
             }
+
             90% {
                 transform: translateX(0) scaleX(-1);
                 opacity: 1;
             }
+
             100% {
                 opacity: 0;
             }
@@ -615,7 +728,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 40px; /* Sized by font-size for emoji */
+            font-size: 40px;
+            /* Sized by font-size for emoji */
             color: #5A403A;
             transform: rotate(15deg);
             transition: transform 0.3s ease-in-out;
@@ -626,8 +740,10 @@
         /* Responsive bottle size */
         @media (max-width: 639px) {
             .bottle {
-                font-size: 30px; /* Smaller emoji */
-                bottom: 10%; /* Adjust position */
+                font-size: 30px;
+                /* Smaller emoji */
+                bottom: 10%;
+                /* Adjust position */
                 left: 5%;
             }
         }
@@ -640,9 +756,11 @@
             0% {
                 transform: translate(0, 0) rotate(15deg);
             }
+
             50% {
                 transform: translate(5px, -5px) rotate(17deg);
             }
+
             100% {
                 transform: translate(0, 0) rotate(15deg);
             }
@@ -668,15 +786,19 @@
             #beachBall {
                 width: 60px;
                 height: 60px;
-                bottom: 20%; /* Adjusted to sit naturally with smaller sand area */
-                right: 5%; /* Keep it closer to the edge on mobile */
+                bottom: 20%;
+                /* Adjusted to sit naturally with smaller sand area */
+                right: 5%;
+                /* Keep it closer to the edge on mobile */
             }
         }
 
         @keyframes bounceBall {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translateY(0) rotate(0deg);
             }
+
             50% {
                 transform: translateY(-30px) rotate(360deg);
             }
@@ -690,9 +812,11 @@
             0% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-50px) scale(1.1);
             }
+
             100% {
                 transform: translateY(0);
             }
@@ -700,7 +824,8 @@
 
 
         .seashell {
-            font-size: 3rem; /* Sized by font-size for emoji */
+            font-size: 3rem;
+            /* Sized by font-size for emoji */
             cursor: pointer;
             position: absolute;
             bottom: 15%;
@@ -714,8 +839,10 @@
         /* Responsive seashell size */
         @media (max-width: 639px) {
             .seashell {
-                font-size: 2.2rem; /* Smaller emoji */
-                bottom: 10%; /* Adjust position */
+                font-size: 2.2rem;
+                /* Smaller emoji */
+                bottom: 10%;
+                /* Adjust position */
             }
         }
 
@@ -735,10 +862,27 @@
 
         /* Responsive seagull size */
         @media (max-width: 639px) {
-            .seagull { font-size: 1.5rem; }
-            .seagull:nth-child(1) { font-size: 1.8rem; top: 8%; left: -10%; }
-            .seagull:nth-child(2) { font-size: 1.3rem; top: 12%; left: -20%; }
-            .seagull:nth-child(3) { font-size: 1.6rem; top: 6%; left: -30%; }
+            .seagull {
+                font-size: 1.5rem;
+            }
+
+            .seagull:nth-child(1) {
+                font-size: 1.8rem;
+                top: 8%;
+                left: -10%;
+            }
+
+            .seagull:nth-child(2) {
+                font-size: 1.3rem;
+                top: 12%;
+                left: -20%;
+            }
+
+            .seagull:nth-child(3) {
+                font-size: 1.6rem;
+                top: 6%;
+                left: -30%;
+            }
         }
 
         .seagull:nth-child(1) {
@@ -764,32 +908,53 @@
 
         @keyframes flySeagull {
             0% {
-                left: -30%; /* Start further off-screen */
+                left: -30%;
+                /* Start further off-screen */
                 opacity: 0;
-                transform: translateX(0) scaleX(1);
+                transform: scaleX(1);
             }
+
             10% {
                 opacity: 1;
             }
+
             45% {
-                left: 130%; /* Move further off-screen to the right */
+                left: 130%;
+                /* Move further off-screen to the right */
                 opacity: 1;
             }
+
             50% {
+                left: 130%;
                 opacity: 0;
-                transform: translateX(0) scaleX(-1); /* Keep the same end point for flip and reset translation */
+                transform: scaleX(-1);
+                /* At end, disappear, flip */
             }
+
+            51% {
+                left: -30%;
+                opacity: 0;
+            }
+
+            /* Instantly teleport to other side, still invisible */
             55% {
-                opacity: 0;
-            }
-            90% {
-                left: -30%; /* Come back from the other side (further left) */
+                left: -30%;
                 opacity: 1;
             }
+
+            /* Reappear on left, facing left */
+            90% {
+                left: 130%;
+                opacity: 1;
+            }
+
+            /* Flies left (due to scaleX(-1)), reaching right side */
             100% {
                 left: 130%;
                 opacity: 0;
             }
+
+            /* Disappear at right */
         }
 
         /* New: Bubbles for ocean */
@@ -804,10 +969,26 @@
 
         /* Responsive bubble sizes */
         @media (max-width: 639px) {
-            .bubble:nth-child(1) { width: 8px; height: 8px; }
-            .bubble:nth-child(2) { width: 12px; height: 12px; }
-            .bubble:nth-child(3) { width: 6px; height: 6px; }
-            .bubble:nth-child(4) { width: 10px; height: 10px; }
+
+            .bubble:nth-child(1) {
+                width: 8px;
+                height: 8px;
+            }
+
+            .bubble:nth-child(2) {
+                width: 12px;
+                height: 12px;
+            }
+
+            .bubble:nth-child(3) {
+                width: 6px;
+                height: 6px;
+            }
+
+            .bubble:nth-child(4) {
+                width: 10px;
+                height: 10px;
+            }
         }
 
 
@@ -851,12 +1032,16 @@
                 transform: translateY(0) scale(0.8);
                 opacity: 0.8;
             }
+
             50% {
-                transform: translateY(-20vh) scale(1.1); /* Use vh for vertical movement */
+                transform: translateY(-20vh) scale(1.1);
+                /* Use vh for vertical movement */
                 opacity: 0.4;
             }
+
             100% {
-                transform: translateY(-40vh) scale(0.9); /* Use vh for vertical movement */
+                transform: translateY(-40vh) scale(0.9);
+                /* Use vh for vertical movement */
                 opacity: 0;
             }
         }
@@ -874,10 +1059,26 @@
 
         /* Responsive starfish size */
         @media (max-width: 639px) {
-            .starfish { font-size: 1.8rem; }
-            .starfish:nth-child(1) { left: 30%; bottom: 8%; }
-            .starfish:nth-child(2) { left: 65%; bottom: 12%; font-size: 1.6rem; }
-            .starfish:nth-child(3) { left: 10%; bottom: 5%; font-size: 1.2rem; }
+            .starfish {
+                font-size: 1.8rem;
+            }
+
+            .starfish:nth-child(1) {
+                left: 30%;
+                bottom: 8%;
+            }
+
+            .starfish:nth-child(2) {
+                left: 65%;
+                bottom: 12%;
+                font-size: 1.6rem;
+            }
+
+            .starfish:nth-child(3) {
+                left: 10%;
+                bottom: 5%;
+                font-size: 1.2rem;
+            }
         }
 
         .starfish:hover {
@@ -909,12 +1110,22 @@
             .setting-sun {
                 width: 140px;
                 height: 140px;
-                top: 55%; /* Adjust start position slightly */
+                top: 55%;
+                /* Adjust start position slightly */
             }
+
             @keyframes sunSet {
-                0% { top: 55%; }
-                50% { top: 75%; }
-                100% { top: 100%; }
+                0% {
+                    top: 55%;
+                }
+
+                50% {
+                    top: 75%;
+                }
+
+                100% {
+                    top: 100%;
+                }
             }
         }
 
@@ -925,11 +1136,13 @@
                 background-color: #FFD700;
                 box-shadow: 0 0 60px #FFD700;
             }
+
             50% {
                 top: 70%;
                 background-color: #FFA500;
                 box-shadow: 0 0 80px #FFA500;
             }
+
             100% {
                 top: 100%;
                 background-color: #FF6347;
@@ -952,7 +1165,8 @@
             width: 250px;
             height: 80px;
             top: 25%;
-            left: -30%; /* Adjusted starting left */
+            left: -30%;
+            /* Adjusted starting left */
             background: rgba(255, 165, 0, 0.3);
             animation-delay: 0s;
         }
@@ -961,7 +1175,8 @@
             width: 300px;
             height: 100px;
             top: 40%;
-            left: -60%; /* Adjusted starting left */
+            left: -60%;
+            /* Adjusted starting left */
             background: rgba(255, 99, 71, 0.3);
             animation-delay: 8s;
         }
@@ -978,9 +1193,27 @@
 
         /* Responsive sunset cloud sizes and animation path */
         @media (max-width: 639px) {
-            .sunset-cloud:nth-child(1) { width: 180px; height: 60px; top: 20%; left: -40%; }
-            .sunset-cloud:nth-child(2) { width: 220px; height: 75px; top: 35%; left: -70%; }
-            .sunset-cloud:nth-child(3) { width: 130px; height: 45px; top: 12%; right: -30%; }
+
+            .sunset-cloud:nth-child(1) {
+                width: 180px;
+                height: 60px;
+                top: 20%;
+                left: -40%;
+            }
+
+            .sunset-cloud:nth-child(2) {
+                width: 220px;
+                height: 75px;
+                top: 35%;
+                left: -70%;
+            }
+
+            .sunset-cloud:nth-child(3) {
+                width: 130px;
+                height: 45px;
+                top: 12%;
+                right: -30%;
+            }
         }
 
         @keyframes floatSunsetClouds {
@@ -988,14 +1221,18 @@
                 transform: translateX(0);
                 opacity: 0;
             }
+
             20% {
                 opacity: 0.8;
             }
+
             80% {
                 opacity: 0.8;
             }
+
             100% {
-                transform: translateX(200vw); /* Increased to ensure it moves completely off-screen */
+                transform: translateX(200vw);
+                /* Increased to ensure it moves completely off-screen */
                 opacity: 0;
             }
         }
@@ -1029,10 +1266,12 @@
                 opacity: 0;
                 transform: scale(0.5);
             }
+
             50% {
                 opacity: 1;
                 transform: scale(1);
             }
+
             100% {
                 opacity: 0;
                 transform: scale(0.5);
@@ -1054,7 +1293,8 @@
             animation: twinkle 1.5s infinite alternate;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            z-index: 60; /* Stars z-index, will be below moon and text */
+            z-index: 60;
+            /* Stars z-index, will be below moon and text */
         }
 
         /* Stars are randomly generated and small, should be fine */
@@ -1071,10 +1311,12 @@
                 transform: scale(1);
                 opacity: 0.8;
             }
+
             50% {
                 transform: scale(1.2);
                 opacity: 1;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 0.8;
@@ -1086,10 +1328,12 @@
                 transform: scale(1);
                 opacity: 1;
             }
+
             50% {
                 transform: scale(1.5);
                 opacity: 0.5;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -1114,13 +1358,17 @@
                 transform: translateX(0) translateY(0);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             40% {
-                transform: translateX(200vw) translateY(200vh); /* Adjusted to ensure it leaves viewport */
+                transform: translateX(200vw) translateY(200vh);
+                /* Adjusted to ensure it leaves viewport */
                 opacity: 0;
             }
+
             100% {
                 transform: translateX(0) translateY(0);
                 opacity: 0;
@@ -1136,7 +1384,8 @@
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3);
             top: 10%;
             right: 15%;
-            z-index: 100; /* Higher z-index to be above stars */
+            z-index: 100;
+            /* Higher z-index to be above stars */
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
@@ -1150,7 +1399,9 @@
                 top: 8%;
                 right: 5%;
             }
-            #moon::before { /* Adjust the 'shadow' part of the crescent moon */
+
+            #moon::before {
+                /* Adjust the 'shadow' part of the crescent moon */
                 width: 65px;
                 height: 65px;
                 left: -15px;
@@ -1181,7 +1432,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: rgba(0, 0, 0, 0.95);
-            padding: 2.5rem; /* Default padding for larger screens */
+            padding: 2.5rem;
+            /* Default padding for larger screens */
             border-radius: 20px;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
             z-index: 1000;
@@ -1190,9 +1442,12 @@
             align-items: center;
             justify-content: center;
             max-width: 90vw;
-            max-height: 90vh; /* Allow some vertical scrolling if content is very long */
-            overflow-y: auto; /* Allow vertical scrolling within the modal if needed */
-            overflow-x: hidden; /* Prevent horizontal scrolling within the modal */
+            max-height: 90vh;
+            /* Allow some vertical scrolling if content is very long */
+            overflow-y: auto;
+            /* Allow vertical scrolling within the modal if needed */
+            overflow-x: hidden;
+            /* Prevent horizontal scrolling within the modal */
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
@@ -1203,30 +1458,48 @@
         .modal-content {
             margin-bottom: 1.5rem;
             text-align: center;
-            font-size: 1rem; /* Base font size */
-            line-height: 1.4; /* Tighter line spacing */
-            word-wrap: break-word; /* Ensure long words break and wrap */
-            max-width: 100%; /* Ensure content doesn't overflow horizontally */
+            font-size: 1rem;
+            /* Base font size */
+            line-height: 1.4;
+            /* Tighter line spacing */
+            word-wrap: break-word;
+            /* Ensure long words break and wrap */
+            max-width: 100%;
+            /* Ensure content doesn't overflow horizontally */
         }
 
-        @media (max-width: 639px) { /* Small screens */
+        @media (max-width: 639px) {
+
+            /* Small screens */
             .modal {
-                padding: 1rem; /* Reduced padding on mobile */
+                padding: 1rem;
+                /* Reduced padding on mobile */
             }
+
             .modal-content {
-                font-size: 0.75rem; /* Even smaller font for mobile */
-                line-height: 1.25; /* Tighter on mobile */
+                font-size: 0.75rem;
+                /* Even smaller font for mobile */
+                line-height: 1.25;
+                /* Tighter on mobile */
             }
         }
-        @media (min-width: 640px) { /* sm breakpoint */
+
+        @media (min-width: 640px) {
+
+            /* sm breakpoint */
             .modal-content {
-                font-size: 1rem; /* Adjust based on new base */
+                font-size: 1rem;
+                /* Adjust based on new base */
                 line-height: 1.5;
             }
         }
-        @media (min-width: 768px) { /* md breakpoint */
+
+        @media (min-width: 768px) {
+
+            /* md breakpoint */
             .modal-content {
-                font-size: 1.15rem; /* Adjust based on new base */
+                font-size: 1.15rem;
+                /* Adjust based on new base */
                 line-height: 1.6;
             }
         }
@@ -1250,13 +1523,18 @@
 
         /* Styling for the navigation arrow buttons */
         .nav-arrow-button {
-            position: fixed; /* Changed to fixed */
+            position: fixed;
+            /* Changed to fixed */
             top: 1rem;
-            left: 1rem; /* Positioned left */
-            width: auto; /* Remove 100% width */
+            left: 1rem;
+            /* Positioned left */
+            width: auto;
+            /* Remove 100% width */
             display: flex;
-            justify-content: flex-start; /* Align to start */
-            z-index: 1002; /* Higher z-index */
+            justify-content: flex-start;
+            /* Align to start */
+            z-index: 1002;
+            /* Higher z-index */
         }
 
         .nav-arrow-button button {
@@ -1265,7 +1543,8 @@
             border-radius: 50%;
             background-color: rgba(255, 255, 255, 0.2);
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Add shadow for consistency */
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            /* Add shadow for consistency */
         }
 
         .nav-arrow-button button:hover {
@@ -1277,15 +1556,20 @@
             width: 1.5rem;
             height: 1.5rem;
             color: white;
-            transform: rotate(90deg); /* Rotate arrow to face right */
+            transform: rotate(90deg);
+            /* Rotate arrow to face right */
         }
 
         @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
+            0%,
+            100% {
+                transform: translateX(0);
+                /* Bounce right */
             }
+
             50% {
-                transform: translateY(-10px);
+                transform: translateX(10px);
+                /* Bounce right */
             }
         }
 
@@ -1295,9 +1579,11 @@
                 top: 0.75rem;
                 left: 0.75rem;
             }
+
             .nav-arrow-button button {
                 padding: 0.5rem;
             }
+
             .nav-arrow-button svg {
                 width: 1.2rem;
                 height: 1.2rem;
@@ -1306,9 +1592,11 @@
 
 
         .reload-icon-button {
-            position: fixed; /* Changed to fixed */
+            position: fixed;
+            /* Changed to fixed */
             top: 1rem;
-            left: 4.5rem; /* Adjusted left to avoid overlap with nav arrow */
+            left: 4.5rem;
+            /* Adjusted left to avoid overlap with nav arrow */
             background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 50%;
@@ -1324,8 +1612,10 @@
             .reload-icon-button {
                 padding: 0.4rem;
                 top: 0.75rem;
-                left: 3.5rem; /* Adjusted left for mobile */
+                left: 3.5rem;
+                /* Adjusted left for mobile */
             }
+
             .reload-icon-button svg {
                 width: 1.2rem;
                 height: 1.2rem;
@@ -1346,20 +1636,24 @@
         /* Bottom text container on Night Stars Section - moved absolute position here */
         #night-stars-section .bottom-message-container {
             position: absolute;
-            bottom: 4rem; /* Default for larger screens */
+            bottom: 4rem;
+            /* Default for larger screens */
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            z-index: 110; /* Higher z-index to be above stars */
-            padding-left: 1rem; /* Add horizontal padding */
+            z-index: 110;
+            /* Higher z-index to be above stars */
+            padding-left: 1rem;
+            /* Add horizontal padding */
             padding-right: 1rem;
         }
 
         @media (max-width: 639px) {
             #night-stars-section .bottom-message-container {
-                bottom: 2rem; /* Adjusted for smaller screens */
+                bottom: 2rem;
+                /* Adjusted for smaller screens */
             }
         }
     </style>
@@ -1386,11 +1680,12 @@
                 class="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-4 md:mb-8 drop-shadow-lg relative z-10 text-white animate-pulse">
                 Happy Birthday, Muskan!
             </h1>
-            <p class="text-base md:text-xl lg:text-2xl mb-8 md:mb-12 drop-shadow-md relative z-10 text-white font-medium max-w-lg mx-auto">
+            <p
+                class="text-base md:text-xl lg:text-2xl mb-6 md:mb-10 drop-shadow-md relative z-10 text-white font-medium max-w-lg mx-auto">
                 Get ready for a magical journey from sunrise to starlight!
             </p>
             <div class="nav-arrow-button">
-                <button id="startJourneyBtn" aria-label="Scroll Down">
+                <button id="startJourneyBtn" aria-label="Scroll Right">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
                     </svg>
@@ -1447,7 +1742,7 @@
 
 
             <div class="nav-arrow-button">
-                <button id="nextBeachBtn" aria-label="Scroll Down">
+                <button id="nextBeachBtn" aria-label="Scroll Right">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
                     </svg>
@@ -1474,7 +1769,7 @@
             </p>
 
             <div class="nav-arrow-button">
-                <button id="seeStarsBtn" aria-label="Scroll Down">
+                <button id="seeStarsBtn" aria-label="Scroll Right">
                     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
                     </svg>
@@ -1485,13 +1780,13 @@
 
     <section id="night-stars-section" class="section night-gradient hidden relative">
         <div id="moon"></div>
-        <!-- <div class="shooting-star" style="top: 20%; left: 10%;"></div> -->
-        <!-- <div class="shooting-star" style="top: 70%; left: 80%; animation-delay: 2.5s;"></div> -->
+        <div class="shooting-star" style="top: 20%; left: 10%;"></div>
+        <div class="shooting-star" style="top: 70%; left: 80%; animation-delay: 2.5s;"></div>
 
-        <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-20">
+        <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-110">
             26 Wishes, Just For You! ✨
         </h2>
-        <p class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-20 max-w-xl mx-auto">
+        <p class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-110 max-w-xl mx-auto">
             Click on each star to uncover a special wish or memory.
         </p>
         <div id="starsContainer" class="w-full h-full absolute top-0 left-0">
@@ -1973,7 +2268,7 @@
                 stopNightAudio();
             } else {
                 Tone.Destination.mute = false;
-                audioIcon.textContent = '�';
+                audioIcon.textContent = '🔊';
                 // Restart current section's audio if unmuted
                 if (introSection.classList.contains('active')) {
                     playSunriseAudio();
@@ -2085,13 +2380,20 @@
                 star.style.height = `${size}px`;
                 star.style.boxShadow = `0 0 ${size / 2}px white, 0 0 ${size}px rgba(255,255,255,0.4)`; // Enhanced glow
 
-                // Ensure stars are within a reasonable range and not too close to edges or text
-                // Adjust star generation to avoid top text, moon, and bottom text
                 let topPos, leftPos;
-                const attempts = 0;
-                // Generate stars in the middle vertical band, avoiding top and bottom sections where text/moon are
-                topPos = Math.random() * (70 - 35) + 35; // Between 35% and 70% from top
-                leftPos = Math.random() * 90 + 5; // Between 5% and 95% from left
+                const minTopBand1 = 20; // % from top
+                const maxTopBand1 = 35; // % from top
+                const minTopBand2 = 65; // % from top
+                const maxTopBand2 = 80; // % from top
+
+                // Randomly choose one of the two bands
+                if (Math.random() < 0.5) { // Upper band
+                    topPos = Math.random() * (maxTopBand1 - minTopBand1) + minTopBand1;
+                } else { // Lower band
+                    topPos = Math.random() * (maxTopBand2 - minTopBand2) + minTopBand2;
+                }
+
+                leftPos = Math.random() * 90 + 5; // 5% to 95% from left
 
                 star.style.top = `${topPos}%`;
                 star.style.left = `${leftPos}%`;
