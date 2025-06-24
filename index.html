@@ -1539,37 +1539,41 @@
 
         .nav-arrow-button button {
             animation: bounce 1s infinite;
-            padding: 0.75rem;
+            padding: 0.85rem;
+            /* Increased padding for prominence */
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.4);
+            /* Increased opacity for prominence */
             transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            /* Add shadow for consistency */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            /* Stronger shadow */
         }
 
         .nav-arrow-button button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.6);
+            /* Even more opaque on hover */
+            transform: scale(1.15);
         }
 
         .nav-arrow-button svg {
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1.8rem;
+            /* Increased size for prominence */
+            height: 1.8rem;
             color: white;
-            transform: rotate(90deg);
-            /* Rotate arrow to face right */
+            transform: rotate(-90deg);
+            /* Rotate arrow to face left */
         }
 
         @keyframes bounce {
             0%,
             100% {
                 transform: translateX(0);
-                /* Bounce right */
+                /* Bounce left */
             }
 
             50% {
-                transform: translateX(10px);
-                /* Bounce right */
+                transform: translateX(-10px);
+                /* Bounce left */
             }
         }
 
@@ -1581,12 +1585,14 @@
             }
 
             .nav-arrow-button button {
-                padding: 0.5rem;
+                padding: 0.6rem;
+                width: 40px;
+                height: 40px;
             }
 
             .nav-arrow-button svg {
-                width: 1.2rem;
-                height: 1.2rem;
+                width: 1.4rem;
+                height: 1.4rem;
             }
         }
 
@@ -1775,6 +1781,7 @@
                     </svg>
                 </button>
             </div>
+
         </div>
     </section>
 
