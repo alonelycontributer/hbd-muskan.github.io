@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>Happy 26th Birthday, Muskan!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font for a more modern, less childish look -->
@@ -15,9 +15,12 @@
             font-family: 'Inter', sans-serif;
             /* Explicitly hide horizontal overflow to prevent accidental scrolling */
             overflow-x: hidden;
+            /* Prevent vertical scrolling globally unless content is truly too large, sections handle height */
+            overflow-y: hidden;
             /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10, auto;
             position: relative; /* Ensure body is a positioning context for fixed elements */
+            touch-action: pan-y; /* Allow vertical scrolling, but prevent default zoom gestures */
         }
 
         .section {
@@ -1178,7 +1181,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: rgba(0, 0, 0, 0.95);
-            padding: 2.5rem;
+            padding: 2.5rem; /* Default padding for larger screens */
             border-radius: 20px;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
             z-index: 1000;
@@ -1187,11 +1190,10 @@
             align-items: center;
             justify-content: center;
             max-width: 90vw;
-            max-height: 90vh;
-            overflow: auto;
+            max-height: 90vh; /* Allow some vertical scrolling if content is very long */
+            overflow-y: auto; /* Allow vertical scrolling within the modal if needed */
+            overflow-x: hidden; /* Prevent horizontal scrolling within the modal */
             color: white;
-            font-size: 1.4rem;
-            line-height: 2rem;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -1201,16 +1203,31 @@
         .modal-content {
             margin-bottom: 1.5rem;
             text-align: center;
-            font-size: 1rem;
+            font-size: 1rem; /* Base font size */
+            line-height: 1.4; /* Tighter line spacing */
+            word-wrap: break-word; /* Ensure long words break and wrap */
+            max-width: 100%; /* Ensure content doesn't overflow horizontally */
+        }
+
+        @media (max-width: 639px) { /* Small screens */
+            .modal {
+                padding: 1.5rem; /* Reduced padding on mobile */
+            }
+            .modal-content {
+                font-size: 0.85rem; /* Even smaller font for mobile */
+                line-height: 1.3; /* Tighter on mobile */
+            }
         }
         @media (min-width: 640px) { /* sm breakpoint */
             .modal-content {
-                font-size: 1.25rem;
+                font-size: 1rem; /* Adjust based on new base */
+                line-height: 1.5;
             }
         }
         @media (min-width: 768px) { /* md breakpoint */
             .modal-content {
-                font-size: 1.4rem;
+                font-size: 1.15rem; /* Adjust based on new base */
+                line-height: 1.6;
             }
         }
 
