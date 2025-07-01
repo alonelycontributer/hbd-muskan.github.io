@@ -1574,7 +1574,7 @@
         position: fixed;
         /* Changed to fixed */
         top: 1rem;
-        left: 4.5rem;
+        left: 1rem;
         /* Adjusted left to avoid overlap with nav arrow */
         background: rgba(255, 255, 255, 0.2);
         border: none;
@@ -1591,7 +1591,6 @@
         .reload-icon-button {
           padding: 0.4rem;
           top: 0.75rem;
-          left: 3.5rem;
           /* Adjusted left for mobile */
         }
 
@@ -1612,8 +1611,8 @@
         color: #ffffff;
       }
 
-      /* Bottom text container on Night Stars Section - moved absolute position here */
-      #night-stars-section .bottom-message-container {
+    /* Bottom text container on Night Stars Section - moved absolute position here */
+    #night-stars-section .bottom-message-container {
         position: absolute;
         bottom: 4rem;
         /* Default for larger screens */
@@ -1627,6 +1626,12 @@
         padding-left: 1rem;
         /* Add horizontal padding */
         padding-right: 1rem;
+        opacity: 0; /* Hidden by default */
+        transition: opacity 1s ease-in-out; /* Smooth transition */
+      }
+
+      #night-stars-section .bottom-message-container.visible {
+        opacity: 1; /* Visible when 'visible' class is added */
       }
 
       @media (max-width: 639px) {
@@ -1909,13 +1914,13 @@
       <!-- New: Star Progress Tracker -->
       <div id="starProgressTracker" class="text-center"></div>
 
-      <div class="bottom-message-container">
+      <div id="bottom-message-container" class="bottom-message-container">
         <h3
           class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-yellow-300 drop-shadow-lg"
         >
           Happy 26th, Muskan
         </h3>
-        <p class="text-lg md:text-xl lg:text-2xl text-white mt-2 md:mt-4">
+        <p>
          Lowkey made all this just to make you smile
         </p>
       </div>
@@ -1964,7 +1969,8 @@
       const starsContainer = document.getElementById("starsContainer");
       const starProgressTracker = document.getElementById(
         "starProgressTracker"
-      ); // New: Progress tracker element
+      );
+      const bottomMessageContainer = document.getElementById("bottom-message-container"); 
 
       const messageModal = document.getElementById("messageModal");
       const modalMessage = document.getElementById("modalMessage");
@@ -2574,6 +2580,7 @@
         clickedStarsCount = 0; // Reset count
         clickedStarIds.clear(); // Clear set of clicked star IDs
         updateStarProgress(); // Update progress display
+        bottomMessageContainer.classList.remove("visible"); // Ensure hidden initially
 
         const numStars = starMessages.length; // Use the actual number of messages
 
@@ -2649,6 +2656,7 @@
             setTimeout(() => {
               if (clickedStarsCount === starMessages.length) {
                 showFinalMessageModal();
+                bottomMessageContainer.classList.add("visible"); // Show the bottom message
               }
             }, 500); // Small delay
           });
