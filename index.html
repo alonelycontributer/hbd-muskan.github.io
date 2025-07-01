@@ -1258,7 +1258,7 @@
         cursor: pointer;
         animation: twinkle 1.5s infinite alternate;
         opacity: 0;
-        transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out, background-color 0.3s ease-in-out;
         z-index: 60;
         /* Stars z-index, will be below moon and text */
       }
@@ -1270,6 +1270,18 @@
 
       .star.pop-effect {
         animation: starPop 0.3s ease-out forwards;
+      }
+
+      .star.clicked-star {
+        opacity: 0.4; /* Faded */
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.2
+        ); /* Slightly darker/transparent */
+        box-shadow: 0 0 3px rgba(255, 255, 255, 0.2); /* Reduced glow */
+        cursor: default; /* Change cursor to indicate it's no longer interactive */
       }
 
       @keyframes twinkle {
@@ -1623,6 +1635,32 @@
           /* Adjusted for smaller screens */
         }
       }
+
+      /* Style for the star progress tracker */
+      #starProgressTracker {
+        position: absolute;
+        top: 10%; /* Adjust based on moon position */
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ffd700; /* Gold color for stars */
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        z-index: 110; /* Above stars */
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+      }
+
+      @media (max-width: 639px) {
+        #starProgressTracker {
+          font-size: 0.9rem;
+          top: 8%;
+        }
+      }
     </style>
   </head>
 
@@ -1636,6 +1674,12 @@
     <div id="messageModal" class="modal">
       <p id="modalMessage" class="modal-content"></p>
       <button id="closeModal" class="close-button">Close</button>
+    </div>
+
+    <!-- New: Final Message Modal -->
+    <div id="finalMessageModal" class="modal">
+      <p id="finalModalMessage" class="modal-content"></p>
+      <button id="closeFinalModal" class="close-button">Close</button>
     </div>
 
     <section id="intro-section" class="section active sunrise-gradient">
@@ -1682,13 +1726,14 @@
         <h2
           class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-10"
         >
-          Your Happy Place (Digitally Recreated)
+          Your Happy Place
         </h2>
         <p
           class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-10 max-w-xl mx-auto"
         >
-        Not everything's visible at first glance. Go ahead, click around.
+          Okay fine, not Goa, not pretty. But hey, at least you can click stuff
         </p>
+
         <div id="beachDaySun"></div>
         <div class="ocean">
           <div class="wave"></div>
@@ -1814,8 +1859,7 @@
         <p
           class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-10 max-w-2xl px-4"
         >
-          This moment, just like you, grows more beautiful with each passing
-          year
+          Yet another thing you love. And somehow, it fits
         </p>
 
         <div class="nav-arrow-button">
@@ -1851,25 +1895,28 @@
       <h2
         class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-110"
       >
-        26 Wishes, Just For You! ✨
+        26 Things the Stars Told Me to Say
       </h2>
       <p
         class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-110 max-w-xl mx-auto"
       >
-        Click on each star to uncover a special wish or memory.
+        Click around. It's all oddly specific
       </p>
       <div
         id="starsContainer"
         class="w-full h-full absolute top-0 left-0"
       ></div>
+      <!-- New: Star Progress Tracker -->
+      <div id="starProgressTracker" class="text-center"></div>
+
       <div class="bottom-message-container">
         <h3
           class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-yellow-300 drop-shadow-lg"
         >
-          Happy 26th Birthday!
+          Happy 26th, Muskan
         </h3>
         <p class="text-lg md:text-xl lg:text-2xl text-white mt-2 md:mt-4">
-          Love, Nishkarsh
+         Lowkey made all this just to make you smile
         </p>
       </div>
       <button
@@ -1915,10 +1962,17 @@
       const nextBeachBtn = document.getElementById("nextBeachBtn");
       const seeStarsBtn = document.getElementById("seeStarsBtn");
       const starsContainer = document.getElementById("starsContainer");
+      const starProgressTracker = document.getElementById(
+        "starProgressTracker"
+      ); // New: Progress tracker element
 
       const messageModal = document.getElementById("messageModal");
       const modalMessage = document.getElementById("modalMessage");
       const closeModalBtn = document.getElementById("closeModal");
+
+      const finalMessageModal = document.getElementById("finalMessageModal"); // New: Final message modal
+      const finalModalMessage = document.getElementById("finalModalMessage"); // New: Final message content
+      const closeFinalModalBtn = document.getElementById("closeFinalModal"); // New: Close button for final modal
 
       const audioControlBtn = document.getElementById("audioControl");
       const audioIcon = document.getElementById("audioIcon");
@@ -1935,6 +1989,10 @@
         bubblePopSound,
         starfishSound,
         chairSqueakSound;
+
+      // New: Variables for star tracking
+      let clickedStarsCount = 0;
+      let clickedStarIds = new Set(); // To store IDs of clicked stars
 
       // Initialize Tone.js Synths
       beachSynth = new Tone.PolySynth(Tone.Synth, {
@@ -2213,6 +2271,21 @@
         messageModal.style.display = "none";
       }
 
+      // New: Function to show final message modal
+      function showFinalMessageModal() {
+        finalModalMessage.innerHTML = `
+        That’s all ${starMessages.length}.<br>
+        Turns out, you’re really easy to write about.
+        `;
+        finalMessageModal.style.display = "flex";
+      }
+
+      // New: Function to hide final message modal
+      function hideFinalMessageModal() {
+        finalModalMessage.textContent = "";
+        finalMessageModal.style.display = "none";
+      }
+
       // --- Event Listeners for Navigation ---
 
       startJourneyBtn.addEventListener("click", async () => {
@@ -2251,11 +2324,11 @@
 
       messageBottle.addEventListener("click", () => {
         const beachMemories = [
-          "Remember that time we tried to build the biggest sandcastle ever and it just collapsed into a blob? Good times!",
-          "Wishing you endless days of ocean breeze and salty hair, just the way you love it!",
-          "Found this in a bottle: 'May your adventures be vast and your worries small, like grains of sand.'",
-          "Here's to collecting more seashells, more memories, and less stress this year!",
-          "This bottle contains a wish for a year filled with peaceful waves and clear skies for you.",
+          "Built you a beach. Bottle included. Effort? 10/10. Design? Let's not talk about it.",
+          "Muskan spotted near water again. Sunscreen? Unknown. Vibe? Immaculate.",
+          "Reminder: you're legally required to post a reel every time you touch sand.",
+          "This bottle floated across 0 oceans to remind you Goa still misses you.",
+          "Wish inside: more beach days, fewer meetings, and fries that stay hot.",
         ];
         const randomMemory =
           beachMemories[Math.floor(Math.random() * beachMemories.length)];
@@ -2264,10 +2337,10 @@
 
       seashell.addEventListener("click", () => {
         const oceanWisdom = [
-          "The ocean's roar is music to your soul, and so is your laughter to mine.",
-          "Every seashell has a story, and yours is just beginning to unfold its most beautiful chapters.",
-          "May you find calm in the chaos, just like the serene depths of the ocean.",
-          "Listen closely... the sea whispers 'Happy Birthday' just for you!",
+          "Seashells don’t speak, but if they did, they’d probably hype you up too.",
+          "Some people find calm at the beach. You bring it with you.",
+          "The ocean called. Said your energy matches its entire vibe.",
+          "You’re basically a beach day in human form. Warm, a little chaotic, oddly healing.",
         ];
         const randomWisdom =
           oceanWisdom[Math.floor(Math.random() * oceanWisdom.length)];
@@ -2368,11 +2441,15 @@
       });
 
       closeModalBtn.addEventListener("click", hideModal);
+      closeFinalModalBtn.addEventListener("click", hideFinalMessageModal); // New: Close final message modal
 
       // Hide modal if clicked outside (though the button is clearer)
       window.addEventListener("click", (event) => {
         if (event.target === messageModal) {
           hideModal();
+        }
+        if (event.target === finalMessageModal) {
+          hideFinalMessageModal();
         }
       });
 
@@ -2488,13 +2565,23 @@
         "And one extra wish because you're kind of hard not to root for.",
       ];
 
+      function updateStarProgress() {
+        starProgressTracker.textContent = `✦ ${clickedStarsCount} of ${starMessages.length} stars unlocked`;
+      }
+
       function generateStars() {
         starsContainer.innerHTML = ""; // Clear existing stars
-        const numStars = 26;
+        clickedStarsCount = 0; // Reset count
+        clickedStarIds.clear(); // Clear set of clicked star IDs
+        updateStarProgress(); // Update progress display
+
+        const numStars = starMessages.length; // Use the actual number of messages
 
         for (let i = 0; i < numStars; i++) {
           const star = document.createElement("div");
           star.classList.add("star");
+          star.id = `star-${i}`; // Assign a unique ID to each star
+
           // Vary star sizes
           const size = Math.floor(Math.random() * 6) + 4; // 4px to 9px
           star.style.width = `${size}px`;
@@ -2530,6 +2617,19 @@
 
           star.addEventListener("click", (e) => {
             e.stopPropagation(); // Prevent modal from closing immediately if clicked on star
+
+            // If star has already been clicked, do nothing
+            if (clickedStarIds.has(star.id)) {
+              showModal(star.dataset.message); // Still show message if re-clicked
+              return;
+            }
+
+            // Mark star as clicked
+            star.classList.add("clicked-star");
+            clickedStarsCount++;
+            clickedStarIds.add(star.id);
+            updateStarProgress(); // Update progress display
+
             showModal(star.dataset.message);
             // Play a subtle note when a star is clicked
             if (!isAudioMuted) {
@@ -2544,6 +2644,13 @@
               },
               { once: true }
             );
+
+            // Check if all stars are clicked after a short delay (to allow current modal to show)
+            setTimeout(() => {
+              if (clickedStarsCount === starMessages.length) {
+                showFinalMessageModal();
+              }
+            }, 500); // Small delay
           });
           starsContainer.appendChild(star);
         }
