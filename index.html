@@ -2226,81 +2226,83 @@
 
         const starMessages = [
             // 1. Tiny bags
-            "Happy birthday to the girl whose bags are so small, even her responsibilities don’t fit—smart move, honestly.",
-
+            "Happy birthday to the girl whose bags are so small, even her responsibilities don’t fit. Honestly, respect.",
+        
             // 2. Beach
-            "Wishing you more beach days where your only real problem is sand in weird places.",
-
+            "Wishing you more beach days where your biggest problem is sand showing up in places it shouldn't.",
+        
             // 3. Spicy food
-            "May your year be like your snacks—dangerously spicy and not for the weak.",
-
+            "Hope your year hits like your favorite snacks. Spicy, bold, and not for everyone.",
+        
             // 4. Clumsiness
-            "To another year of falling over nothing but still somehow landing on brand.",
-
+            "To another year of tripping over air and somehow pulling it off like it was part of the plan.",
+        
             // 5. Sunsets
-            "Hope your sunsets are dramatic in the sky, not in your group chats.",
-
+            "Hope your sunsets stay dramatic in the sky, not in your texts.",
+        
             // 6. Dislike for sugar
-            "Wishing you a life sweet enough without sugar—and zero people who try to change that.",
-
+            "Wishing you a life that’s sweet enough without needing actual sugar or anyone trying to convince you otherwise.",
+        
             // 7. Ranting
-            "May your rants always find a good listener or at least WiFi strong enough for a 3-minute voice note.",
-
+            "May your rants always find someone who gets it, or at least WiFi strong enough for your longest voice notes.",
+        
             // 8. Friends (TV show)
-            "Hope your year has fewer 'We were on a break' moments and more Joey-level snacks.",
-
+            "Hope your year has more Joey energy and fewer confusing break-ups.",
+        
             // 9. HIMYM
-            "May your life be legen—wait for it—dary... and not in a Ted way, please.",
-
+            "May your life be legendary, with zero Ted-level oversharing.",
+        
             // 10. How to Train Your Dragon
-            "Wishing you dragons that stay wild and people who know better than to try taming you.",
-
+            "Wishing you dragons that stay wild and people smart enough not to get in your way.",
+        
             // 11. Lavender
-            "To a year that feels like lavender walls, soft playlists, and absolutely no overhead lighting.",
-
+            "Hope your days feel like lavender walls and chill playlists, no harsh lights and no stress.",
+        
             // 12. IKEA / Decor
-            "May your IKEA builds be stable, your fairy lights tangle-free, and your rage minimal.",
-
+            "Hope your IKEA trips stay impulsive, your carts stay full, and somehow you still remember the screws.",
+        
             // 13. New City
-            "Here’s to making a new city yours—and only getting lost when it's romantic.",
-
+            "Here’s to making a new city feel like yours, and only getting lost when it actually feels worth it.",
+        
             // 14. Fairy lights / Soft aesthetic
-            "Hope your year is strung together like fairy lights—unnecessary but deeply satisfying.",
-
+            "Hope your year comes together like fairy lights. Not necessary, but somehow perfect.",
+        
             // 15. Comfort shows
-            "Wishing you nights that feel like comfort rewatches—predictable, cozy, and oddly emotional.",
-
+            "Wishing you nights that feel like comfort rewatches. Easy, familiar, and always worth it.",
+        
             // 16. Bag investments
-            "To the only investor who puts her money where her outfit is—and never in actual stocks.",
-
+            "To the only person I know who treats bags like assets and somehow makes it make sense.",
+        
+            // 17. Playlists (filler)
+            "May every playlist hit exactly how you need it to, even when nothing else does.",
+        
             // 18. Sunflowers
-            "Wishing you more days that feel like sunflowers—and fewer that feel like sunflower seeds in your teeth.",
-
+            "Hope you get more days that feel like sunflowers and less that feel like seeds stuck in your teeth.",
+        
             // 19. The Office
-            "Hope your year is full of Jim-level sarcasm, Pam-level vibes, and zero Dwight energy.",
-
+            "Wishing you a year with Pam-level chill, Jim-level comebacks, and zero Dwight energy.",
+        
             // 20. Bathtub
-            "May your bathtub continue to be the main character—and your entire personality, proudly.",
-
+            "May your bathtub stay the real main character, no arguments there.",
+        
             // 21. Pink
-            "To a year dipped in pink—bold, underrated, and very much not a phase.",
-
-            // 22. Lazy but disciplined
-            "Wishing you the motivation of a to-do list—and the energy of someone who never actually opens it.",
-
+            "To another year of you grabbing anything pink like it personally owes you something.",
+        
+            // 22. Vlogging
+            "Hope your camera catches all the good stuff this year, including me pretending not to care I made the cut.",
+        
             // 23. Tripping (cute clumsy)
-            "May you keep tripping over nothing but still land in the middle of attention where you belong.",
-
+            "Keep tripping over nothing and somehow landing right where everyone’s watching. Classic.",
+        
             // 24. Travel
-            "Hope your suitcase sees more sunlight than your air fryer this year.",
-
+            "Hope your passport gets more stamps than your fridge gets takeout menus.",
+        
             // 25. Drama-free
-            "To a drama-free year—unless it's reality TV and you're just judging from a safe distance.",
-
+            "Wishing you a drama-free year, unless it’s on screen and you’re just sitting back judging.",
+        
             // 26. Peace of mind
-            "Wishing you the peace of mind you talk about like it's a location—and girl, I hope you move in."
-        ];
-
+            "Hope you find that peace you’re always reaching for. And yeah, I hope it actually feels like home this time."
+        ];        
 
         function generateStars() {
             starsContainer.innerHTML = ''; // Clear existing stars
@@ -2358,12 +2360,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             introSection.classList.add('active');
             introSection.style.display = 'flex'; // Ensure it's visible on load
-            // Call playSunriseAudio here, after DOM is loaded and Tone.start() is ready to be triggered by user action
-            // Tone.start() needs to be triggered by a user gesture. The 'startJourneyBtn' click handles this.
-            // If you want background audio to start immediately without a click, it's generally prevented by browsers.
-            // But once the user clicks any button, Tone.start() is called.
-            // Let's assume the user will click 'startJourneyBtn' quickly.
-            // playSunriseAudio(); // Keep this within a user gesture or after Tone.start() is invoked
         });
     </script>
 </body>
