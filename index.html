@@ -1,2367 +1,2558 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"
+    />
     <title>Happy 26th Birthday, Muskan!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font for a more modern, less childish look -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <style>
-        /* Base styles for body and sections, using Inter font */
-        body {
-            font-family: 'Inter', sans-serif;
-            width: 100vw;
-            /* Ensure body takes full viewport width */
-            height: 100vh;
-            /* Ensure body takes full viewport height */
-            overflow: hidden;
-            /* Hide all overflow to prevent scrolling */
-            /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>') 10 10,
-                auto;
-            position: relative;
-            /* Ensure body is a positioning context for fixed elements */
-            touch-action: manipulation;
-            /* Prevent default double-tap zoom, allowing user interactions */
-            -webkit-text-size-adjust: 100%;
-            /* Prevent text scaling on orientation change */
-        }
+      /* Base styles for body and sections, using Inter font */
+      body {
+        font-family: "Inter", sans-serif;
+        width: 100vw;
+        /* Ensure body takes full viewport width */
+        height: 100vh;
+        /* Ensure body takes full viewport height */
+        overflow: hidden;
+        /* Hide all overflow to prevent scrolling */
+        /* Keep custom cursor for now, can be removed for more 'serious' look if desired */
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="gold" d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z"/></svg>')
+            10 10,
+          auto;
+        position: relative;
+        /* Ensure body is a positioning context for fixed elements */
+        touch-action: manipulation;
+        /* Prevent default double-tap zoom, allowing user interactions */
+        -webkit-text-size-adjust: 100%;
+        /* Prevent text scaling on orientation change */
+      }
 
-        .section {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            transition: opacity 1s ease-in-out, background-color 1s ease-in-out;
-            position: absolute;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            pointer-events: none;
-            /* Disable interaction when hidden */
-            padding-top: 5rem;
-            /* Add padding to push content down from fixed top elements */
-            box-sizing: border-box;
-            /* Include padding in element's total width and height */
-        }
+      .section {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        transition: opacity 1s ease-in-out, background-color 1s ease-in-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        /* Disable interaction when hidden */
+        padding-top: 5rem;
+        /* Add padding to push content down from fixed top elements */
+        box-sizing: border-box;
+        /* Include padding in element's total width and height */
+      }
 
-        .section.active {
-            opacity: 1;
-            pointer-events: auto;
-            /* Enable interaction when active */
-        }
+      .section.active {
+        opacity: 1;
+        pointer-events: auto;
+        /* Enable interaction when active */
+      }
 
-        /* --- Audio Control Button --- */
+      /* --- Audio Control Button --- */
+      #audioControl {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        /* Positioned right */
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1001;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
+      }
+
+      #audioControl:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        transform: scale(1.05);
+      }
+
+      /* Responsive adjustments for audio control button */
+      @media (max-width: 639px) {
+        /* Small screens */
         #audioControl {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            /* Positioned right */
-            background-color: rgba(0, 0, 0, 0.6);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1001;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
+          width: 38px;
+          height: 38px;
+          font-size: 1.2rem;
+          top: 0.75rem;
+          right: 0.75rem;
         }
+      }
 
-        #audioControl:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-            transform: scale(1.05);
-        }
+      /* --- Sunrise Section Animations --- */
+      .sunrise-gradient {
+        background: linear-gradient(
+          to bottom,
+          #ffddaa,
+          #ffb76d,
+          #ff8c5b,
+          #6a86aa
+        );
+      }
 
-        /* Responsive adjustments for audio control button */
-        @media (max-width: 639px) {
+      #sun {
+        width: 150px;
+        height: 150px;
+        background-color: #ffd700;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -75px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 60px #ffd700, 0 0 100px rgba(255, 215, 0, 0.5);
+        animation: sunRise 5s ease-out forwards;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
 
-            /* Small screens */
-            #audioControl {
-                width: 38px;
-                height: 38px;
-                font-size: 1.2rem;
-                top: 0.75rem;
-                right: 0.75rem;
-            }
-        }
-
-        /* --- Sunrise Section Animations --- */
-        .sunrise-gradient {
-            background: linear-gradient(to bottom, #FFDDAA, #FFB76D, #FF8C5B, #6A86AA);
-        }
-
+      /* Responsive sun size */
+      @media (max-width: 639px) {
         #sun {
-            width: 150px;
-            height: 150px;
-            background-color: #FFD700;
-            border-radius: 50%;
-            position: absolute;
-            bottom: -75px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 60px #FFD700, 0 0 100px rgba(255, 215, 0, 0.5);
-            animation: sunRise 5s ease-out forwards;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+          width: 100px;
+          height: 100px;
+          bottom: -50px;
+          /* Adjust starting position for smaller size */
+        }
+      }
+
+      #sun:hover {
+        transform: translateX(-50%) scale(1.08);
+        box-shadow: 0 0 100px #ffd700, 0 0 150px rgba(255, 215, 0, 0.7);
+      }
+
+      @keyframes sunRise {
+        0% {
+          bottom: -75px;
+          /* Use the default value here, media query will override */
+          background-color: #ffd700;
         }
 
-        /* Responsive sun size */
-        @media (max-width: 639px) {
-            #sun {
-                width: 100px;
-                height: 100px;
-                bottom: -50px;
-                /* Adjust starting position for smaller size */
-            }
+        50% {
+          bottom: 30%;
+          background-color: #ffa500;
+          box-shadow: 0 0 80px #ffa500;
         }
 
-        #sun:hover {
-            transform: translateX(-50%) scale(1.08);
-            box-shadow: 0 0 100px #FFD700, 0 0 150px rgba(255, 215, 0, 0.7);
+        70% {
+          bottom: 50%;
+          background-color: #ffd700;
+          box-shadow: 0 0 100px #ffd700;
         }
 
+        100% {
+          bottom: 70%;
+          background-color: #ffd700;
+          box-shadow: 0 0 120px #ffd700;
+        }
+      }
+
+      /* Adjust sunRise for mobile */
+      @media (max-width: 639px) {
         @keyframes sunRise {
-            0% {
-                bottom: -75px;
-                /* Use the default value here, media query will override */
-                background-color: #FFD700;
-            }
+          0% {
+            bottom: -50px;
+          }
 
-            50% {
-                bottom: 30%;
-                background-color: #FFA500;
-                box-shadow: 0 0 80px #FFA500;
-            }
+          /* Mobile start position */
+          70% {
+            bottom: 50%;
+          }
 
-            70% {
-                bottom: 50%;
-                background-color: #FFD700;
-                box-shadow: 0 0 100px #FFD700;
-            }
-
-            100% {
-                bottom: 70%;
-                background-color: #FFD700;
-                box-shadow: 0 0 120px #FFD700;
-            }
+          100% {
+            bottom: 70%;
+          }
         }
+      }
 
-        /* Adjust sunRise for mobile */
-        @media (max-width: 639px) {
-            @keyframes sunRise {
-                0% {
-                    bottom: -50px;
-                }
+      .cloud {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 50%;
+        filter: blur(10px);
+        opacity: 0;
+        animation: floatClouds 20s infinite linear;
+        z-index: 5;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
 
-                /* Mobile start position */
-                70% {
-                    bottom: 50%;
-                }
+      .cloud:nth-child(1) {
+        width: 150px;
+        height: 50px;
+        top: 20%;
+        left: -20%;
+        /* Adjusted starting left to ensure it's fully off screen */
+        animation-delay: 0s;
+      }
 
-                100% {
-                    bottom: 70%;
-                }
-            }
-        }
+      .cloud:nth-child(2) {
+        width: 200px;
+        height: 70px;
+        top: 30%;
+        left: -50%;
+        /* Adjusted starting left */
+        animation-delay: 5s;
+      }
 
+      .cloud:nth-child(3) {
+        width: 100px;
+        height: 40px;
+        top: 15%;
+        left: -80%;
+        /* Adjusted starting left */
+        animation-delay: 10s;
+      }
 
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            filter: blur(10px);
-            opacity: 0;
-            animation: floatClouds 20s infinite linear;
-            z-index: 5;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
+      /* Responsive cloud sizes and animation path */
+      @media (max-width: 639px) {
         .cloud:nth-child(1) {
-            width: 150px;
-            height: 50px;
-            top: 20%;
-            left: -20%;
-            /* Adjusted starting left to ensure it's fully off screen */
-            animation-delay: 0s;
+          width: 100px;
+          height: 35px;
+          top: 15%;
+          left: -30%;
         }
 
         .cloud:nth-child(2) {
-            width: 200px;
-            height: 70px;
-            top: 30%;
-            left: -50%;
-            /* Adjusted starting left */
-            animation-delay: 5s;
+          width: 140px;
+          height: 50px;
+          top: 25%;
+          left: -60%;
         }
 
         .cloud:nth-child(3) {
-            width: 100px;
-            height: 40px;
-            top: 15%;
-            left: -80%;
-            /* Adjusted starting left */
-            animation-delay: 10s;
+          width: 70px;
+          height: 28px;
+          top: 10%;
+          left: -90%;
+        }
+      }
+
+      @keyframes floatClouds {
+        0% {
+          transform: translateX(0);
+          opacity: 0;
         }
 
-        /* Responsive cloud sizes and animation path */
-        @media (max-width: 639px) {
-            .cloud:nth-child(1) {
-                width: 100px;
-                height: 35px;
-                top: 15%;
-                left: -30%;
-            }
-
-            .cloud:nth-child(2) {
-                width: 140px;
-                height: 50px;
-                top: 25%;
-                left: -60%;
-            }
-
-            .cloud:nth-child(3) {
-                width: 70px;
-                height: 28px;
-                top: 10%;
-                left: -90%;
-            }
+        20% {
+          opacity: 0.8;
         }
 
-        @keyframes floatClouds {
-            0% {
-                transform: translateX(0);
-                opacity: 0;
-            }
-
-            20% {
-                opacity: 0.8;
-            }
-
-            80% {
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translateX(200vw);
-                /* Increased to ensure it moves completely off-screen */
-                opacity: 0;
-            }
+        80% {
+          opacity: 0.8;
         }
 
+        100% {
+          transform: translateX(200vw);
+          /* Increased to ensure it moves completely off-screen */
+          opacity: 0;
+        }
+      }
+
+      .small-bird {
+        position: absolute;
+        font-size: 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+        opacity: 0;
+        animation: flySmallBird 15s infinite linear;
+        z-index: 10;
+        cursor: pointer;
+      }
+
+      /* Responsive bird sizes */
+      @media (max-width: 639px) {
         .small-bird {
-            position: absolute;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.8);
-            opacity: 0;
-            animation: flySmallBird 15s infinite linear;
-            z-index: 10;
-            cursor: pointer;
-        }
-
-        /* Responsive bird sizes */
-        @media (max-width: 639px) {
-            .small-bird {
-                font-size: 1rem;
-            }
-
-            .small-bird:nth-child(1) {
-                font-size: 0.8rem;
-            }
-
-            .small-bird:nth-child(2) {
-                font-size: 1.2rem;
-            }
-
-            .small-bird:nth-child(3) {
-                font-size: 1.rem;
-            }
+          font-size: 1rem;
         }
 
         .small-bird:nth-child(1) {
-            top: 10%;
-            left: -10%;
-            animation-delay: 0s;
-            font-size: 1.2rem;
+          font-size: 0.8rem;
         }
 
         .small-bird:nth-child(2) {
-            top: 25%;
-            left: -30%;
-            animation-delay: 5s;
-            font-size: 1.8rem;
-            transform: scaleX(-1);
+          font-size: 1.2rem;
         }
 
         .small-bird:nth-child(3) {
-            top: 18%;
-            left: -60%;
-            animation-delay: 10s;
-            font-size: 1.5rem;
+          font-size: 1rem;
+        }
+      }
+
+      .small-bird:nth-child(1) {
+        top: 10%;
+        left: -10%;
+        animation-delay: 0s;
+        font-size: 1.2rem;
+      }
+
+      .small-bird:nth-child(2) {
+        top: 25%;
+        left: -30%;
+        animation-delay: 5s;
+        font-size: 1.8rem;
+        transform: scaleX(-1);
+      }
+
+      .small-bird:nth-child(3) {
+        top: 18%;
+        left: -60%;
+        animation-delay: 10s;
+        font-size: 1.5rem;
+      }
+
+      @keyframes flySmallBird {
+        0% {
+          transform: translateX(0) scaleX(1);
+          opacity: 0;
         }
 
-        @keyframes flySmallBird {
-            0% {
-                transform: translateX(0) scaleX(1);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            45% {
-                transform: translateX(120vw) scaleX(1);
-                /* Increased to ensure it moves completely off-screen */
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-                transform: translateX(120vw) scaleX(-1);
-                /* Keep same end point for flip */
-            }
-
-            55% {
-                opacity: 0;
-            }
-
-            90% {
-                transform: translateX(0) scaleX(-1);
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
+        10% {
+          opacity: 1;
         }
 
+        45% {
+          transform: translateX(120vw) scaleX(1);
+          /* Increased to ensure it moves completely off-screen */
+          opacity: 1;
+        }
 
+        50% {
+          opacity: 0;
+          transform: translateX(120vw) scaleX(-1);
+          /* Keep same end point for flip */
+        }
+
+        55% {
+          opacity: 0;
+        }
+
+        90% {
+          transform: translateX(0) scaleX(-1);
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+
+      #beachDaySun {
+        width: 150px;
+        height: 150px;
+        background-color: #ffd700;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 70%;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 50px #ffd700, 0 0 80px rgba(255, 215, 0, 0.4);
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+
+      /* Responsive beach day sun size */
+      @media (max-width: 639px) {
         #beachDaySun {
-            width: 150px;
-            height: 150px;
-            background-color: #FFD700;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 70%;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 50px #FFD700, 0 0 80px rgba(255, 215, 0, 0.4);
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+          width: 100px;
+          height: 100px;
+          bottom: 75%;
+          /* Adjust positioning slightly if needed for smaller size */
+        }
+      }
+
+      #beachDaySun:hover {
+        transform: translateX(-50%) scale(1.08);
+        box-shadow: 0 0 80px #ffd700, 0 0 120px rgba(255, 215, 0, 0.6);
+      }
+
+      /* --- Beach Day Section --- */
+      .beach-day-gradient {
+        background: linear-gradient(
+          to bottom,
+          #87ceeb,
+          #a7d9eb,
+          #fce7a2,
+          #ffecb3
+        );
+      }
+
+      .ocean {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(to right, #0077be, #00a9e0);
+        z-index: 1;
+        overflow: hidden;
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .wave {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        opacity: 0.7;
+        animation: waveFlow 4s infinite linear;
+        filter: blur(2px);
+      }
+
+      .wave:nth-child(1) {
+        width: 150%;
+        height: 150%;
+        left: -20%;
+        bottom: 0;
+        animation-delay: 0s;
+      }
+
+      .wave:nth-child(2) {
+        width: 120%;
+        height: 120%;
+        left: -10%;
+        bottom: -10%;
+        animation-delay: 2s;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .wave:nth-child(3) {
+        width: 100%;
+        height: 100%;
+        left: 0%;
+        bottom: -5%;
+        animation-delay: 1s;
+        background: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Waves are already proportional to ocean width, so generally responsive */
+      @keyframes waveFlow {
+        0% {
+          transform: translateX(0) translateY(0);
         }
 
-        /* Responsive beach day sun size */
-        @media (max-width: 639px) {
-            #beachDaySun {
-                width: 100px;
-                height: 100px;
-                bottom: 75%;
-                /* Adjust positioning slightly if needed for smaller size */
-            }
+        50% {
+          transform: translateX(-50%) translateY(5px);
         }
 
-        #beachDaySun:hover {
-            transform: translateX(-50%) scale(1.08);
-            box-shadow: 0 0 80px #FFD700, 0 0 120px rgba(255, 215, 0, 0.6);
+        100% {
+          transform: translateX(-100%) translateY(0);
+        }
+      }
+
+      .wave::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 20%;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.8),
+          rgba(255, 255, 255, 0)
+        );
+        border-radius: 50%;
+        filter: blur(5px);
+        opacity: 0.7;
+        transform: translateY(-50%);
+      }
+
+      .sand {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 30%;
+        background-color: #ffecb3;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        overflow: hidden;
+        box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .sand-dune {
+        position: absolute;
+        bottom: 0;
+        right: -10%;
+        width: 70%;
+        height: 100%;
+        background-color: #fce7a2;
+        border-top-left-radius: 60% 80%;
+        border-top-right-radius: 40% 60%;
+        z-index: 2;
+        animation: moveDune 10s ease-out forwards;
+        box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      /* Dune is proportional, good */
+      @keyframes moveDune {
+        0% {
+          right: -10%;
         }
 
-
-        /* --- Beach Day Section --- */
-        .beach-day-gradient {
-            background: linear-gradient(to bottom, #87CEEB, #A7D9EB, #FCE7A2, #FFECB3);
+        100% {
+          right: 0%;
         }
+      }
 
-        .ocean {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to right, #0077BE, #00A9E0);
-            z-index: 1;
-            overflow: hidden;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-        }
+      .palm-tree {
+        position: absolute;
+        bottom: 28%;
+        z-index: 3;
+        animation: swayPalm 5s ease-in-out infinite alternate;
+        cursor: pointer;
+      }
 
-        .wave {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: waveFlow 4s infinite linear;
-            filter: blur(2px);
-        }
-
-        .wave:nth-child(1) {
-            width: 150%;
-            height: 150%;
-            left: -20%;
-            bottom: 0;
-            animation-delay: 0s;
-        }
-
-        .wave:nth-child(2) {
-            width: 120%;
-            height: 120%;
-            left: -10%;
-            bottom: -10%;
-            animation-delay: 2s;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .wave:nth-child(3) {
-            width: 100%;
-            height: 100%;
-            left: 0%;
-            bottom: -5%;
-            animation-delay: 1s;
-            background: rgba(255, 255, 255, 0.4);
-        }
-
-        /* Waves are already proportional to ocean width, so generally responsive */
-        @keyframes waveFlow {
-            0% {
-                transform: translateX(0) translateY(0);
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(5px);
-            }
-
-            100% {
-                transform: translateX(-100%) translateY(0);
-            }
-        }
-
-        .wave::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 20%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
-            border-radius: 50%;
-            filter: blur(5px);
-            opacity: 0.7;
-            transform: translateY(-50%);
-        }
-
-        .sand {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30%;
-            background-color: #FFECB3;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            overflow: hidden;
-            box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .sand-dune {
-            position: absolute;
-            bottom: 0;
-            right: -10%;
-            width: 70%;
-            height: 100%;
-            background-color: #FCE7A2;
-            border-top-left-radius: 60% 80%;
-            border-top-right-radius: 40% 60%;
-            z-index: 2;
-            animation: moveDune 10s ease-out forwards;
-            box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Dune is proportional, good */
-        @keyframes moveDune {
-            0% {
-                right: -10%;
-            }
-
-            100% {
-                right: 0%;
-            }
-        }
-
+      /* Responsive palm tree sizing */
+      @media (max-width: 639px) {
         .palm-tree {
-            position: absolute;
-            bottom: 28%;
-            z-index: 3;
-            animation: swayPalm 5s ease-in-out infinite alternate;
-            cursor: pointer;
-        }
-
-        /* Responsive palm tree sizing */
-        @media (max-width: 639px) {
-            .palm-tree {
-                bottom: 20%;
-                /* Adjusted for smaller screens to appear lower on sand */
-                transform: scale(0.6);
-                /* Overall scale for smaller screen */
-            }
-
-            .palm-tree:nth-child(1) {
-                left: 5%;
-            }
-
-            .palm-tree:nth-child(2) {
-                right: 5%;
-            }
-        }
-
-        .palm-tree .trunk {
-            width: 20px;
-            height: 100px;
-            background-color: #8B4513;
-            border-radius: 10px 10px 0 0;
-            margin: 0 auto;
-        }
-
-        .palm-tree .leaves {
-            position: absolute;
-            width: 120px;
-            height: 80px;
-            background-color: #2E8B57;
-            border-radius: 50%;
-            top: -60px;
-            left: -50px;
-            clip-path: polygon(50% 0%, 20% 40%, 0% 100%, 80% 80%, 100% 40%, 70% 0%);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          bottom: 20%;
+          /* Adjusted for smaller screens to appear lower on sand */
+          transform: scale(0.6);
+          /* Overall scale for smaller screen */
         }
 
         .palm-tree:nth-child(1) {
-            left: 10%;
-            transform: scale(0.8);
-            animation-delay: 0s;
+          left: 5%;
         }
 
         .palm-tree:nth-child(2) {
-            right: 10%;
-            transform: scale(0.9);
-            animation-delay: 2s;
+          right: 5%;
+        }
+      }
+
+      .palm-tree .trunk {
+        width: 20px;
+        height: 100px;
+        background-color: #8b4513;
+        border-radius: 10px 10px 0 0;
+        margin: 0 auto;
+      }
+
+      .palm-tree .leaves {
+        position: absolute;
+        width: 120px;
+        height: 80px;
+        background-color: #2e8b57;
+        border-radius: 50%;
+        top: -60px;
+        left: -50px;
+        clip-path: polygon(50% 0%, 20% 40%, 0% 100%, 80% 80%, 100% 40%, 70% 0%);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .palm-tree:nth-child(1) {
+        left: 10%;
+        transform: scale(0.8);
+        animation-delay: 0s;
+      }
+
+      .palm-tree:nth-child(2) {
+        right: 10%;
+        transform: scale(0.9);
+        animation-delay: 2s;
+      }
+
+      @keyframes swayPalm {
+        0% {
+          transform: rotate(0deg);
         }
 
-
-        @keyframes swayPalm {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(3deg);
-            }
+        100% {
+          transform: rotate(3deg);
         }
+      }
 
+      .crab {
+        position: absolute;
+        font-size: 2.5rem;
+        bottom: 10%;
+        left: -10%;
+        animation: walkCrab 15s infinite linear;
+        cursor: pointer;
+        z-index: 3;
+      }
+
+      /* Responsive crab size */
+      @media (max-width: 639px) {
         .crab {
-            position: absolute;
-            font-size: 2.5rem;
-            bottom: 10%;
-            left: -10%;
-            animation: walkCrab 15s infinite linear;
-            cursor: pointer;
-            z-index: 3;
-        }
-
-        /* Responsive crab size */
-        @media (max-width: 639px) {
-            .crab {
-                font-size: 1.8rem;
-            }
-
-            .crab:nth-child(1) {
-                bottom: 12%;
-                left: -10%;
-            }
-
-            /* Adjust for mobile */
-            .crab:nth-child(2) {
-                bottom: 8%;
-                left: -25%;
-            }
-
-            /* Adjust for mobile */
+          font-size: 1.8rem;
         }
 
         .crab:nth-child(1) {
-            animation-delay: 0s;
-            bottom: 15%;
-            left: -5%;
-            transform: scaleX(1);
+          bottom: 12%;
+          left: -10%;
         }
 
+        /* Adjust for mobile */
         .crab:nth-child(2) {
-            animation-delay: 7s;
-            bottom: 10%;
-            left: -20%;
-            transform: scaleX(-1);
+          bottom: 8%;
+          left: -25%;
         }
 
-        @keyframes walkCrab {
-            0% {
-                transform: translateX(0) scaleX(1);
-                opacity: 0;
-            }
+        /* Adjust for mobile */
+      }
 
-            10% {
-                opacity: 1;
-            }
+      .crab:nth-child(1) {
+        animation-delay: 0s;
+        bottom: 15%;
+        left: -5%;
+        transform: scaleX(1);
+      }
 
-            45% {
-                transform: translateX(120vw) scaleX(1);
-                /* Increased to ensure it moves completely off-screen */
-                opacity: 1;
-            }
+      .crab:nth-child(2) {
+        animation-delay: 7s;
+        bottom: 10%;
+        left: -20%;
+        transform: scaleX(-1);
+      }
 
-            50% {
-                opacity: 0;
-                transform: translateX(120vw) scaleX(-1);
-            }
-
-            55% {
-                opacity: 0;
-            }
-
-            90% {
-                transform: translateX(0) scaleX(-1);
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
+      @keyframes walkCrab {
+        0% {
+          transform: translateX(0) scaleX(1);
+          opacity: 0;
         }
 
+        10% {
+          opacity: 1;
+        }
+
+        45% {
+          transform: translateX(120vw) scaleX(1);
+          /* Increased to ensure it moves completely off-screen */
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0;
+          transform: translateX(120vw) scaleX(-1);
+        }
+
+        55% {
+          opacity: 0;
+        }
+
+        90% {
+          transform: translateX(0) scaleX(-1);
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .fish {
+        position: absolute;
+        font-size: 2rem;
+        opacity: 0;
+        animation: swimFish 12s infinite linear;
+        z-index: 1;
+        cursor: pointer;
+      }
+
+      /* Responsive fish size */
+      @media (max-width: 639px) {
         .fish {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0;
-            animation: swimFish 12s infinite linear;
-            z-index: 1;
-            cursor: pointer;
+          font-size: 1.5rem;
+        }
+      }
+
+      .fish:nth-child(1) {
+        top: 50%;
+        left: -10%;
+        animation-delay: 0s;
+      }
+
+      .fish:nth-child(2) {
+        top: 65%;
+        left: -30%;
+        animation-delay: 4s;
+        transform: scaleX(-1);
+      }
+
+      .fish:nth-child(3) {
+        top: 75%;
+        left: -50%;
+        animation-delay: 8s;
+      }
+
+      @keyframes swimFish {
+        0% {
+          transform: translateX(0) scaleX(1);
+          opacity: 0;
         }
 
-        /* Responsive fish size */
-        @media (max-width: 639px) {
-            .fish {
-                font-size: 1.5rem;
-            }
+        10% {
+          opacity: 1;
         }
 
-        .fish:nth-child(1) {
-            top: 50%;
-            left: -10%;
-            animation-delay: 0s;
+        45% {
+          transform: translateX(120vw) scaleX(1);
+          /* Increased to ensure it moves completely off-screen */
+          opacity: 1;
         }
 
-        .fish:nth-child(2) {
-            top: 65%;
-            left: -30%;
-            animation-delay: 4s;
-            transform: scaleX(-1);
+        50% {
+          opacity: 0;
+          transform: translateX(120vw) scaleX(-1);
         }
 
-        .fish:nth-child(3) {
-            top: 75%;
-            left: -50%;
-            animation-delay: 8s;
+        55% {
+          opacity: 0;
         }
 
-        @keyframes swimFish {
-            0% {
-                transform: translateX(0) scaleX(1);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            45% {
-                transform: translateX(120vw) scaleX(1);
-                /* Increased to ensure it moves completely off-screen */
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-                transform: translateX(120vw) scaleX(-1);
-            }
-
-            55% {
-                opacity: 0;
-            }
-
-            90% {
-                transform: translateX(0) scaleX(-1);
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0;
-            }
+        90% {
+          transform: translateX(0) scaleX(-1);
+          opacity: 1;
         }
 
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .bottle {
+        border-radius: 40% 40% 20% 20% / 50% 50% 10% 10%;
+        position: absolute;
+        bottom: 15%;
+        left: 10%;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 40px;
+        /* Sized by font-size for emoji */
+        color: #5a403a;
+        transform: rotate(15deg);
+        transition: transform 0.3s ease-in-out;
+        z-index: 3;
+        animation: floatBottle 3s infinite ease-in-out alternate;
+      }
+
+      /* Responsive bottle size */
+      @media (max-width: 639px) {
         .bottle {
-            border-radius: 40% 40% 20% 20% / 50% 50% 10% 10%;
-            position: absolute;
-            bottom: 15%;
-            left: 10%;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            /* Sized by font-size for emoji */
-            color: #5A403A;
-            transform: rotate(15deg);
-            transition: transform 0.3s ease-in-out;
-            z-index: 3;
-            animation: floatBottle 3s infinite ease-in-out alternate;
+          font-size: 30px;
+          /* Smaller emoji */
+          bottom: 10%;
+          /* Adjust position */
+          left: 5%;
+        }
+      }
+
+      .bottle:hover {
+        transform: scale(1.1) rotate(15deg);
+      }
+
+      @keyframes floatBottle {
+        0% {
+          transform: translate(0, 0) rotate(15deg);
         }
 
-        /* Responsive bottle size */
-        @media (max-width: 639px) {
-            .bottle {
-                font-size: 30px;
-                /* Smaller emoji */
-                bottom: 10%;
-                /* Adjust position */
-                left: 5%;
-            }
+        50% {
+          transform: translate(5px, -5px) rotate(17deg);
         }
 
-        .bottle:hover {
-            transform: scale(1.1) rotate(15deg);
+        100% {
+          transform: translate(0, 0) rotate(15deg);
         }
+      }
 
-        @keyframes floatBottle {
-            0% {
-                transform: translate(0, 0) rotate(15deg);
-            }
+      .seashell {
+        font-size: 3rem;
+        /* Sized by font-size for emoji */
+        cursor: pointer;
+        position: absolute;
+        bottom: 15%;
+        left: 50%;
+        transform: translateX(-50%) rotate(-10deg);
+        z-index: 5;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out;
+      }
 
-            50% {
-                transform: translate(5px, -5px) rotate(17deg);
-            }
-
-            100% {
-                transform: translate(0, 0) rotate(15deg);
-            }
-        }
-
+      /* Responsive seashell size */
+      @media (max-width: 639px) {
         .seashell {
-            font-size: 3rem;
-            /* Sized by font-size for emoji */
-            cursor: pointer;
-            position: absolute;
-            bottom: 15%;
-            left: 50%;
-            transform: translateX(-50%) rotate(-10deg);
-            z-index: 5;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease-in-out;
+          font-size: 2.2rem;
+          /* Smaller emoji */
+          bottom: 10%;
+          /* Adjust position */
         }
+      }
 
-        /* Responsive seashell size */
-        @media (max-width: 639px) {
-            .seashell {
-                font-size: 2.2rem;
-                /* Smaller emoji */
-                bottom: 10%;
-                /* Adjust position */
-            }
-        }
+      .seashell:hover {
+        transform: translateX(-50%) rotate(-15deg) scale(1.1);
+      }
 
-        .seashell:hover {
-            transform: translateX(-50%) rotate(-15deg) scale(1.1);
-        }
+      .seagull {
+        position: absolute;
+        color: white;
+        font-size: 2rem;
+        opacity: 0;
+        animation: flySeagull 10s infinite linear;
+        transform: scaleX(-1);
+        cursor: pointer;
+      }
 
+      /* Responsive seagull size */
+      @media (max-width: 639px) {
         .seagull {
-            position: absolute;
-            color: white;
-            font-size: 2rem;
-            opacity: 0;
-            animation: flySeagull 10s infinite linear;
-            transform: scaleX(-1);
-            cursor: pointer;
-        }
-
-        /* Responsive seagull size */
-        @media (max-width: 639px) {
-            .seagull {
-                font-size: 1.5rem;
-            }
-
-            .seagull:nth-child(1) {
-                font-size: 1.8rem;
-                top: 8%;
-                left: -10%;
-            }
-
-            .seagull:nth-child(2) {
-                font-size: 1.3rem;
-                top: 12%;
-                left: -20%;
-            }
-
-            .seagull:nth-child(3) {
-                font-size: 1.6rem;
-                top: 6%;
-                left: -30%;
-            }
+          font-size: 1.5rem;
         }
 
         .seagull:nth-child(1) {
-            top: 10%;
-            left: -5%;
-            animation-delay: 0s;
-            font-size: 2.5rem;
+          font-size: 1.8rem;
+          top: 8%;
+          left: -10%;
         }
 
         .seagull:nth-child(2) {
-            top: 15%;
-            left: -15%;
-            animation-delay: 3s;
-            font-size: 2rem;
+          font-size: 1.3rem;
+          top: 12%;
+          left: -20%;
         }
 
         .seagull:nth-child(3) {
-            top: 8%;
-            left: -25%;
-            animation-delay: 6s;
-            font-size: 2.2rem;
+          font-size: 1.6rem;
+          top: 6%;
+          left: -30%;
+        }
+      }
+
+      .seagull:nth-child(1) {
+        top: 10%;
+        left: -5%;
+        animation-delay: 0s;
+        font-size: 2.5rem;
+      }
+
+      .seagull:nth-child(2) {
+        top: 15%;
+        left: -15%;
+        animation-delay: 3s;
+        font-size: 2rem;
+      }
+
+      .seagull:nth-child(3) {
+        top: 8%;
+        left: -25%;
+        animation-delay: 6s;
+        font-size: 2.2rem;
+      }
+
+      @keyframes flySeagull {
+        0% {
+          left: -30%;
+          /* Start further off-screen */
+          opacity: 0;
+          transform: scaleX(1);
         }
 
-        @keyframes flySeagull {
-            0% {
-                left: -30%;
-                /* Start further off-screen */
-                opacity: 0;
-                transform: scaleX(1);
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            45% {
-                left: 130%;
-                /* Move further off-screen to the right */
-                opacity: 1;
-            }
-
-            50% {
-                left: 130%;
-                opacity: 0;
-                transform: scaleX(-1);
-                /* At end, disappear, flip */
-            }
-
-            51% {
-                left: -30%;
-                opacity: 0;
-            }
-
-            /* Instantly teleport to other side, still invisible */
-            55% {
-                left: -30%;
-                opacity: 1;
-            }
-
-            /* Reappear on left, facing left */
-            90% {
-                left: 130%;
-                opacity: 1;
-            }
-
-            /* Flies left (due to scaleX(-1)), reaching right side */
-            100% {
-                left: 130%;
-                opacity: 0;
-            }
-
-            /* Disappear at right */
+        10% {
+          opacity: 1;
         }
 
-        /* New: Bubbles for ocean */
-        .bubble {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            animation: bubbleFloat 8s infinite ease-out;
-            pointer-events: none;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        45% {
+          left: 130%;
+          /* Move further off-screen to the right */
+          opacity: 1;
         }
 
-        /* Responsive bubble sizes */
-        @media (max-width: 639px) {
-
-            .bubble:nth-child(1) {
-                width: 8px;
-                height: 8px;
-            }
-
-            .bubble:nth-child(2) {
-                width: 12px;
-                height: 12px;
-            }
-
-            .bubble:nth-child(3) {
-                width: 6px;
-                height: 6px;
-            }
-
-            .bubble:nth-child(4) {
-                width: 10px;
-                height: 10px;
-            }
+        50% {
+          left: 130%;
+          opacity: 0;
+          transform: scaleX(-1);
+          /* At end, disappear, flip */
         }
 
+        51% {
+          left: -30%;
+          opacity: 0;
+        }
 
+        /* Instantly teleport to other side, still invisible */
+        55% {
+          left: -30%;
+          opacity: 1;
+        }
+
+        /* Reappear on left, facing left */
+        90% {
+          left: 130%;
+          opacity: 1;
+        }
+
+        /* Flies left (due to scaleX(-1)), reaching right side */
+        100% {
+          left: 130%;
+          opacity: 0;
+        }
+
+        /* Disappear at right */
+      }
+
+      /* New: Bubbles for ocean */
+      .bubble {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        animation: bubbleFloat 8s infinite ease-out;
+        pointer-events: none;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      }
+
+      /* Responsive bubble sizes */
+      @media (max-width: 639px) {
         .bubble:nth-child(1) {
-            width: 10px;
-            height: 10px;
-            left: 20%;
-            bottom: 0%;
-            animation-delay: 0s;
+          width: 8px;
+          height: 8px;
         }
 
         .bubble:nth-child(2) {
-            width: 15px;
-            height: 15px;
-            left: 40%;
-            bottom: 5%;
-            animation-delay: 2s;
-            animation-duration: 9s;
+          width: 12px;
+          height: 12px;
         }
 
         .bubble:nth-child(3) {
-            width: 8px;
-            height: 8px;
-            left: 60%;
-            bottom: 1%;
-            animation-delay: 4s;
-            animation-duration: 7s;
+          width: 6px;
+          height: 6px;
         }
 
         .bubble:nth-child(4) {
-            width: 12px;
-            height: 12px;
-            left: 75%;
-            bottom: 3%;
-            animation-delay: 6s;
-            animation-duration: 10s;
+          width: 10px;
+          height: 10px;
+        }
+      }
+
+      .bubble:nth-child(1) {
+        width: 10px;
+        height: 10px;
+        left: 20%;
+        bottom: 0%;
+        animation-delay: 0s;
+      }
+
+      .bubble:nth-child(2) {
+        width: 15px;
+        height: 15px;
+        left: 40%;
+        bottom: 5%;
+        animation-delay: 2s;
+        animation-duration: 9s;
+      }
+
+      .bubble:nth-child(3) {
+        width: 8px;
+        height: 8px;
+        left: 60%;
+        bottom: 1%;
+        animation-delay: 4s;
+        animation-duration: 7s;
+      }
+
+      .bubble:nth-child(4) {
+        width: 12px;
+        height: 12px;
+        left: 75%;
+        bottom: 3%;
+        animation-delay: 6s;
+        animation-duration: 10s;
+      }
+
+      @keyframes bubbleFloat {
+        0% {
+          transform: translateY(0) scale(0.8);
+          opacity: 0.8;
         }
 
-        @keyframes bubbleFloat {
-            0% {
-                transform: translateY(0) scale(0.8);
-                opacity: 0.8;
-            }
-
-            50% {
-                transform: translateY(-20vh) scale(1.1);
-                /* Use vh for vertical movement */
-                opacity: 0.4;
-            }
-
-            100% {
-                transform: translateY(-40vh) scale(0.9);
-                /* Use vh for vertical movement */
-                opacity: 0;
-            }
+        50% {
+          transform: translateY(-20vh) scale(1.1);
+          /* Use vh for vertical movement */
+          opacity: 0.4;
         }
 
-        /* New: Starfish Styling */
+        100% {
+          transform: translateY(-40vh) scale(0.9);
+          /* Use vh for vertical movement */
+          opacity: 0;
+        }
+      }
+
+      /* New: Starfish Styling */
+      .starfish {
+        position: absolute;
+        font-size: 2.5rem;
+        color: gold;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+        z-index: 3;
+      }
+
+      /* Responsive starfish size */
+      @media (max-width: 639px) {
         .starfish {
-            position: absolute;
-            font-size: 2.5rem;
-            color: gold;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-            z-index: 3;
+          font-size: 1.8rem;
         }
 
-        /* Responsive starfish size */
-        @media (max-width: 639px) {
-            .starfish {
-                font-size: 1.8rem;
-            }
-
-            .starfish:nth-child(1) {
-                left: 30%;
-                bottom: 8%;
-            }
-
-            .starfish:nth-child(2) {
-                left: 65%;
-                bottom: 12%;
-                font-size: 1.6rem;
-            }
-
-            .starfish:nth-child(3) {
-                left: 10%;
-                bottom: 5%;
-                font-size: 1.2rem;
-            }
+        .starfish:nth-child(1) {
+          left: 30%;
+          bottom: 8%;
         }
 
-        .starfish:hover {
-            transform: scale(1.2) rotate(0deg);
+        .starfish:nth-child(2) {
+          left: 65%;
+          bottom: 12%;
+          font-size: 1.6rem;
         }
 
-        /* --- Sunset Section Animations --- */
-        .sunset-gradient {
-            background: linear-gradient(to bottom, #FFDDAA, #FFB76D, #FF8C5B, #8A2BE2, #4B0082);
+        .starfish:nth-child(3) {
+          left: 10%;
+          bottom: 5%;
+          font-size: 1.2rem;
         }
+      }
 
+      .starfish:hover {
+        transform: scale(1.2) rotate(0deg);
+      }
+
+      /* --- Sunset Section Animations --- */
+      .sunset-gradient {
+        background: linear-gradient(
+          to bottom,
+          #ffddaa,
+          #ffb76d,
+          #ff8c5b,
+          #8a2be2,
+          #4b0082
+        );
+      }
+
+      .setting-sun {
+        width: 200px;
+        height: 200px;
+        background-color: #ffd700;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 60px #ffd700, 0 0 100px rgba(255, 215, 0, 0.5);
+        animation: sunSet 5s ease-out forwards;
+        z-index: 0;
+        cursor: pointer;
+      }
+
+      /* Responsive setting sun size */
+      @media (max-width: 639px) {
         .setting-sun {
-            width: 200px;
-            height: 200px;
-            background-color: #FFD700;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 60px #FFD700, 0 0 100px rgba(255, 215, 0, 0.5);
-            animation: sunSet 5s ease-out forwards;
-            z-index: 0;
-            cursor: pointer;
+          width: 140px;
+          height: 140px;
+          top: 55%;
+          /* Adjust start position slightly */
         }
-
-        /* Responsive setting sun size */
-        @media (max-width: 639px) {
-            .setting-sun {
-                width: 140px;
-                height: 140px;
-                top: 55%;
-                /* Adjust start position slightly */
-            }
-
-            @keyframes sunSet {
-                0% {
-                    top: 55%;
-                }
-
-                50% {
-                    top: 75%;
-                }
-
-                100% {
-                    top: 100%;
-                }
-            }
-        }
-
 
         @keyframes sunSet {
-            0% {
-                top: 50%;
-                background-color: #FFD700;
-                box-shadow: 0 0 60px #FFD700;
-            }
+          0% {
+            top: 55%;
+          }
 
-            50% {
-                top: 70%;
-                background-color: #FFA500;
-                box-shadow: 0 0 80px #FFA500;
-            }
+          50% {
+            top: 75%;
+          }
 
-            100% {
-                top: 100%;
-                background-color: #FF6347;
-                box-shadow: 0 0 100px #FF6347;
-            }
+          100% {
+            top: 100%;
+          }
+        }
+      }
+
+      @keyframes sunSet {
+        0% {
+          top: 50%;
+          background-color: #ffd700;
+          box-shadow: 0 0 60px #ffd700;
         }
 
-        .sunset-cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            filter: blur(12px);
-            opacity: 0;
-            animation: floatSunsetClouds 25s infinite linear;
-            z-index: 1;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        50% {
+          top: 70%;
+          background-color: #ffa500;
+          box-shadow: 0 0 80px #ffa500;
         }
 
+        100% {
+          top: 100%;
+          background-color: #ff6347;
+          box-shadow: 0 0 100px #ff6347;
+        }
+      }
+
+      .sunset-cloud {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        filter: blur(12px);
+        opacity: 0;
+        animation: floatSunsetClouds 25s infinite linear;
+        z-index: 1;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .sunset-cloud:nth-child(1) {
+        width: 250px;
+        height: 80px;
+        top: 25%;
+        left: -30%;
+        /* Adjusted starting left */
+        background: rgba(255, 165, 0, 0.3);
+        animation-delay: 0s;
+      }
+
+      .sunset-cloud:nth-child(2) {
+        width: 300px;
+        height: 100px;
+        top: 40%;
+        left: -60%;
+        /* Adjusted starting left */
+        background: rgba(255, 99, 71, 0.3);
+        animation-delay: 8s;
+      }
+
+      .sunset-cloud:nth-child(3) {
+        width: 180px;
+        height: 60px;
+        top: 15%;
+        right: -20%;
+        background: rgba(255, 215, 0, 0.3);
+        animation-delay: 15s;
+        animation-direction: reverse;
+      }
+
+      /* Responsive sunset cloud sizes and animation path */
+      @media (max-width: 639px) {
         .sunset-cloud:nth-child(1) {
-            width: 250px;
-            height: 80px;
-            top: 25%;
-            left: -30%;
-            /* Adjusted starting left */
-            background: rgba(255, 165, 0, 0.3);
-            animation-delay: 0s;
+          width: 180px;
+          height: 60px;
+          top: 20%;
+          left: -40%;
         }
 
         .sunset-cloud:nth-child(2) {
-            width: 300px;
-            height: 100px;
-            top: 40%;
-            left: -60%;
-            /* Adjusted starting left */
-            background: rgba(255, 99, 71, 0.3);
-            animation-delay: 8s;
+          width: 220px;
+          height: 75px;
+          top: 35%;
+          left: -70%;
         }
 
         .sunset-cloud:nth-child(3) {
-            width: 180px;
-            height: 60px;
-            top: 15%;
-            right: -20%;
-            background: rgba(255, 215, 0, 0.3);
-            animation-delay: 15s;
-            animation-direction: reverse;
+          width: 130px;
+          height: 45px;
+          top: 12%;
+          right: -30%;
+        }
+      }
+
+      @keyframes floatSunsetClouds {
+        0% {
+          transform: translateX(0);
+          opacity: 0;
         }
 
-        /* Responsive sunset cloud sizes and animation path */
-        @media (max-width: 639px) {
-
-            .sunset-cloud:nth-child(1) {
-                width: 180px;
-                height: 60px;
-                top: 20%;
-                left: -40%;
-            }
-
-            .sunset-cloud:nth-child(2) {
-                width: 220px;
-                height: 75px;
-                top: 35%;
-                left: -70%;
-            }
-
-            .sunset-cloud:nth-child(3) {
-                width: 130px;
-                height: 45px;
-                top: 12%;
-                right: -30%;
-            }
+        20% {
+          opacity: 0.8;
         }
 
-        @keyframes floatSunsetClouds {
-            0% {
-                transform: translateX(0);
-                opacity: 0;
-            }
-
-            20% {
-                opacity: 0.8;
-            }
-
-            80% {
-                opacity: 0.8;
-            }
-
-            100% {
-                transform: translateX(200vw);
-                /* Increased to ensure it moves completely off-screen */
-                opacity: 0;
-            }
+        80% {
+          opacity: 0.8;
         }
 
-        .landscape-silhouette {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 30%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
-            z-index: 5;
-            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M0 30 L0 15 C10 5, 20 10, 30 5, 40 10, 50 0, 60 10, 70 5, 80 15, 90 10, 100 20 L100 30 Z"/></svg>');
-            mask-size: 100% 100%;
-            mask-repeat: no-repeat;
+        100% {
+          transform: translateX(200vw);
+          /* Increased to ensure it moves completely off-screen */
+          opacity: 0;
+        }
+      }
+
+      .landscape-silhouette {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 30%;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7),
+          rgba(0, 0, 0, 0)
+        );
+        z-index: 5;
+        mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path fill="black" d="M0 30 L0 15 C10 5, 20 10, 30 5, 40 10, 50 0, 60 10, 70 5, 80 15, 90 10, 100 20 L100 30 Z"/></svg>');
+        mask-size: 100% 100%;
+        mask-repeat: no-repeat;
+      }
+
+      .sparkle {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+        animation: sparkleFade 2s infinite alternate;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      /* Sparkles are small, should be fine */
+      @keyframes sparkleFade {
+        0% {
+          opacity: 0;
+          transform: scale(0.5);
         }
 
-        .sparkle {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
-            animation: sparkleFade 2s infinite alternate;
-            z-index: 2;
-            pointer-events: none;
+        50% {
+          opacity: 1;
+          transform: scale(1);
         }
 
-        /* Sparkles are small, should be fine */
-        @keyframes sparkleFade {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
+        100% {
+          opacity: 0;
+          transform: scale(0.5);
+        }
+      }
 
-            50% {
-                opacity: 1;
-                transform: scale(1);
-            }
+      /* --- Night Stars Section --- */
+      .night-gradient {
+        background: linear-gradient(to bottom, #000022, #000044, #110022);
+      }
 
-            100% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
+      .star {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        animation: twinkle 1.5s infinite alternate;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 60;
+        /* Stars z-index, will be below moon and text */
+      }
+
+      /* Stars are randomly generated and small, should be fine */
+      .star.visible {
+        opacity: 1;
+      }
+
+      .star.pop-effect {
+        animation: starPop 0.3s ease-out forwards;
+      }
+
+      @keyframes twinkle {
+        0% {
+          transform: scale(1);
+          opacity: 0.8;
         }
 
-
-        /* --- Night Stars Section --- */
-        .night-gradient {
-            background: linear-gradient(to bottom, #000022, #000044, #110022);
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
         }
 
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            animation: twinkle 1.5s infinite alternate;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            z-index: 60;
-            /* Stars z-index, will be below moon and text */
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes starPop {
+        0% {
+          transform: scale(1);
+          opacity: 1;
         }
 
-        /* Stars are randomly generated and small, should be fine */
-        .star.visible {
-            opacity: 1;
+        50% {
+          transform: scale(1.5);
+          opacity: 0.5;
         }
 
-        .star.pop-effect {
-            animation: starPop 0.3s ease-out forwards;
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .shooting-star {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.7);
+        animation: shoot 5s infinite;
+        opacity: 0;
+        z-index: 50;
+      }
+
+      /* Shooting star sizes are small and animation path already diagonal, should be fine. */
+      @keyframes shoot {
+        0% {
+          transform: translateX(0) translateY(0);
+          opacity: 0;
         }
 
-        @keyframes twinkle {
-            0% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-
-            50% {
-                transform: scale(1.2);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
+        10% {
+          opacity: 1;
         }
 
-        @keyframes starPop {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.5);
-                opacity: 0.5;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+        40% {
+          transform: translateX(200vw) translateY(200vh);
+          /* Adjusted to ensure it leaves viewport */
+          opacity: 0;
         }
 
-        .shooting-star {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 10px white, 0 0 20px rgba(255, 255, 255, 0.7);
-            animation: shoot 5s infinite;
-            opacity: 0;
-            z-index: 50;
+        100% {
+          transform: translateX(0) translateY(0);
+          opacity: 0;
         }
+      }
 
-        /* Shooting star sizes are small and animation path already diagonal, should be fine. */
-        @keyframes shoot {
-            0% {
-                transform: translateX(0) translateY(0);
-                opacity: 0;
-            }
+      #moon {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: #f0f4c3;
+        border-radius: 50%;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5),
+          0 0 60px rgba(255, 255, 255, 0.3);
+        top: 10%;
+        right: 15%;
+        z-index: 100;
+        /* Higher z-index to be above stars */
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
 
-            10% {
-                opacity: 1;
-            }
-
-            40% {
-                transform: translateX(200vw) translateY(200vh);
-                /* Adjusted to ensure it leaves viewport */
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateX(0) translateY(0);
-                opacity: 0;
-            }
-        }
-
+      /* Responsive moon size */
+      @media (max-width: 639px) {
         #moon {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: #F0F4C3;
-            border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5), 0 0 60px rgba(255, 255, 255, 0.3);
-            top: 10%;
-            right: 15%;
-            z-index: 100;
-            /* Higher z-index to be above stars */
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        /* Responsive moon size */
-        @media (max-width: 639px) {
-            #moon {
-                width: 70px;
-                height: 70px;
-                top: 8%;
-                right: 5%;
-            }
-
-            #moon::before {
-                /* Adjust the 'shadow' part of the crescent moon */
-                width: 65px;
-                height: 65px;
-                left: -15px;
-            }
-        }
-
-        #moon:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.7), 0 0 90px rgba(255, 255, 255, 0.5);
+          width: 70px;
+          height: 70px;
+          top: 8%;
+          right: 5%;
         }
 
         #moon::before {
-            content: '';
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            background: #000033;
-            border-radius: 50%;
-            top: 5px;
-            left: -20px;
+          /* Adjust the 'shadow' part of the crescent moon */
+          width: 65px;
+          height: 65px;
+          left: -15px;
         }
+      }
 
+      #moon:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 50px rgba(255, 255, 255, 0.7),
+          0 0 90px rgba(255, 255, 255, 0.5);
+      }
 
-        /* Modal for star messages */
+      #moon::before {
+        content: "";
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        background: #000033;
+        border-radius: 50%;
+        top: 5px;
+        left: -20px;
+      }
+
+      /* Modal for star messages */
+      .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.95);
+        padding: 2.5rem;
+        /* Default padding for larger screens */
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        z-index: 1000;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 90vw;
+        max-height: 90vh;
+        /* Allow some vertical scrolling if content is very long */
+        overflow-y: auto;
+        /* Allow vertical scrolling within the modal if needed */
+        overflow-x: hidden;
+        /* Prevent horizontal scrolling within the modal */
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .modal-content {
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1rem;
+        /* Base font size */
+        line-height: 1.4;
+        /* Tighter line spacing */
+        word-wrap: break-word;
+        /* Ensure long words break and wrap */
+        max-width: 100%;
+        /* Ensure content doesn't overflow horizontally */
+      }
+
+      @media (max-width: 639px) {
+        /* Small screens */
         .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.95);
-            padding: 2.5rem;
-            /* Default padding for larger screens */
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
-            z-index: 1000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            max-width: 90vw;
-            max-height: 90vh;
-            /* Allow some vertical scrolling if content is very long */
-            overflow-y: auto;
-            /* Allow vertical scrolling within the modal if needed */
-            overflow-x: hidden;
-            /* Prevent horizontal scrolling within the modal */
-            color: white;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+          padding: 1rem;
+          /* Reduced padding on mobile */
         }
 
         .modal-content {
-            margin-bottom: 1.5rem;
-            text-align: center;
-            font-size: 1rem;
-            /* Base font size */
-            line-height: 1.4;
-            /* Tighter line spacing */
-            word-wrap: break-word;
-            /* Ensure long words break and wrap */
-            max-width: 100%;
-            /* Ensure content doesn't overflow horizontally */
+          font-size: 0.75rem;
+          /* Even smaller font for mobile */
+          line-height: 1.25;
+          /* Tighter on mobile */
+        }
+      }
+
+      @media (min-width: 640px) {
+        /* sm breakpoint */
+        .modal-content {
+          font-size: 1rem;
+          /* Adjust based on new base */
+          line-height: 1.5;
+        }
+      }
+
+      @media (min-width: 768px) {
+        /* md breakpoint */
+        .modal-content {
+          font-size: 1.15rem;
+          /* Adjust based on new base */
+          line-height: 1.6;
+        }
+      }
+
+      .close-button {
+        background-color: #ff6347;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
+        border: none;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .close-button:hover {
+        background-color: #e55337;
+        transform: translateY(-2px);
+      }
+
+      /* Styling for the navigation arrow buttons */
+      .nav-arrow-button {
+        position: fixed;
+        /* Changed to fixed */
+        top: 1rem;
+        left: 1rem;
+        /* Positioned left */
+        width: auto;
+        /* Remove 100% width */
+        display: flex;
+        justify-content: flex-start;
+        /* Align to start */
+        z-index: 1002;
+        /* Higher z-index */
+      }
+
+      .nav-arrow-button button {
+        padding: 0.85rem;
+        /* Increased padding for prominence */
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.4);
+        /* Increased opacity for prominence */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        /* Stronger shadow */
+      }
+
+      .nav-arrow-button button:hover {
+        background-color: rgba(255, 255, 255, 0.6);
+        /* Even more opaque on hover */
+        transform: scale(1.15);
+      }
+
+      .nav-arrow-button svg {
+        width: 1.8rem;
+        /* Increased size for prominence */
+        height: 1.8rem;
+        color: white;
+        transform: rotate(-90deg);
+        /* Rotate arrow to face left */
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateX(0);
+          /* Bounce left */
         }
 
-        @media (max-width: 639px) {
-
-            /* Small screens */
-            .modal {
-                padding: 1rem;
-                /* Reduced padding on mobile */
-            }
-
-            .modal-content {
-                font-size: 0.75rem;
-                /* Even smaller font for mobile */
-                line-height: 1.25;
-                /* Tighter on mobile */
-            }
+        50% {
+          transform: translateX(-10px);
+          /* Bounce left */
         }
+      }
 
-        @media (min-width: 640px) {
-
-            /* sm breakpoint */
-            .modal-content {
-                font-size: 1rem;
-                /* Adjust based on new base */
-                line-height: 1.5;
-            }
-        }
-
-        @media (min-width: 768px) {
-
-            /* md breakpoint */
-            .modal-content {
-                font-size: 1.15rem;
-                /* Adjust based on new base */
-                line-height: 1.6;
-            }
-        }
-
-        .close-button {
-            background-color: #FF6347;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out, transform 0.2s ease-out;
-            border: none;
-            font-weight: bold;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .close-button:hover {
-            background-color: #E55337;
-            transform: translateY(-2px);
-        }
-
-        /* Styling for the navigation arrow buttons */
+      /* Responsive adjustments for navigation arrow buttons */
+      @media (max-width: 639px) {
         .nav-arrow-button {
-            position: fixed;
-            /* Changed to fixed */
-            top: 1rem;
-            left: 1rem;
-            /* Positioned left */
-            width: auto;
-            /* Remove 100% width */
-            display: flex;
-            justify-content: flex-start;
-            /* Align to start */
-            z-index: 1002;
-            /* Higher z-index */
+          top: 0.75rem;
+          left: 0.75rem;
         }
 
         .nav-arrow-button button {
-            padding: 0.85rem;
-            /* Increased padding for prominence */
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.4);
-            /* Increased opacity for prominence */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            /* Stronger shadow */
-        }
-
-        .nav-arrow-button button:hover {
-            background-color: rgba(255, 255, 255, 0.6);
-            /* Even more opaque on hover */
-            transform: scale(1.15);
+          padding: 0.6rem;
+          width: 40px;
+          height: 40px;
         }
 
         .nav-arrow-button svg {
-            width: 1.8rem;
-            /* Increased size for prominence */
-            height: 1.8rem;
-            color: white;
-            transform: rotate(-90deg);
-            /* Rotate arrow to face left */
+          width: 1.4rem;
+          height: 1.4rem;
         }
+      }
 
-        @keyframes bounce {
-            0%,
-            100% {
-                transform: translateX(0);
-                /* Bounce left */
-            }
+      .reload-icon-button {
+        position: fixed;
+        /* Changed to fixed */
+        top: 1rem;
+        left: 4.5rem;
+        /* Adjusted left to avoid overlap with nav arrow */
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 50%;
+        padding: 0.6rem;
+        cursor: pointer;
+        z-index: 50;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        transition: background 0.2s ease-in-out, transform 0.2s ease-out;
+      }
 
-            50% {
-                transform: translateX(-10px);
-                /* Bounce left */
-            }
-        }
-
-        /* Responsive adjustments for navigation arrow buttons */
-        @media (max-width: 639px) {
-            .nav-arrow-button {
-                top: 0.75rem;
-                left: 0.75rem;
-            }
-
-            .nav-arrow-button button {
-                padding: 0.6rem;
-                width: 40px;
-                height: 40px;
-            }
-
-            .nav-arrow-button svg {
-                width: 1.4rem;
-                height: 1.4rem;
-            }
-        }
-
-
+      /* Responsive reload button */
+      @media (max-width: 639px) {
         .reload-icon-button {
-            position: fixed;
-            /* Changed to fixed */
-            top: 1rem;
-            left: 4.5rem;
-            /* Adjusted left to avoid overlap with nav arrow */
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            padding: 0.6rem;
-            cursor: pointer;
-            z-index: 50;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            transition: background 0.2s ease-in-out, transform 0.2s ease-out;
-        }
-
-        /* Responsive reload button */
-        @media (max-width: 639px) {
-            .reload-icon-button {
-                padding: 0.4rem;
-                top: 0.75rem;
-                left: 3.5rem;
-                /* Adjusted left for mobile */
-            }
-
-            .reload-icon-button svg {
-                width: 1.2rem;
-                height: 1.2rem;
-            }
-        }
-
-        .reload-icon-button:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1);
+          padding: 0.4rem;
+          top: 0.75rem;
+          left: 3.5rem;
+          /* Adjusted left for mobile */
         }
 
         .reload-icon-button svg {
-            width: 1.5rem;
-            height: 1.5rem;
-            color: #ffffff;
+          width: 1.2rem;
+          height: 1.2rem;
         }
+      }
 
-        /* Bottom text container on Night Stars Section - moved absolute position here */
+      .reload-icon-button:hover {
+        background: rgba(255, 255, 255, 0.4);
+        transform: scale(1.1);
+      }
+
+      .reload-icon-button svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: #ffffff;
+      }
+
+      /* Bottom text container on Night Stars Section - moved absolute position here */
+      #night-stars-section .bottom-message-container {
+        position: absolute;
+        bottom: 4rem;
+        /* Default for larger screens */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        z-index: 110;
+        /* Higher z-index to be above stars */
+        padding-left: 1rem;
+        /* Add horizontal padding */
+        padding-right: 1rem;
+      }
+
+      @media (max-width: 639px) {
         #night-stars-section .bottom-message-container {
-            position: absolute;
-            bottom: 4rem;
-            /* Default for larger screens */
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            z-index: 110;
-            /* Higher z-index to be above stars */
-            padding-left: 1rem;
-            /* Add horizontal padding */
-            padding-right: 1rem;
+          bottom: 2rem;
+          /* Adjusted for smaller screens */
         }
-
-        @media (max-width: 639px) {
-            #night-stars-section .bottom-message-container {
-                bottom: 2rem;
-                /* Adjusted for smaller screens */
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
-
+  <body
+    class="bg-gray-900 text-white flex items-center justify-center min-h-screen"
+  >
     <button id="audioControl" aria-label="Toggle Audio">
-        <span id="audioIcon">🔊</span>
+      <span id="audioIcon">🔊</span>
     </button>
 
     <div id="messageModal" class="modal">
-        <p id="modalMessage" class="modal-content"></p>
-        <button id="closeModal" class="close-button">Close</button>
+      <p id="modalMessage" class="modal-content"></p>
+      <button id="closeModal" class="close-button">Close</button>
     </div>
 
     <section id="intro-section" class="section active sunrise-gradient">
-        <div class="relative w-full h-full flex flex-col justify-center items-center p-4">
-            <div id="sun"></div>
-            <div class="cloud"></div>
-            <div class="cloud"></div>
-            <div class="cloud"></div>
-            <h1
-                class="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-4 md:mb-8 drop-shadow-lg relative z-10 text-white animate-pulse">
-                Happy Birthday, Muskan!
-            </h1>
-            <p
-                class="text-base md:text-xl lg:text-2xl mb-6 md:mb-10 drop-shadow-md relative z-10 text-white font-medium max-w-lg mx-auto">
-                Get ready for a magical journey from sunrise to starlight!
-            </p>
-            <div class="nav-arrow-button">
-                <button id="startJourneyBtn" aria-label="Scroll Right">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                    </svg>
-                </button>
-            </div>
+      <div
+        class="relative w-full h-full flex flex-col justify-center items-center p-4"
+      >
+        <div id="sun"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <h1
+          class="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-4 md:mb-8 drop-shadow-lg relative z-10 text-white animate-pulse"
+        >
+          Happy Birthday, Muskan!
+        </h1>
+        <p
+          class="text-base md:text-xl lg:text-2xl mb-6 md:mb-10 drop-shadow-md relative z-10 text-white font-medium max-w-lg mx-auto"
+        >
+          Get ready for a magical journey from sunrise to starlight!
+        </p>
+        <div class="nav-arrow-button">
+          <button id="startJourneyBtn" aria-label="Scroll Right">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <polyline
+                points="6 9 12 15 18 9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></polyline>
+            </svg>
+          </button>
         </div>
+      </div>
     </section>
 
     <section id="beach-day-section" class="section beach-day-gradient hidden">
-
-        <div class="relative w-full h-full flex flex-col justify-center items-center p-4">
-            <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-10">
-                A Day at the Beach!
-            </h2>
-            <p class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-10 max-w-xl mx-auto">
-                Look closely, you might find something interesting...
-            </p>
-            <div id="beachDaySun"></div>
-            <div class="ocean">
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="wave"></div>
-                <div class="fish">🐠</div>
-                <div class="fish">🐡</div>
-                <div class="fish">🐟</div>
-                <!-- New: Bubbles -->
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-                <div class="bubble"></div>
-            </div>
-            <div class="sand">
-                <div class="sand-dune"></div>
-                <div class="crab">🦀</div>
-                <div class="crab" style="left: 60%; bottom: 18%; animation-delay: 3s; transform: scaleX(-1);">🦀</div>
-                <div class="palm-tree" style="right: 15%;">
-                    <div class="trunk"></div>
-                    <div class="leaves"></div>
-                </div>
-                <!-- New: Starfish -->
-                <div class="starfish" style="left: 35%; bottom: 8%; transform: rotate(10deg);">⭐</div>
-                <div class="starfish" style="left: 70%; bottom: 12%; transform: rotate(-20deg); font-size: 2.2rem;">⭐</div>
-                <div class="starfish" style="left: 15%; bottom: 5%; font-size: 1.8rem;">⭐</div>
-            </div>
-
-            <div id="messageBottle" class="bottle">
-                <span aria-label="message bottle">🍾</span>
-            </div>
-            <div id="seashell" class="seashell">🐚</div>
-            <div class="seagull">𓅃</div>
-            <div class="seagull">𓅃</div>
-            <div class="seagull">𓅃</div>
-
-
-            <div class="nav-arrow-button">
-                <button id="nextBeachBtn" aria-label="Scroll Right">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                    </svg>
-                </button>
-            </div>
-
+      <div
+        class="relative w-full h-full flex flex-col justify-center items-center p-4"
+      >
+        <h2
+          class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-10"
+        >
+          A Day at the Beach!
+        </h2>
+        <p
+          class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-10 max-w-xl mx-auto"
+        >
+          Look closely, you might find something interesting...
+        </p>
+        <div id="beachDaySun"></div>
+        <div class="ocean">
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="wave"></div>
+          <div class="fish">🐠</div>
+          <div class="fish">🐡</div>
+          <div class="fish">🐟</div>
+          <!-- New: Bubbles -->
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
+          <div class="bubble"></div>
         </div>
+        <div class="sand">
+          <div class="sand-dune"></div>
+          <div class="crab">🦀</div>
+          <div
+            class="crab"
+            style="
+              left: 60%;
+              bottom: 18%;
+              animation-delay: 3s;
+              transform: scaleX(-1);
+            "
+          >
+            🦀
+          </div>
+          <div class="palm-tree" style="right: 15%">
+            <div class="trunk"></div>
+            <div class="leaves"></div>
+          </div>
+          <!-- New: Starfish -->
+          <div
+            class="starfish"
+            style="left: 35%; bottom: 8%; transform: rotate(10deg)"
+          >
+            ⭐
+          </div>
+          <div
+            class="starfish"
+            style="
+              left: 70%;
+              bottom: 12%;
+              transform: rotate(-20deg);
+              font-size: 2.2rem;
+            "
+          >
+            ⭐
+          </div>
+          <div
+            class="starfish"
+            style="left: 15%; bottom: 5%; font-size: 1.8rem"
+          >
+            ⭐
+          </div>
+        </div>
+
+        <div id="messageBottle" class="bottle">
+          <span aria-label="message bottle">🍾</span>
+        </div>
+        <div id="seashell" class="seashell">🐚</div>
+        <div class="seagull">𓅃</div>
+        <div class="seagull">𓅃</div>
+        <div class="seagull">𓅃</div>
+
+        <div class="nav-arrow-button">
+          <button id="nextBeachBtn" aria-label="Scroll Right">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <polyline
+                points="6 9 12 15 18 9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
     </section>
 
     <section id="sunset-section" class="section sunset-gradient hidden">
-        <div class="relative w-full h-full flex flex-col justify-center items-center p-4">
-            <div class="setting-sun"></div>
-            <div class="sunset-cloud"></div>
-            <div class="sunset-cloud"></div>
-            <div class="sunset-cloud"></div>
-            <div class="sparkle" style="top: 20%; left: 10%; width: 3px; height: 3px;"></div>
-            <div class="sparkle" style="top: 30%; right: 20%; width: 4px; height: 4px; animation-delay: 1s;"></div>
-            <div class="sparkle" style="top: 15%; left: 40%; width: 2px; height: 2px; animation-delay: 2s;"></div>
-            <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-10">
-                As the Sun Sets...
-            </h2>
-            <p class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-10 max-w-2xl px-4">
-                This moment, just like you, grows more beautiful with each passing year
-            </p>
+      <div
+        class="relative w-full h-full flex flex-col justify-center items-center p-4"
+      >
+        <div class="setting-sun"></div>
+        <div class="sunset-cloud"></div>
+        <div class="sunset-cloud"></div>
+        <div class="sunset-cloud"></div>
+        <div
+          class="sparkle"
+          style="top: 20%; left: 10%; width: 3px; height: 3px"
+        ></div>
+        <div
+          class="sparkle"
+          style="
+            top: 30%;
+            right: 20%;
+            width: 4px;
+            height: 4px;
+            animation-delay: 1s;
+          "
+        ></div>
+        <div
+          class="sparkle"
+          style="
+            top: 15%;
+            left: 40%;
+            width: 2px;
+            height: 2px;
+            animation-delay: 2s;
+          "
+        ></div>
+        <h2
+          class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-10"
+        >
+          As the Sun Sets...
+        </h2>
+        <p
+          class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-10 max-w-2xl px-4"
+        >
+          This moment, just like you, grows more beautiful with each passing
+          year
+        </p>
 
-            <div class="nav-arrow-button">
-                <button id="seeStarsBtn" aria-label="Scroll Right">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"></polyline>
-                    </svg>
-                </button>
-            </div>
-
+        <div class="nav-arrow-button">
+          <button id="seeStarsBtn" aria-label="Scroll Right">
+            <svg
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <polyline
+                points="6 9 12 15 18 9"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></polyline>
+            </svg>
+          </button>
         </div>
+      </div>
     </section>
 
-    <section id="night-stars-section" class="section night-gradient hidden relative">
-        <div id="moon"></div>
-        <div class="shooting-star" style="top: 20%; left: 10%;"></div>
-        <div class="shooting-star" style="top: 70%; left: 80%; animation-delay: 2.5s;"></div>
+    <section
+      id="night-stars-section"
+      class="section night-gradient hidden relative"
+    >
+      <div id="moon"></div>
+      <div class="shooting-star" style="top: 20%; left: 10%"></div>
+      <div
+        class="shooting-star"
+        style="top: 70%; left: 80%; animation-delay: 2.5s"
+      ></div>
 
-        <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-110">
-            26 Wishes, Just For You! ✨
-        </h2>
-        <p class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-110 max-w-xl mx-auto">
-            Click on each star to uncover a special wish or memory.
+      <h2
+        class="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 drop-shadow-lg text-white relative z-110"
+      >
+        26 Wishes, Just For You! ✨
+      </h2>
+      <p
+        class="text-base md:text-lg lg:text-xl mb-6 md:mb-8 drop-shadow-md text-white relative z-110 max-w-xl mx-auto"
+      >
+        Click on each star to uncover a special wish or memory.
+      </p>
+      <div
+        id="starsContainer"
+        class="w-full h-full absolute top-0 left-0"
+      ></div>
+      <div class="bottom-message-container">
+        <h3
+          class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-yellow-300 drop-shadow-lg"
+        >
+          Happy 26th Birthday!
+        </h3>
+        <p class="text-lg md:text-xl lg:text-2xl text-white mt-2 md:mt-4">
+          Love, Nishkarsh
         </p>
-        <div id="starsContainer" class="w-full h-full absolute top-0 left-0">
-        </div>
-        <div class="bottom-message-container">
-            <h3 class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-yellow-300 drop-shadow-lg">
-                Happy 26th Birthday!
-            </h3>
-            <p class="text-lg md:text-xl lg:text-2xl text-white mt-2 md:mt-4">
-                Love, Nishkarsh
-            </p>
-        </div>
-        <button id="reloadBtn" aria-label="Reload Page" class="reload-icon-button">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M4 4v6h6M20 20v-6h-6M4 10a8 8 0 0114.9-2M20 14a8 8 0 01-14.9 2" />
-            </svg>
-        </button>
+      </div>
+      <button
+        id="reloadBtn"
+        aria-label="Reload Page"
+        class="reload-icon-button"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 4v6h6M20 20v-6h-6M4 10a8 8 0 0114.9-2M20 14a8 8 0 01-14.9 2"
+          />
+        </svg>
+      </button>
     </section>
 
     <script>
-        // Get elements
-        const introSection = document.getElementById('intro-section');
-        const beachDaySection = document.getElementById('beach-day-section');
-        const sunsetSection = document.getElementById('sunset-section');
-        const nightStarsSection = document.getElementById('night-stars-section');
+      // Get elements
+      const introSection = document.getElementById("intro-section");
+      const beachDaySection = document.getElementById("beach-day-section");
+      const sunsetSection = document.getElementById("sunset-section");
+      const nightStarsSection = document.getElementById("night-stars-section");
 
-        const sun = document.getElementById('sun');
-        const beachDaySun = document.getElementById('beachDaySun'); // Sun in beach scene
-        const moon = document.getElementById('moon');
+      const sun = document.getElementById("sun");
+      const beachDaySun = document.getElementById("beachDaySun"); // Sun in beach scene
+      const moon = document.getElementById("moon");
 
-        const startJourneyBtn = document.getElementById('startJourneyBtn');
-        const messageBottle = document.getElementById('messageBottle');
-        const seashell = document.getElementById('seashell');
-        const seagulls = document.querySelectorAll('.seagull');
-        const crabs = document.querySelectorAll('.crab'); // Select all crabs
-        const fish = document.querySelectorAll('.fish'); // Select all fish
-        const starfishElements = document.querySelectorAll('.starfish'); // New: Select all starfish
-        const nextBeachBtn = document.getElementById('nextBeachBtn');
-        const seeStarsBtn = document.getElementById('seeStarsBtn');
-        const starsContainer = document.getElementById('starsContainer');
+      const startJourneyBtn = document.getElementById("startJourneyBtn");
+      const messageBottle = document.getElementById("messageBottle");
+      const seashell = document.getElementById("seashell");
+      const seagulls = document.querySelectorAll(".seagull");
+      const crabs = document.querySelectorAll(".crab"); // Select all crabs
+      const fish = document.querySelectorAll(".fish"); // Select all fish
+      const starfishElements = document.querySelectorAll(".starfish"); // New: Select all starfish
+      const nextBeachBtn = document.getElementById("nextBeachBtn");
+      const seeStarsBtn = document.getElementById("seeStarsBtn");
+      const starsContainer = document.getElementById("starsContainer");
 
+      const messageModal = document.getElementById("messageModal");
+      const modalMessage = document.getElementById("modalMessage");
+      const closeModalBtn = document.getElementById("closeModal");
 
-        const messageModal = document.getElementById('messageModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const closeModalBtn = document.getElementById('closeModal');
+      const audioControlBtn = document.getElementById("audioControl");
+      const audioIcon = document.getElementById("audioIcon");
 
-        const audioControlBtn = document.getElementById('audioControl');
-        const audioIcon = document.getElementById('audioIcon');
+      let isAudioMuted = false;
+      let beachSynth,
+        nightSynth,
+        seagullSound,
+        ballBoing,
+        crabSound,
+        fishSound,
+        sunriseBirds,
+        sunsetChimes,
+        bubblePopSound,
+        starfishSound,
+        chairSqueakSound;
 
-        let isAudioMuted = false;
-        let beachSynth, nightSynth, seagullSound, ballBoing, crabSound, fishSound, sunriseBirds, sunsetChimes, bubblePopSound, starfishSound, chairSqueakSound;
+      // Initialize Tone.js Synths
+      beachSynth = new Tone.PolySynth(Tone.Synth, {
+        envelope: {
+          attack: 0.01,
+          decay: 0.1,
+          sustain: 0.2,
+          release: 1,
+        },
+        oscillator: {
+          type: "sine",
+        },
+      }).toDestination();
 
-        // Initialize Tone.js Synths
-        beachSynth = new Tone.PolySynth(Tone.Synth, {
-            envelope: {
-                attack: 0.01,
-                decay: 0.1,
-                sustain: 0.2,
-                release: 1,
+      nightSynth = new Tone.PolySynth(Tone.Synth, {
+        envelope: {
+          attack: 2,
+          decay: 1,
+          sustain: 0.5,
+          release: 4,
+        },
+        oscillator: {
+          type: "triangle",
+        },
+      }).toDestination();
+
+      // Wave sound for beach (simple noise)
+      const waves = new Tone.Noise("pink")
+        .connect(new Tone.Filter(400, "lowpass"))
+        .toDestination();
+      waves.volume.value = -30; // Very quiet
+
+      // Seagull sound (simple synth or noise)
+      seagullSound = new Tone.MembraneSynth({
+        pitchDecay: 0.01,
+        octaves: 4,
+        oscillator: { type: "sine" },
+        envelope: {
+          attack: 0.001,
+          decay: 0.4,
+          sustain: 0.01,
+          release: 0.4,
+          attackCurve: "exponential",
+        },
+      }).toDestination();
+      seagullSound.volume.value = -10; // Adjust volume
+
+      // Beach ball "boing" sound
+      ballBoing = new Tone.Synth({
+        oscillator: { type: "sine" },
+        envelope: {
+          attack: 0.01,
+          decay: 0.1,
+          sustain: 0.0,
+          release: 0.1,
+        },
+      }).toDestination();
+      ballBoing.volume.value = -15;
+
+      // Crab clicking sound
+      crabSound = new Tone.MetalSynth({
+        frequency: 200,
+        envelope: {
+          attack: 0.001,
+          decay: 0.1,
+          release: 0.05,
+        },
+        harmonicity: 3.1,
+        modulationIndex: 23,
+        resonance: 4000,
+        octaves: 1.5,
+      }).toDestination();
+      crabSound.volume.value = -20;
+
+      // Fish bloop sound
+      fishSound = new Tone.Synth({
+        oscillator: { type: "triangle" },
+        envelope: {
+          attack: 0.01,
+          decay: 0.05,
+          sustain: 0.0,
+          release: 0.05,
+        },
+      }).toDestination();
+      fishSound.volume.value = -18;
+
+      // Sunrise birds chirping
+      sunriseBirds = new Tone.Synth({
+        oscillator: { type: "square" },
+        envelope: {
+          attack: 0.01,
+          decay: 0.1,
+          sustain: 0.0,
+          release: 0.2,
+        },
+      }).toDestination();
+      sunriseBirds.volume.value = -20;
+
+      // Sunset chimes
+      sunsetChimes = new Tone.PolySynth(Tone.MetalSynth, {
+        frequency: 200,
+        envelope: {
+          attack: 0.001,
+          decay: 1,
+          release: 0.2,
+        },
+        harmonicity: 5.1,
+        modulationIndex: 32,
+        resonance: 8000,
+        octaves: 2,
+      }).toDestination();
+      sunsetChimes.volume.value = -25;
+
+      // New: Bubble Pop Sound
+      bubblePopSound = new Tone.PluckSynth().toDestination();
+      bubblePopSound.volume.value = -20; // Subtle volume
+
+      // New: Starfish sound (a gentle shimmer or pluck)
+      starfishSound = new Tone.PluckSynth().toDestination();
+      starfishSound.volume.value = -20;
+
+      // New: Chair Squeak/Creak sound
+      chairSqueakSound = new Tone.NoiseSynth({
+        noise: { type: "pink" },
+        envelope: {
+          attack: 0.005,
+          decay: 0.1,
+          sustain: 0.0,
+          release: 0.1,
+        },
+        filterEnvelope: {
+          attack: 0.001,
+          decay: 0.1,
+          sustain: 0.0,
+          release: 0.1,
+          baseFrequency: 1000,
+          octaves: 2,
+          exponent: 2,
+        },
+      }).toDestination();
+      chairSqueakSound.volume.value = -25;
+
+      function playSunriseAudio() {
+        if (!isAudioMuted) {
+          // Gentle bird chirps
+          Tone.Transport.scheduleRepeat(
+            (time) => {
+              sunriseBirds.triggerAttackRelease("G5", "16n", time);
+              sunriseBirds.triggerAttackRelease("B5", "16n", time + 0.1);
             },
-            oscillator: {
-                type: "sine",
-            }
-        }).toDestination();
+            "1s",
+            Tone.now() + Math.random() * 2
+          );
+          Tone.Transport.start();
+        }
+      }
 
-        nightSynth = new Tone.PolySynth(Tone.Synth, {
-            envelope: {
-                attack: 2,
-                decay: 1,
-                sustain: 0.5,
-                release: 4,
-            },
-            oscillator: {
-                type: "triangle",
-            }
-        }).toDestination();
+      function stopSunriseAudio() {
+        Tone.Transport.stop();
+        Tone.Transport.cancel(0);
+      }
 
-        // Wave sound for beach (simple noise)
-        const waves = new Tone.Noise("pink").connect(new Tone.Filter(400, "lowpass")).toDestination();
-        waves.volume.value = -30; // Very quiet
+      function playBeachAudio() {
+        if (!isAudioMuted) {
+          waves.start();
+          // Play some gentle, random notes for ambience
+          const notes = ["C3", "E3", "G3", "A3"];
+          beachSynth.triggerAttackRelease(
+            notes[Math.floor(Math.random() * notes.length)],
+            "2n",
+            Tone.now() + Math.random() * 2
+          );
+          beachSynth.triggerAttackRelease(
+            notes[Math.floor(Math.random() * notes.length)],
+            "2n",
+            Tone.now() + Math.random() * 3
+          );
+        }
+      }
 
-        // Seagull sound (simple synth or noise)
-        seagullSound = new Tone.MembraneSynth({
-            pitchDecay: 0.01,
-            octaves: 4,
-            oscillator: { type: "sine" },
-            envelope: {
-                attack: 0.001,
-                decay: 0.4,
-                sustain: 0.01,
-                release: 0.4,
-                attackCurve: "exponential"
-            }
-        }).toDestination();
-        seagullSound.volume.value = -10; // Adjust volume
+      function stopBeachAudio() {
+        waves.stop();
+        beachSynth.releaseAll();
+      }
 
-        // Beach ball "boing" sound
-        ballBoing = new Tone.Synth({
-            oscillator: { type: "sine" },
-            envelope: {
-                attack: 0.01,
-                decay: 0.1,
-                sustain: 0.0,
-                release: 0.1
-            }
-        }).toDestination();
-        ballBoing.volume.value = -15;
+      function playSeagullSound() {
+        if (!isAudioMuted) {
+          seagullSound.triggerAttackRelease("C4", "8n");
+        }
+      }
 
-        // Crab clicking sound
-        crabSound = new Tone.MetalSynth({
-            frequency: 200,
-            envelope: {
-                attack: 0.001,
-                decay: 0.1,
-                release: 0.05
-            },
-            harmonicity: 3.1,
-            modulationIndex: 23,
-            resonance: 4000,
-            octaves: 1.5
-        }).toDestination();
-        crabSound.volume.value = -20;
+      function playBallBoing() {
+        if (!isAudioMuted) {
+          ballBoing.triggerAttackRelease("C5", "16n");
+        }
+      }
 
-        // Fish bloop sound
-        fishSound = new Tone.Synth({
-            oscillator: { type: "triangle" },
-            envelope: {
-                attack: 0.01,
-                decay: 0.05,
-                sustain: 0.0,
-                release: 0.05
-            }
-        }).toDestination();
-        fishSound.volume.value = -18;
+      function playCrabSound() {
+        if (!isAudioMuted) {
+          crabSound.triggerAttackRelease("C1", "32n"); // A short, metallic click
+        }
+      }
 
-        // Sunrise birds chirping
-        sunriseBirds = new Tone.Synth({
-            oscillator: { type: "square" },
-            envelope: {
-                attack: 0.01,
-                decay: 0.1,
-                sustain: 0.0,
-                release: 0.2
-            }
-        }).toDestination();
-        sunriseBirds.volume.value = -20;
+      function playFishSound() {
+        if (!isAudioMuted) {
+          fishSound.triggerAttackRelease("G2", "32n"); // A short bloop
+        }
+      }
 
-        // Sunset chimes
-        sunsetChimes = new Tone.PolySynth(Tone.MetalSynth, {
-            frequency: 200,
-            envelope: {
-                attack: 0.001,
-                decay: 1,
-                release: 0.2
-            },
-            harmonicity: 5.1,
-            modulationIndex: 32,
-            resonance: 8000,
-            octaves: 2
-        }).toDestination();
-        sunsetChimes.volume.value = -25;
+      // New: Play bubble pop sound
+      function playBubblePopSound() {
+        if (!isAudioMuted) {
+          bubblePopSound.triggerAttackRelease("C6", "32n");
+        }
+      }
 
-        // New: Bubble Pop Sound
-        bubblePopSound = new Tone.PluckSynth().toDestination();
-        bubblePopSound.volume.value = -20; // Subtle volume
+      // New: Play starfish sound
+      function playStarfishSound() {
+        if (!isAudioMuted) {
+          starfishSound.triggerAttackRelease("E5", "16n"); // A soft pluck
+        }
+      }
 
-        // New: Starfish sound (a gentle shimmer or pluck)
-        starfishSound = new Tone.PluckSynth().toDestination();
-        starfishSound.volume.value = -20;
+      // New: Play chair squeak sound
+      function playChairSqueakSound() {
+        if (!isAudioMuted) {
+          chairSqueakSound.triggerAttackRelease("8n"); // A short noise burst
+        }
+      }
 
-        // New: Chair Squeak/Creak sound
-        chairSqueakSound = new Tone.NoiseSynth({
-            noise: { type: "pink" },
-            envelope: {
-                attack: 0.005,
-                decay: 0.1,
-                sustain: 0.0,
-                release: 0.1
-            },
-            filterEnvelope: {
-                attack: 0.001,
-                decay: 0.1,
-                sustain: 0.0,
-                release: 0.1,
-                baseFrequency: 1000,
-                octaves: 2,
-                exponent: 2
-            }
-        }).toDestination();
-        chairSqueakSound.volume.value = -25;
+      function playSunsetAudio() {
+        if (!isAudioMuted) {
+          const chimeNotes = ["C4", "E4", "G4", "A4"];
+          Tone.Transport.scheduleRepeat((time) => {
+            sunsetChimes.triggerAttackRelease(
+              chimeNotes[Math.floor(Math.random() * chimeNotes.length)],
+              "2n",
+              time
+            );
+          }, "2s");
+          Tone.Transport.start();
+        }
+      }
 
+      function stopSunsetAudio() {
+        Tone.Transport.stop();
+        Tone.Transport.cancel(0);
+      }
 
-        function playSunriseAudio() {
+      function playNightAudio() {
+        if (!isAudioMuted) {
+          const notes = ["C3", "Eb3", "G3", "Bb3", "Db4"]; // Ethereal minor chord notes
+          notes.forEach((note, index) => {
+            nightSynth.triggerAttackRelease(
+              note,
+              "4n",
+              Tone.now() + index * 0.5
+            );
+          });
+        }
+      }
+
+      function stopNightAudio() {
+        nightSynth.releaseAll();
+      }
+
+      // Function to show modal
+      function showModal(message) {
+        modalMessage.textContent = message;
+        messageModal.style.display = "flex";
+      }
+
+      // Function to hide modal
+      function hideModal() {
+        modalMessage.textContent = ""; // Clear message
+        messageModal.style.display = "none";
+      }
+
+      // --- Event Listeners for Navigation ---
+
+      startJourneyBtn.addEventListener("click", async () => {
+        await Tone.start(); // Ensure audio context is started on first user interaction
+        stopSunriseAudio(); // Stop sunrise audio when moving on
+        introSection.classList.remove("active");
+        introSection.classList.add("hidden");
+        setTimeout(() => {
+          introSection.style.display = "none"; // Completely hide after transition
+          beachDaySection.classList.remove("hidden");
+          beachDaySection.classList.add("active");
+          beachDaySection.style.display = "flex"; // Make visible
+          playBeachAudio();
+        }, 1000); // Wait for transition to finish
+      });
+
+      // Clickable Sun (Sunrise)
+      sun.addEventListener("click", () => {
+        showModal(
+          "May your year be as bright and full of warmth as this beautiful sunrise!"
+        );
+        if (!isAudioMuted) {
+          sunriseBirds.triggerAttackRelease("E6", "16n");
+        }
+      });
+
+      // Clickable Sun (Beach Day)
+      beachDaySun.addEventListener("click", () => {
+        showModal(
+          "The sun shines brightest on those who bring light to others, just like you!"
+        );
+        if (!isAudioMuted) {
+          beachSynth.triggerAttackRelease("G4", "8n");
+        }
+      });
+
+      messageBottle.addEventListener("click", () => {
+        const beachMemories = [
+          "Remember that time we tried to build the biggest sandcastle ever and it just collapsed into a blob? Good times!",
+          "Wishing you endless days of ocean breeze and salty hair, just the way you love it!",
+          "Found this in a bottle: 'May your adventures be vast and your worries small, like grains of sand.'",
+          "Here's to collecting more seashells, more memories, and less stress this year!",
+          "This bottle contains a wish for a year filled with peaceful waves and clear skies for you.",
+        ];
+        const randomMemory =
+          beachMemories[Math.floor(Math.random() * beachMemories.length)];
+        showModal(`Message from the bottle: "${randomMemory}"`);
+      });
+
+      seashell.addEventListener("click", () => {
+        const oceanWisdom = [
+          "The ocean's roar is music to your soul, and so is your laughter to mine.",
+          "Every seashell has a story, and yours is just beginning to unfold its most beautiful chapters.",
+          "May you find calm in the chaos, just like the serene depths of the ocean.",
+          "Listen closely... the sea whispers 'Happy Birthday' just for you!",
+        ];
+        const randomWisdom =
+          oceanWisdom[Math.floor(Math.random() * oceanWisdom.length)];
+        showModal(`Ocean's Whisper: "${randomWisdom}"`);
+        if (!isAudioMuted) {
+          Tone.Transport.scheduleOnce((time) => {
+            beachSynth.triggerAttackRelease("D4", "8n", time);
+            beachSynth.triggerAttackRelease("F#4", "8n", time + 0.1);
+            beachSynth.triggerAttackRelease("A4", "8n", time + 0.2);
+          }, Tone.now());
+        }
+      });
+
+      seagulls.forEach((seagull) => {
+        seagull.addEventListener("click", () => {
+          playSeagullSound();
+          seagull.style.transform = "translateY(-10px) scale(1.1)";
+          setTimeout(() => {
+            seagull.style.transform = "translateY(0) scale(1)";
+          }, 100);
+        });
+      });
+
+      crabs.forEach((crab) => {
+        crab.addEventListener("click", () => {
+          playCrabSound();
+          showModal(
+            "Did you know some crabs can live for over 100 years? May your happiness last even longer!"
+          );
+        });
+      });
+
+      fish.forEach((f) => {
+        f.addEventListener("click", () => {
+          playFishSound();
+          showModal(
+            "Fish never stop growing! May you continue to grow and evolve beautifully this year."
+          );
+        });
+      });
+
+      // Add event listener for bubbles (can be added to parent or specific bubbles)
+      const bubbles = document.querySelectorAll(".bubble");
+      bubbles.forEach((bubble) => {
+        bubble.addEventListener("click", () => {
+          playBubblePopSound();
+          showModal(
+            "Pop! That's the sound of another wish coming true for you this year!"
+          );
+        });
+      });
+
+      // New: Starfish interaction
+      starfishElements.forEach((starfish) => {
+        starfish.addEventListener("click", () => {
+          playStarfishSound();
+          showModal(
+            "A star fell from the sky just for you! May your wishes come true."
+          );
+        });
+      });
+
+      nextBeachBtn.addEventListener("click", () => {
+        stopBeachAudio();
+        beachDaySection.classList.remove("active");
+        beachDaySection.classList.add("hidden");
+        setTimeout(() => {
+          beachDaySection.style.display = "none";
+          sunsetSection.classList.remove("hidden");
+          sunsetSection.classList.add("active");
+          sunsetSection.style.display = "flex";
+          playSunsetAudio(); // Start sunset audio
+        }, 1000);
+      });
+
+      seeStarsBtn.addEventListener("click", () => {
+        stopSunsetAudio(); // Stop sunset audio
+        sunsetSection.classList.remove("active");
+        sunsetSection.classList.add("hidden");
+        setTimeout(() => {
+          sunsetSection.style.display = "none";
+          nightStarsSection.classList.remove("hidden");
+          nightStarsSection.classList.add("active");
+          nightStarsSection.style.display = "flex";
+          generateStars(); // Generate stars when entering this section
+          playNightAudio();
+        }, 1000);
+      });
+
+      // Clickable Moon
+      moon.addEventListener("click", () => {
+        showModal(
+          "May your dreams shine as brightly as this moon, guiding you through every night!"
+        );
+        if (!isAudioMuted) {
+          nightSynth.triggerAttackRelease("A4", "8n");
+        }
+      });
+
+      closeModalBtn.addEventListener("click", hideModal);
+
+      // Hide modal if clicked outside (though the button is clearer)
+      window.addEventListener("click", (event) => {
+        if (event.target === messageModal) {
+          hideModal();
+        }
+      });
+
+      // --- Audio Control Toggle ---
+      audioControlBtn.addEventListener("click", () => {
+        isAudioMuted = !isAudioMuted;
+        if (isAudioMuted) {
+          Tone.Destination.mute = true;
+          audioIcon.textContent = "🔇";
+          stopSunriseAudio();
+          stopBeachAudio();
+          stopSunsetAudio();
+          stopNightAudio();
+        } else {
+          Tone.Destination.mute = false;
+          audioIcon.textContent = "🔊";
+          // Restart current section's audio if unmuted
+          if (introSection.classList.contains("active")) {
+            playSunriseAudio();
+          } else if (beachDaySection.classList.contains("active")) {
+            playBeachAudio();
+          } else if (sunsetSection.classList.contains("active")) {
+            playSunsetAudio();
+          } else if (nightStarsSection.classList.contains("active")) {
+            playNightAudio();
+          }
+        }
+      });
+
+      document
+        .getElementById("reloadBtn")
+        .addEventListener("click", function () {
+          location.reload();
+        });
+
+      const starMessages = [
+        // 1. Tiny bags
+        "Happy birthday to the girl whose bags are too small for responsibilities. Smart choice.",
+
+        // 2. Beach
+        "Wishing you more beach days where the only problem is sand in weird places.",
+
+        // 3. Spicy food
+        "Hope your year hits like your snacks. Spicy, bold, and not for the weak.",
+
+        // 4. Goa
+        "More Goa trips, fewer plans, better sunsets, and no work calls.",
+
+        // 5. Sunsets
+        "May your sunsets stay dramatic in the sky, not in the group chat.",
+
+        // 6. Dislike for sugar
+        "Wishing you a life sweet enough without sugar and no one trying to fix that.",
+
+        // 7. Ranting
+        "May your rants find good ears or at least WiFi strong enough for a 3-minute voice note.",
+
+        // 8. Friends (TV show)
+        "Hope your year has more Joey energy and zero Ross moments.",
+
+        // 9. HIMYM
+        "May your life be legendary. Just not in a Ted kind of way.",
+
+        // 10. How to Train Your Dragon
+        "Wishing you dragons that stay wild and people who don’t try to tame you.",
+
+        // 11. Lavender
+        "Wishing you more days that feel like lavender. Calm, soft, and somehow just right.",
+
+        // 12. IKEA / Decor
+        "May your IKEA trips be chaotic, your cart full, and your screws never missing.",
+
+        // 13. New City
+        "Here’s to making the new city yours and only getting lost when it feels right.",
+
+        // 14. Fairy lights / Aesthetic
+        "Hope your year feels like fairy lights. Extra, but worth it.",
+
+        // 15. Comfort shows
+        "Wishing you nights that feel like comfort shows. Familiar, calm, and always needed.",
+
+        // 16. Bag investments
+        "To the only investor who picks bags over stocks and somehow makes it work.",
+
+        // 17. Playlists
+        "May every playlist get your mood better than most people do.",
+
+        // 18. Sunflowers
+        "Wishing you more sunflower days and fewer sunflower seeds stuck in your teeth.",
+
+        // 19. The Office
+        "Hope your year has Jim sarcasm, Pam vibes, and zero Dwight energy.",
+
+        // 20. Bathtub
+        "May your bathtub keep its main character status. No arguments there.",
+
+        // 21. Pink
+        "To another year of you picking up anything pink like it's calling your name.",
+
+        // 22. Vlogging
+        "Hope your camera catches all the good stuff. Including me trying not to look like I care.",
+
+        // 23. Travel
+        "Hope your passport works harder than your kitchen this year.",
+
+        // 24. Self-awareness
+        "To another year of calling yourself out, owning it, and walking in like you invented confidence.",
+
+        // 25. Peace of mind
+        "Hope you finally find that peace you keep chasing and it actually feels like yours.",
+
+        // 26. Just because
+        "And one extra wish because you're kind of hard not to root for.",
+      ];
+
+      function generateStars() {
+        starsContainer.innerHTML = ""; // Clear existing stars
+        const numStars = 26;
+
+        for (let i = 0; i < numStars; i++) {
+          const star = document.createElement("div");
+          star.classList.add("star");
+          // Vary star sizes
+          const size = Math.floor(Math.random() * 6) + 4; // 4px to 9px
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.boxShadow = `0 0 ${
+            size / 2
+          }px white, 0 0 ${size}px rgba(255,255,255,0.4)`; // Enhanced glow
+
+          let topPos, leftPos;
+          const minTopBand1 = 20; // % from top
+          const maxTopBand1 = 35; // % from top
+          const minTopBand2 = 65; // % from top
+          const maxTopBand2 = 80; // % from top
+
+          // Randomly choose one of the two bands
+          if (Math.random() < 0.5) {
+            // Upper band
+            topPos = Math.random() * (maxTopBand1 - minTopBand1) + minTopBand1;
+          } else {
+            // Lower band
+            topPos = Math.random() * (maxTopBand2 - minTopBand2) + minTopBand2;
+          }
+
+          leftPos = Math.random() * 90 + 5; // 5% to 95% from left
+
+          star.style.top = `${topPos}%`;
+          star.style.left = `${leftPos}%`;
+          star.style.animationDelay = `${Math.random() * 3}s`; // Stagger twinkle animation
+          star.dataset.message = starMessages[i]; // Store message in data attribute
+
+          // Ensure stars are visible after being created
+          setTimeout(() => star.classList.add("visible"), 75 * i); // Stagger visibility more for a 'appearing' effect
+
+          star.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent modal from closing immediately if clicked on star
+            showModal(star.dataset.message);
+            // Play a subtle note when a star is clicked
             if (!isAudioMuted) {
-                // Gentle bird chirps
-                Tone.Transport.scheduleRepeat(time => {
-                    sunriseBirds.triggerAttackRelease("G5", "16n", time);
-                    sunriseBirds.triggerAttackRelease("B5", "16n", time + 0.1);
-                }, "1s", Tone.now() + Math.random() * 2);
-                Tone.Transport.start();
+              nightSynth.triggerAttackRelease("C5", "8n");
             }
+            // Add pop effect
+            star.classList.add("pop-effect");
+            star.addEventListener(
+              "animationend",
+              () => {
+                star.classList.remove("pop-effect");
+              },
+              { once: true }
+            );
+          });
+          starsContainer.appendChild(star);
         }
+      }
 
-        function stopSunriseAudio() {
-            Tone.Transport.stop();
-            Tone.Transport.cancel(0);
-        }
-
-        function playBeachAudio() {
-            if (!isAudioMuted) {
-                waves.start();
-                // Play some gentle, random notes for ambience
-                const notes = ["C3", "E3", "G3", "A3"];
-                beachSynth.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], "2n", Tone.now() + Math.random() * 2);
-                beachSynth.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], "2n", Tone.now() + Math.random() * 3);
-            }
-        }
-
-        function stopBeachAudio() {
-            waves.stop();
-            beachSynth.releaseAll();
-        }
-
-        function playSeagullSound() {
-            if (!isAudioMuted) {
-                seagullSound.triggerAttackRelease("C4", "8n");
-            }
-        }
-
-        function playBallBoing() {
-            if (!isAudioMuted) {
-                ballBoing.triggerAttackRelease("C5", "16n");
-            }
-        }
-
-        function playCrabSound() {
-            if (!isAudioMuted) {
-                crabSound.triggerAttackRelease("C1", "32n"); // A short, metallic click
-            }
-        }
-
-        function playFishSound() {
-            if (!isAudioMuted) {
-                fishSound.triggerAttackRelease("G2", "32n"); // A short bloop
-            }
-        }
-
-        // New: Play bubble pop sound
-        function playBubblePopSound() {
-            if (!isAudioMuted) {
-                bubblePopSound.triggerAttackRelease("C6", "32n");
-            }
-        }
-
-        // New: Play starfish sound
-        function playStarfishSound() {
-            if (!isAudioMuted) {
-                starfishSound.triggerAttackRelease("E5", "16n"); // A soft pluck
-            }
-        }
-
-        // New: Play chair squeak sound
-        function playChairSqueakSound() {
-            if (!isAudioMuted) {
-                chairSqueakSound.triggerAttackRelease("8n"); // A short noise burst
-            }
-        }
-
-        function playSunsetAudio() {
-            if (!isAudioMuted) {
-                const chimeNotes = ["C4", "E4", "G4", "A4"];
-                Tone.Transport.scheduleRepeat(time => {
-                    sunsetChimes.triggerAttackRelease(chimeNotes[Math.floor(Math.random() * chimeNotes.length)], "2n", time);
-                }, "2s");
-                Tone.Transport.start();
-            }
-        }
-
-        function stopSunsetAudio() {
-            Tone.Transport.stop();
-            Tone.Transport.cancel(0);
-        }
-
-        function playNightAudio() {
-            if (!isAudioMuted) {
-                const notes = ["C3", "Eb3", "G3", "Bb3", "Db4"]; // Ethereal minor chord notes
-                notes.forEach((note, index) => {
-                    nightSynth.triggerAttackRelease(note, "4n", Tone.now() + index * 0.5);
-                });
-            }
-        }
-
-        function stopNightAudio() {
-            nightSynth.releaseAll();
-        }
-
-        // Function to show modal
-        function showModal(message) {
-            modalMessage.textContent = message;
-            messageModal.style.display = 'flex';
-        }
-
-        // Function to hide modal
-        function hideModal() {
-            modalMessage.textContent = ''; // Clear message
-            messageModal.style.display = 'none';
-        }
-
-        // --- Event Listeners for Navigation ---
-
-        startJourneyBtn.addEventListener('click', async () => {
-            await Tone.start(); // Ensure audio context is started on first user interaction
-            stopSunriseAudio(); // Stop sunrise audio when moving on
-            introSection.classList.remove('active');
-            introSection.classList.add('hidden');
-            setTimeout(() => {
-                introSection.style.display = 'none'; // Completely hide after transition
-                beachDaySection.classList.remove('hidden');
-                beachDaySection.classList.add('active');
-                beachDaySection.style.display = 'flex'; // Make visible
-                playBeachAudio();
-            }, 1000); // Wait for transition to finish
-        });
-
-        // Clickable Sun (Sunrise)
-        sun.addEventListener('click', () => {
-            showModal("May your year be as bright and full of warmth as this beautiful sunrise!");
-            if (!isAudioMuted) {
-                sunriseBirds.triggerAttackRelease("E6", "16n");
-            }
-        });
-
-        // Clickable Sun (Beach Day)
-        beachDaySun.addEventListener('click', () => {
-            showModal("The sun shines brightest on those who bring light to others, just like you!");
-            if (!isAudioMuted) {
-                beachSynth.triggerAttackRelease("G4", "8n");
-            }
-        });
-
-        messageBottle.addEventListener('click', () => {
-            const beachMemories = [
-                "Remember that time we tried to build the biggest sandcastle ever and it just collapsed into a blob? Good times!",
-                "Wishing you endless days of ocean breeze and salty hair, just the way you love it!",
-                "Found this in a bottle: 'May your adventures be vast and your worries small, like grains of sand.'",
-                "Here's to collecting more seashells, more memories, and less stress this year!",
-                "This bottle contains a wish for a year filled with peaceful waves and clear skies for you."
-            ];
-            const randomMemory = beachMemories[Math.floor(Math.random() * beachMemories.length)];
-            showModal(`Message from the bottle: "${randomMemory}"`);
-        });
-
-        seashell.addEventListener('click', () => {
-            const oceanWisdom = [
-                "The ocean's roar is music to your soul, and so is your laughter to mine.",
-                "Every seashell has a story, and yours is just beginning to unfold its most beautiful chapters.",
-                "May you find calm in the chaos, just like the serene depths of the ocean.",
-                "Listen closely... the sea whispers 'Happy Birthday' just for you!"
-            ];
-            const randomWisdom = oceanWisdom[Math.floor(Math.random() * oceanWisdom.length)];
-            showModal(`Ocean's Whisper: "${randomWisdom}"`);
-            if (!isAudioMuted) {
-                Tone.Transport.scheduleOnce(time => {
-                    beachSynth.triggerAttackRelease("D4", "8n", time);
-                    beachSynth.triggerAttackRelease("F#4", "8n", time + 0.1);
-                    beachSynth.triggerAttackRelease("A4", "8n", time + 0.2);
-                }, Tone.now());
-            }
-        });
-
-        seagulls.forEach(seagull => {
-            seagull.addEventListener('click', () => {
-                playSeagullSound();
-                seagull.style.transform = 'translateY(-10px) scale(1.1)';
-                setTimeout(() => {
-                    seagull.style.transform = 'translateY(0) scale(1)';
-                }, 100);
-            });
-        });
-
-        crabs.forEach(crab => {
-            crab.addEventListener('click', () => {
-                playCrabSound();
-                showModal("Did you know some crabs can live for over 100 years? May your happiness last even longer!");
-            });
-        });
-
-        fish.forEach(f => {
-            f.addEventListener('click', () => {
-                playFishSound();
-                showModal("Fish never stop growing! May you continue to grow and evolve beautifully this year.");
-            });
-        });
-
-        // Add event listener for bubbles (can be added to parent or specific bubbles)
-        const bubbles = document.querySelectorAll('.bubble');
-        bubbles.forEach(bubble => {
-            bubble.addEventListener('click', () => {
-                playBubblePopSound();
-                showModal("Pop! That's the sound of another wish coming true for you this year!");
-            });
-        });
-
-        // New: Starfish interaction
-        starfishElements.forEach(starfish => {
-            starfish.addEventListener('click', () => {
-                playStarfishSound();
-                showModal("A star fell from the sky just for you! May your wishes come true.");
-            });
-        });
-
-   
-
-        nextBeachBtn.addEventListener('click', () => {
-            stopBeachAudio();
-            beachDaySection.classList.remove('active');
-            beachDaySection.classList.add('hidden');
-            setTimeout(() => {
-                beachDaySection.style.display = 'none';
-                sunsetSection.classList.remove('hidden');
-                sunsetSection.classList.add('active');
-                sunsetSection.style.display = 'flex';
-                playSunsetAudio(); // Start sunset audio
-            }, 1000);
-        });
-
-        seeStarsBtn.addEventListener('click', () => {
-            stopSunsetAudio(); // Stop sunset audio
-            sunsetSection.classList.remove('active');
-            sunsetSection.classList.add('hidden');
-            setTimeout(() => {
-                sunsetSection.style.display = 'none';
-                nightStarsSection.classList.remove('hidden');
-                nightStarsSection.classList.add('active');
-                nightStarsSection.style.display = 'flex';
-                generateStars(); // Generate stars when entering this section
-                playNightAudio();
-            }, 1000);
-        });
-
-        // Clickable Moon
-        moon.addEventListener('click', () => {
-            showModal("May your dreams shine as brightly as this moon, guiding you through every night!");
-            if (!isAudioMuted) {
-                nightSynth.triggerAttackRelease("A4", "8n");
-            }
-        });
-
-
-        closeModalBtn.addEventListener('click', hideModal);
-
-        // Hide modal if clicked outside (though the button is clearer)
-        window.addEventListener('click', (event) => {
-            if (event.target === messageModal) {
-                hideModal();
-            }
-        });
-
-        // --- Audio Control Toggle ---
-        audioControlBtn.addEventListener('click', () => {
-            isAudioMuted = !isAudioMuted;
-            if (isAudioMuted) {
-                Tone.Destination.mute = true;
-                audioIcon.textContent = '🔇';
-                stopSunriseAudio();
-                stopBeachAudio();
-                stopSunsetAudio();
-                stopNightAudio();
-            } else {
-                Tone.Destination.mute = false;
-                audioIcon.textContent = '🔊';
-                // Restart current section's audio if unmuted
-                if (introSection.classList.contains('active')) {
-                    playSunriseAudio();
-                } else if (beachDaySection.classList.contains('active')) {
-                    playBeachAudio();
-                } else if (sunsetSection.classList.contains('active')) {
-                    playSunsetAudio();
-                } else if (nightStarsSection.classList.contains('active')) {
-                    playNightAudio();
-                }
-            }
-        });
-
-        document.getElementById("reloadBtn").addEventListener("click", function () {
-            location.reload();
-        });
-
-        const starMessages = [
-            // 1. Tiny bags
-            "Happy birthday to the girl whose bags are so small, even her responsibilities don’t fit. Honestly, respect.",
-        
-            // 2. Beach
-            "Wishing you more beach days where your biggest problem is sand showing up in places it shouldn't.",
-        
-            // 3. Spicy food
-            "Hope your year hits like your favorite snacks. Spicy, bold, and not for everyone.",
-        
-            // 4. Clumsiness
-            "To another year of tripping over air and somehow pulling it off like it was part of the plan.",
-        
-            // 5. Sunsets
-            "Hope your sunsets stay dramatic in the sky, not in your texts.",
-        
-            // 6. Dislike for sugar
-            "Wishing you a life that’s sweet enough without needing actual sugar or anyone trying to convince you otherwise.",
-        
-            // 7. Ranting
-            "May your rants always find someone who gets it, or at least WiFi strong enough for your longest voice notes.",
-        
-            // 8. Friends (TV show)
-            "Hope your year has more Joey energy and fewer confusing break-ups.",
-        
-            // 9. HIMYM
-            "May your life be legendary, with zero Ted-level oversharing.",
-        
-            // 10. How to Train Your Dragon
-            "Wishing you dragons that stay wild and people smart enough not to get in your way.",
-        
-            // 11. Lavender
-            "Hope your days feel like lavender walls and chill playlists, no harsh lights and no stress.",
-        
-            // 12. IKEA / Decor
-            "Hope your IKEA trips stay impulsive, your carts stay full, and somehow you still remember the screws.",
-        
-            // 13. New City
-            "Here’s to making a new city feel like yours, and only getting lost when it actually feels worth it.",
-        
-            // 14. Fairy lights / Soft aesthetic
-            "Hope your year comes together like fairy lights. Not necessary, but somehow perfect.",
-        
-            // 15. Comfort shows
-            "Wishing you nights that feel like comfort rewatches. Easy, familiar, and always worth it.",
-        
-            // 16. Bag investments
-            "To the only person I know who treats bags like assets and somehow makes it make sense.",
-        
-            // 17. Playlists (filler)
-            "May every playlist hit exactly how you need it to, even when nothing else does.",
-        
-            // 18. Sunflowers
-            "Hope you get more days that feel like sunflowers and less that feel like seeds stuck in your teeth.",
-        
-            // 19. The Office
-            "Wishing you a year with Pam-level chill, Jim-level comebacks, and zero Dwight energy.",
-        
-            // 20. Bathtub
-            "May your bathtub stay the real main character, no arguments there.",
-        
-            // 21. Pink
-            "To another year of you grabbing anything pink like it personally owes you something.",
-        
-            // 22. Vlogging
-            "Hope your camera catches all the good stuff this year, including me pretending not to care I made the cut.",
-        
-            // 23. Tripping (cute clumsy)
-            "Keep tripping over nothing and somehow landing right where everyone’s watching. Classic.",
-        
-            // 24. Travel
-            "Hope your passport gets more stamps than your fridge gets takeout menus.",
-        
-            // 25. Drama-free
-            "Wishing you a drama-free year, unless it’s on screen and you’re just sitting back judging.",
-        
-            // 26. Peace of mind
-            "Hope you find that peace you’re always reaching for. And yeah, I hope it actually feels like home this time."
-        ];        
-
-        function generateStars() {
-            starsContainer.innerHTML = ''; // Clear existing stars
-            const numStars = 26;
-
-            for (let i = 0; i < numStars; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                // Vary star sizes
-                const size = Math.floor(Math.random() * 6) + 4; // 4px to 9px
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.boxShadow = `0 0 ${size / 2}px white, 0 0 ${size}px rgba(255,255,255,0.4)`; // Enhanced glow
-
-                let topPos, leftPos;
-                const minTopBand1 = 20; // % from top
-                const maxTopBand1 = 35; // % from top
-                const minTopBand2 = 65; // % from top
-                const maxTopBand2 = 80; // % from top
-
-                // Randomly choose one of the two bands
-                if (Math.random() < 0.5) { // Upper band
-                    topPos = Math.random() * (maxTopBand1 - minTopBand1) + minTopBand1;
-                } else { // Lower band
-                    topPos = Math.random() * (maxTopBand2 - minTopBand2) + minTopBand2;
-                }
-
-                leftPos = Math.random() * 90 + 5; // 5% to 95% from left
-
-                star.style.top = `${topPos}%`;
-                star.style.left = `${leftPos}%`;
-                star.style.animationDelay = `${Math.random() * 3}s`; // Stagger twinkle animation
-                star.dataset.message = starMessages[i]; // Store message in data attribute
-
-                // Ensure stars are visible after being created
-                setTimeout(() => star.classList.add('visible'), 75 * i); // Stagger visibility more for a 'appearing' effect
-
-                star.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent modal from closing immediately if clicked on star
-                    showModal(star.dataset.message);
-                    // Play a subtle note when a star is clicked
-                    if (!isAudioMuted) {
-                        nightSynth.triggerAttackRelease("C5", "8n");
-                    }
-                    // Add pop effect
-                    star.classList.add('pop-effect');
-                    star.addEventListener('animationend', () => {
-                        star.classList.remove('pop-effect');
-                    }, { once: true });
-                });
-                starsContainer.appendChild(star);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            introSection.classList.add('active');
-            introSection.style.display = 'flex'; // Ensure it's visible on load
-        });
+      document.addEventListener("DOMContentLoaded", () => {
+        introSection.classList.add("active");
+        introSection.style.display = "flex"; // Ensure it's visible on load
+      });
     </script>
-</body>
-
+  </body>
 </html>
